@@ -195,7 +195,7 @@ echo  1. ipconfig/ all
 echo  2. Reset the TCP/IP (Lots of CMDS)
 echo  3. Flush DNS
 echo  4. Clear NetBIOS
-echo  5. undefined
+echo  5. SFC-Integrity
 echo  6. Page 2
 echo  7. Page 3
 echo  8. What these commands do [Info]
@@ -288,7 +288,7 @@ echo                                            █  1. [%chbox1%] ipconfig/all:
 echo                                            █  2. [%chbox2%] Reset the TCP/IP (lots of cmds): █
 echo                                            █  3. [%chbox3%] Flush DNS:                       █
 echo                                            █  4. [%chbox4%] Clear NetBIOS:                   █
-echo                                            █  5. [%chbox5%] name_5:                          █
+echo                                            █  5. [%chbox5%] SFC Integrity:                   █
 echo                                            █  6. [%chbox6%] Page 2:                          █
 echo                                            █  7. [%chbox7%] Page 3:                          █
 echo                                            █  8. [%chbox8%] What these commands do [Info]:   █
@@ -421,9 +421,9 @@ goto :eof
 
 
 :st5
-echo Fifth Command
+sfc /scannow
 pause
-goto :eof
+goto :menu1
 
 
 
@@ -524,14 +524,18 @@ goto :END
 :trimssd
 SET /P  system=Do you want to Trim? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO END
-
 PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\pss.ps1""' -Verb RunAs}"
+
+
 goto :END
 
 
 :END
 endlocal
+
 goto :menu2
+
+
 
 
 
