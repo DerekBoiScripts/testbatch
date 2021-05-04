@@ -202,9 +202,9 @@ echo  8. What these commands do [Info]
 echo  9. Page 4/Extras/Programs
 echo. 
 echo  Page 2 
-echo  10. Trim / System Assessment
-echo  11. empty
-echo  12. empty
+echo  10. Enable Trim / System Assessment
+echo  11. Trim SSD
+echo  12. IP Config release/renew
 echo  13. empty
 echo  14. empty
 echo  15. empty
@@ -248,8 +248,9 @@ goto :boot
 color a
 
 start /b powershell -command "&{$w=(get-host).ui.rawui;$w.buffersize=@{width=102;height=999};$w.windowsize=@{width=102;height=29};}"
-title Welcome
+title Current time is %time%
 cls
+ping localhost -n 4 >nul
 echo Welcome %USERNAME%
 echo.
 echo the current directory this batch file is:
@@ -279,7 +280,7 @@ for /L %%i in (0,1,%size%) do (
 :menu
 cls
 echo.
-echo.
+echo.                                                   %date%
 echo.
 echo                                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #1─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 echo                                            █                  Choices:                █
@@ -477,7 +478,7 @@ echo                                            █                             
 echo                                            █  10. Enable Trim/System:                 █
 echo                                            █  11. Trim SSD:                           █
 echo                                            █  12. System Assessment:                  █
-echo                                            █  13. Services:                           █
+echo                                            █  13. IP Release/renew                    █
 echo                                            █  14. Task Scheduler:                     █
 echo                                            █  15. Local User Mgnt:                    █
 echo                                            █  16. Create a user:                      █
@@ -493,7 +494,7 @@ set userinp=%userinp:~0,2%
 if "%userinp%"=="10" echo. & echo starting.. & ping localhost -n 1 >nul & goto :trimsystemassessment
 if "%userinp%"=="11" echo. & echo Trimming SSD.. & goto :trimssd
 if "%userinp%"=="12" echo. & echo Starting System Assessment & goto :systemassessment
-if "%userinp%"=="13" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
+if "%userinp%"=="13" echo. & releasing the ip and renewing... & ping localhost -n 1 >nul & ipconfig /release & ipconfig /renew & goto :menu2
 if "%userinp%"=="14" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
 if "%userinp%"=="15" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
 if "%userinp%"=="16" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
@@ -522,10 +523,13 @@ pause
 goto :END
 
 :trimssd
+chcp 437 > nul
 SET /P  system=Do you want to Trim? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO END
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\pss.ps1""' -Verb RunAs}"
 
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\pss.ps1""' -Verb RunAs}"
+ping localhost -n 2 >nul
+chcp 65001 > nul
 
 goto :END
 
