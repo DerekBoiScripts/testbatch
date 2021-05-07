@@ -204,11 +204,11 @@ echo.
 echo  Page 2 
 echo  10. Enable Trim / System Assessment
 echo  11. Trim SSD
-echo  12. IP Config release/renew
-echo  13. empty
-echo  14. empty
-echo  15. empty
-echo  16. empty
+echo  12. System Assessment
+echo  13. IP Release/renew
+echo  14. Register ocx/dll
+echo  15. Nagles Alg On
+echo  16. Nagles Alg Off
 echo  17. empty
 echo.
 echo  Page 3 
@@ -424,7 +424,7 @@ goto :eof
 :st5
 sfc /scannow
 pause
-goto :menu1
+goto :menu
 
 
 
@@ -479,9 +479,9 @@ echo                                            █  10. Enable Trim/System:    
 echo                                            █  11. Trim SSD:                           █
 echo                                            █  12. System Assessment:                  █
 echo                                            █  13. IP Release/renew                    █
-echo                                            █  14. Task Scheduler:                     █
-echo                                            █  15. Local User Mgnt:                    █
-echo                                            █  16. Create a user:                      █
+echo                                            █  14. Register ocx/dll:                   █
+echo                                            █  15. Nagles Alg On                       █
+echo                                            █  16. Nagles Alg Off                      █
 echo                                            █  17. Go Back:                            █
 echo                                            █                                          █
 echo                                            └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -495,10 +495,46 @@ if "%userinp%"=="10" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="11" echo. & echo Trimming SSD.. & goto :trimssd
 if "%userinp%"=="12" echo. & echo Starting System Assessment & goto :systemassessment
 if "%userinp%"=="13" echo. & releasing the ip and renewing... & ping localhost -n 1 >nul & ipconfig /release & ipconfig /renew & goto :menu2
-if "%userinp%"=="14" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
-if "%userinp%"=="15" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
+if "%userinp%"=="14" echo. & echo starting... & goto :regsvr
+if "%userinp%"=="15" echo. & ping localhost -n 1 >nul & goto :naglealg
 if "%userinp%"=="16" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
 if "%userinp%"=="17" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
+
+
+:naglealg
+setlocal
+SET /P AREYOUSURE=Are you sure you want to enable Nagle Algorithm (Y/[N])?
+IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
+echo starting nagle reg keys...
+echo.
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TcpAckFrequency /t REG_DWORD /d 1 /f
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TCPNoDelay /t REG_DWORD /d 1 /f
+taskkill /f /im explorer.exe
+start explorer.exe
+ping localhost -n 5 >nul
+
+:END
+endlocal
+goto :menu2
+
+
+
+
+:naglealg2
+setlocal
+SET /P AREYOUSURE=Are you sure you want to enable Nagle Algorithm (Y/[N])?
+IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
+echo disabling nagle reg keys...
+echo.
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TcpAckFrequency /t REG_DWORD /d 0 /f
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TCPNoDelay /t REG_DWORD /d 0 /f
+taskkill /f /im explorer.exe
+start explorer.exe
+ping localhost -n 5 >nul
+
+:END
+endlocal
+goto :menu2
 
 
 :trimsystemassessment
@@ -536,12 +572,23 @@ goto :END
 
 :END
 endlocal
-
 goto :menu2
 
 
 
-
+:regsvr
+ping localhost -n 1 >nul 
+cd ..
+cd ..
+cd ..
+cd ..
+cd\windows
+cd\windows\system32
+For /F %s in ('dir /b *.dll') do regsvr32 /s %s
+ping localhost -n 2 >nul
+For /F %s in ('dir /b *.ocx') do regsvr32 /s %s
+pause
+goto :menu2
 
 
 
@@ -578,8 +625,8 @@ echo.
 echo                                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #3─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 echo                                            █                  Choices:                █
 echo                                            █                                          █
-echo                                            █  18. Disk Manager:                       █
-echo                                            █  19. Device Manager:                     █
+echo                                            █  18. Getmac:                             █
+echo                                            █  19. Reset Firewall:                     █
 echo                                            █  20. Event Viewer:                       █
 echo                                            █  21. Services:                           █
 echo                                            █  22. Task Scheduler:                     █
@@ -594,7 +641,7 @@ echo.
 set /p userinp=Type the number of your choice: 
 set userinp=%userinp:~0,2%
 
-if "%userinp%"=="18" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
+if "%userinp%"=="18" echo. & echo starting... & ping localhost -n 1 >nul & goto :getmac
 if "%userinp%"=="19" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
 if "%userinp%"=="20" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
 if "%userinp%"=="21" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
@@ -608,7 +655,11 @@ if "%userinp%"=="25" echo returning to menu... & ping localhost -n 2 >nul & goto
 
 
 
-
+:getmac
+getmac
+ping localhost -n 3 >nul
+pause
+goto :menu3
 
 
 
