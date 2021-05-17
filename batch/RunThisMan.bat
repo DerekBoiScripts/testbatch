@@ -209,17 +209,17 @@ echo  13. IP Release/renew
 echo  14. Register ocx/dll
 echo  15. Nagles Alg On
 echo  16. Nagles Alg Off
-echo  17. empty
+echo  17. Go Back
 echo.
 echo  Page 3 
-echo  18. empty
-echo  19. empty
-echo  20. empty
-echo  21. empty
+echo  18. Getmac
+echo  19. Reset Firewall
+echo  20. System Info
+echo  21. tracert/pathping
 echo  22. empty
 echo  23. empty
 echo  24. empty
-echo  25. empty
+echo  25. go back
 echo. 
 echo  Page 4
 echo  26. Disk Manager
@@ -233,14 +233,6 @@ echo  33. Go back to Menu 1
 ping localhost -n 7 >nul
 pause
 goto :boot
-
-
-
-
-
-
-
-
 
 
 
@@ -359,31 +351,31 @@ setlocal
 SET /P AREYOUSURE=Are you sure (Y/[N])?
 IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
 
-echo. & echo starting... & netsh winsock reset catalog && netsh interface ipv4 reset && netsh interface ipv6 reset & arp d && netsh winsock reset && netsh int tcp reset & netsh int ip reset && netsh int ip delete neighbors && netsh int ip delete destinationcache && netsh int ip delete arpcache && ipconfig /flushDNS &&ipconfig /registerDNS && ipconfig /displayDNS && NBTStat -R && NBTStat -RR &&
+echo.
+echo starting...
+netsh winsock reset catalog
+netsh interface ipv4 reset
+netsh interface ipv6 reset
+arp -d
+netsh winsock reset
+netsh int tcp reset
+netsh int ip reset
+netsh int ip delete neighbors
+netsh int ip delete destinationcache
+netsh int ip delete arpcache
+ipconfig /flushDNS
+ipconfig /registerDNS
+ipconfig /displayDNS
+ipconfig /release
+ipconfig /renew
+NBTStat -R
+NBTStat -RR
 ping localhost -n 10 >nul
 
 
 :END
 endlocal
 goto :menu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -425,41 +417,6 @@ goto :eof
 sfc /scannow
 pause
 goto :menu
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 :st6
 title Menu 2
@@ -591,26 +548,6 @@ pause
 goto :menu2
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 :st7
 title Menu 3
 cls
@@ -627,8 +564,8 @@ echo                                            █                  Choices:   
 echo                                            █                                          █
 echo                                            █  18. Getmac:                             █
 echo                                            █  19. Reset Firewall:                     █
-echo                                            █  20. Event Viewer:                       █
-echo                                            █  21. Services:                           █
+echo                                            █  20. System Info:                        █
+echo                                            █  21. Tracert/pathping:                   █
 echo                                            █  22. Task Scheduler:                     █
 echo                                            █  23. Local User Mgnt:                    █
 echo                                            █  24. user:                               █
@@ -643,8 +580,8 @@ set userinp=%userinp:~0,2%
 
 if "%userinp%"=="18" echo. & echo starting... & ping localhost -n 1 >nul & goto :getmac
 if "%userinp%"=="19" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
-if "%userinp%"=="20" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
-if "%userinp%"=="21" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
+if "%userinp%"=="20" echo. & echo Starting... & ping localhost -n 1 >nul & systeminfo & pause
+if "%userinp%"=="21" echo. & echo starting ... It will pathping and tracert the URL or IP address & ping localhost -n 1 >nul & goto :pathtrace
 if "%userinp%"=="22" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
 if "%userinp%"=="23" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
 if "%userinp%"=="24" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
@@ -662,23 +599,19 @@ pause
 goto :menu3
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+:pathtrace
+SET /P _nameorip= Please enter an IP/URL:
+echo.
+echo setting 20 hops..
+tracert -h 20 %_nameorip%
+ping localhost -n 6 >nul
+pathping -h 20 %_nameorip%
+echo. 
+echo Done.
+pause
+pause
+pause
+goto :menu3
 
 
 
@@ -686,28 +619,6 @@ goto :menu3
 echo.
 ipconfig
 goto :eof
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -773,3 +684,7 @@ ping localhost -n 3 >nul
 :END
 endlocal
 goto :menu4
+
+
+
+eof
