@@ -582,7 +582,7 @@ if "%userinp%"=="18" echo. & echo starting... & ping localhost -n 1 >nul & goto 
 if "%userinp%"=="19" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
 if "%userinp%"=="20" echo. & echo Starting... & ping localhost -n 1 >nul & systeminfo & pause
 if "%userinp%"=="21" echo. & echo starting ... It will pathping and tracert the URL or IP address & ping localhost -n 1 >nul & goto :pathtrace
-if "%userinp%"=="22" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
+if "%userinp%"=="22" echo. & echo starting... & ping localhost -n 1 >nul & goto :htmlmenu
 if "%userinp%"=="23" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
 if "%userinp%"=="24" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
 if "%userinp%"=="25" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
@@ -612,6 +612,34 @@ pause
 pause
 pause
 goto :menu3
+
+
+:htmlmenu
+chcp 437 > nul
+
+call %~dp0Scripts\menu.bat
+ping localhost -n 2 >nul
+chcp 65001 > nul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

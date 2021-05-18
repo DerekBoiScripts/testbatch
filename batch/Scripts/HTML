@@ -1,0 +1,2 @@
+RadioButton  
+<label><input type="radio" name="RB" onclick="rb=1" value="1" >First option</label> <label><input type="radio" name="RB" onclick="rb=2" value="2" >Second option</label> <label><input type="radio" name="RB" onclick="rb=3" value="3" checked>Third option</label> <br><br><button onclick="closeHTA(rb);">Submit</button>
