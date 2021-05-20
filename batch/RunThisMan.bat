@@ -418,10 +418,17 @@ sfc /scannow
 pause
 goto :menu
 
+:st8
+title bye
+cls
+start %~dp0Scripts\menu.bat
+goto :menu
+
 :st6
 title Menu 2
 cls
 ping localhost -n 2 >nul
+
 
 
 :menu2
@@ -566,7 +573,7 @@ echo                                            █  18. Getmac:                
 echo                                            █  19. Reset Firewall:                     █
 echo                                            █  20. System Info:                        █
 echo                                            █  21. Tracert/pathping:                   █
-echo                                            █  22. Task Scheduler:                     █
+echo                                            █  22. Empty:                              █
 echo                                            █  23. Local User Mgnt:                    █
 echo                                            █  24. user:                               █
 echo                                            █  25. Go Back:                            █
