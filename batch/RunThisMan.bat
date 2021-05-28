@@ -1,5 +1,5 @@
 @echo off
-
+wscript %~dp0Scripts\noti.vbs
 net session >nul 2>&1
 if %errorlevel% == 0 (
 ping localhost -n 2 >nul
@@ -183,7 +183,7 @@ exit
 
 
 
-
+wscript %~dp0Scripts\noti.vbs
 :info
 title information on what's in the batch
 mode 80,100
@@ -421,6 +421,7 @@ goto :menu
 :st8
 title bye
 cls
+
 start %~dp0Scripts\menu.bat
 goto :menu
 
@@ -573,9 +574,9 @@ echo                                            █  18. Getmac:                
 echo                                            █  19. Reset Firewall:                     █
 echo                                            █  20. System Info:                        █
 echo                                            █  21. Tracert/pathping:                   █
-echo                                            █  22. Empty:                              █
-echo                                            █  23. Local User Mgnt:                    █
-echo                                            █  24. user:                               █
+echo                                            █  22. WMIC:                               █
+echo                                            █  23. defrag HDD/trim ssd:                █
+echo                                            █  24. Empty:                              █
 echo                                            █  25. Go Back:                            █
 echo                                            █                                          █
 echo                                            └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -586,18 +587,35 @@ set /p userinp=Type the number of your choice:
 set userinp=%userinp:~0,2%
 
 if "%userinp%"=="18" echo. & echo starting... & ping localhost -n 1 >nul & goto :getmac
-if "%userinp%"=="19" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
+if "%userinp%"=="19" echo. & echo starting.. & ping localhost -n 1 >nul & 
 if "%userinp%"=="20" echo. & echo Starting... & ping localhost -n 1 >nul & systeminfo & pause
 if "%userinp%"=="21" echo. & echo starting ... It will pathping and tracert the URL or IP address & ping localhost -n 1 >nul & goto :pathtrace
-if "%userinp%"=="22" echo. & echo starting... & ping localhost -n 1 >nul & goto :htmlmenu
-if "%userinp%"=="23" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
-if "%userinp%"=="24" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu3
+if "%userinp%"=="22" echo. & echo starting... & ping localhost -n 1 >nul & goto :wmic
+if "%userinp%"=="23" echo. & echo starting.. & ping localhost -n 1 >nul & goto :options
+if "%userinp%"=="24" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="25" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
 
 
+:wmic
+echo.
+echo showing diskdrives, and name and sizes, and models
+echo.
+wmic diskdrive get name,size,model
+ping localhost 5 -n >nul
+wmic partition get name, size, type
+ping localhost 3 -n >nul
+echo.
+wmic bios get name,serialnumber,version
+ping localhost 5 -n >nul
+pause
+goto :menu3
 
-
-
+:options
+SET /P _driveletter= Please enter an drive letter:
+echo.
+defrag %_driveletter% /o
+ping localhost -n 6 >nul
+goto :menu3
 
 :getmac
 getmac
@@ -619,26 +637,6 @@ pause
 pause
 pause
 goto :menu3
-
-
-:htmlmenu
-chcp 437 > nul
-
-call %~dp0Scripts\menu.bat
-ping localhost -n 2 >nul
-chcp 65001 > nul
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
