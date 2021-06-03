@@ -441,7 +441,7 @@ echo                                            ▄▄▄▄▄▄▄▄▄▄�
 echo                                            █                  Choices:                █
 echo                                            █                                          █
 echo                                            █  10. Enable Trim/System:                 █
-echo                                            █  11. Trim SSD:                           █
+echo                                            █  11. Trim SSD (PowerShell):              █
 echo                                            █  12. System Assessment:                  █
 echo                                            █  13. IP Release/renew                    █
 echo                                            █  14. Register ocx/dll:                   █
@@ -576,7 +576,7 @@ echo                                            █  20. System Info:           
 echo                                            █  21. Tracert/pathping:                   █
 echo                                            █  22. WMIC:                               █
 echo                                            █  23. defrag HDD/trim ssd:                █
-echo                                            █  24. Empty:                              █
+echo                                            █  24. Reset Windows:                      █
 echo                                            █  25. Go Back:                            █
 echo                                            █                                          █
 echo                                            └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -587,12 +587,12 @@ set /p userinp=Type the number of your choice:
 set userinp=%userinp:~0,2%
 
 if "%userinp%"=="18" echo. & echo starting... & ping localhost -n 1 >nul & goto :getmac
-if "%userinp%"=="19" echo. & echo starting.. & ping localhost -n 1 >nul & 
+if "%userinp%"=="19" echo. & echo starting.. & ping localhost -n 1 >nul & netsh advfirewall reset & goto :menu3
 if "%userinp%"=="20" echo. & echo Starting... & ping localhost -n 1 >nul & systeminfo & pause
 if "%userinp%"=="21" echo. & echo starting ... It will pathping and tracert the URL or IP address & ping localhost -n 1 >nul & goto :pathtrace
 if "%userinp%"=="22" echo. & echo starting... & ping localhost -n 1 >nul & goto :wmic
 if "%userinp%"=="23" echo. & echo starting.. & ping localhost -n 1 >nul & goto :options
-if "%userinp%"=="24" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="24" echo. & echo starting.. & ping localhost -n 1 >nul & goto :resetwindows
 if "%userinp%"=="25" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
 
 
@@ -613,7 +613,7 @@ goto :menu3
 :options
 SET /P _driveletter= Please enter an drive letter:
 echo.
-defrag %_driveletter% /o
+defrag %_driveletter%: /o
 ping localhost -n 6 >nul
 goto :menu3
 
@@ -621,6 +621,62 @@ goto :menu3
 getmac
 ping localhost -n 3 >nul
 pause
+goto :menu3
+
+:resetwindows
+net stop bits
+net stop wuauserv
+net stop appidsvc
+net stop cryptsvc
+rmdir %windir%\softwaredistribution /s /q
+Del “%ALLUSERSPROFILE%\Application Data\Microsoft\Network\Downloader\qmgr*.dat”
+sc.exe sdset bits D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
+sc.exe sdset wuauserv D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
+cd /d %windir%\system32
+regsvr32 /s wups.dll
+regsvr32 /s wups2.dll
+regsvr32 /s wucltui.dll
+regsvr32.exe /s msxml.dll
+regsvr32.exe /s msxml3.dll
+regsvr32.exe /s msxml6.dll
+regsvr32.exe /s actxprxy.dll
+regsvr32.exe /s softpub.dll
+regsvr32.exe /s atl.dll
+regsvr32.exe /s urlmon.dll
+regsvr32.exe /s mshtml.dll
+regsvr32.exe /s shdocvw.dll
+regsvr32.exe /s browseui.dll
+regsvr32.exe /s jscript.dll
+regsvr32.exe /s vbscript.dll
+regsvr32.exe /s scrrun.dll
+regsvr32.exe /s wintrust.dll
+regsvr32.exe /s dssenh.dll
+regsvr32.exe /s rsaenh.dll
+regsvr32.exe /s gpkcsp.dll
+regsvr32.exe /s sccbase.dll
+regsvr32.exe /s slbcsp.dll
+regsvr32.exe /s cryptdlg.dll
+regsvr32.exe /s oleaut32.dll
+regsvr32.exe /s ole32.dll
+regsvr32.exe /s shell32.dll
+regsvr32.exe /s initpki.dll
+regsvr32.exe /s wuapi.dll
+regsvr32.exe /s wuaueng1.dll
+regsvr32.exe /s wuweb.dll
+regsvr32.exe /s qmgr.dll
+regsvr32.exe /s qmgrprxy.dll
+regsvr32.exe /s wucltux.dll
+regsvr32.exe /s muweb.dll
+regsvr32.exe /s wuwebv.dll
+regsvr32 /s wudriver.dll
+net start bits
+net start wuauserv
+net start appidsvc
+net start cryptsvc
+bitsadmin.exe /reset /allusers
+ipconfig /flushdns
+netsh winsock reset catalog
+ping localhost 5 -n >nul
 goto :menu3
 
 
