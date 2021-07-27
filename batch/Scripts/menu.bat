@@ -88,16 +88,18 @@ default gateway for each adapter bound to TCP/IP.</li></ul>
 <h2>Page 3 </h2>
 <li>Getmac</li>
 <ul><li>enables admins to display the mac address</li></ul>
-<li>Reset Firewall</li>
-<ul><li>Resets the firewall</li></ul>
+<li>Shutdown</li>
+<ul><li>Shuts down a PC on the local network</li></ul>
 <li>System Info</li>
 <ul><li>shows system info in cmd</li></ul>
 <li>tracert/pathping</li>
 <ul><li>Pings, and traces the IP/domain how long it takes</li></ul>
-<li>empty</li>
-<ul><li>	</li></ul>
-<li>empty</li>
-<li>empty</li>
+<li>WMIC</li>
+<ul><li>Starts WMIC</li></ul>
+<li>defrag HDD/trim ssd</li>
+<ul><li>Selects a drive and either trims or defrags it</li></ul>
+<li>Reset Windows</li>
+<ul><li>Literally resets windows</li></ul>
 <li>go back</li>
 <ul><li>Go back to menu 1</li></ul>
 <br>

@@ -178,11 +178,6 @@ echo Exiting. . .
 ping localhost -n 3 >nul
 exit
 
-
-
-
-
-
 wscript %~dp0Scripts\noti.vbs
 :info
 title information on what's in the batch
@@ -216,9 +211,9 @@ echo  18. Getmac
 echo  19. Reset Firewall
 echo  20. System Info
 echo  21. tracert/pathping
-echo  22. empty
-echo  23. empty
-echo  24. empty
+echo  22. WMIC
+echo  23. defrag HDD/trim ssd
+echo  24. Reset Windows
 echo  25. go back
 echo. 
 echo  Page 4
@@ -233,8 +228,6 @@ echo  33. Go back to Menu 1
 ping localhost -n 7 >nul
 pause
 goto :boot
-
-
 
 :boot
 color a
@@ -252,12 +245,10 @@ title Menu
 chcp 65001 2>nul >nul
 cls
 
-
 set size=9
 
 ::preset
 set chbox1=x
-
 
 :prepare
 for /L %%i in (0,1,%size%) do (
@@ -268,27 +259,27 @@ for /L %%i in (0,1,%size%) do (
     )
 )
 
-
 :menu
 cls
 echo.
-echo.                                                   %date%
+echo.                                                %date%
 echo.
-echo                                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #1─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                            █                  Choices:                █
-echo                                            █                                          █
-echo                                            █  1. [%chbox1%] ipconfig/all:                    █
-echo                                            █  2. [%chbox2%] Reset the TCP/IP (lots of cmds): █
-echo                                            █  3. [%chbox3%] Flush DNS:                       █
-echo                                            █  4. [%chbox4%] Clear NetBIOS:                   █
-echo                                            █  5. [%chbox5%] SFC Integrity:                   █
-echo                                            █  6. [%chbox6%] Page 2:                          █
-echo                                            █  7. [%chbox7%] Page 3:                          █
-echo                                            █  8. [%chbox8%] What these commands do [Info]:   █
-echo                                            █  9. [%chbox9%] Page 4/Extras/Programs:          █
-echo                                            └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #1─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                █
+echo                                         █                                          █
+echo                                         █  1. [%chbox1%] ipconfig/all:                    █
+echo                                         █  2. [%chbox2%] Reset the TCP/IP (lots of cmds): █
+echo                                         █  3. [%chbox3%] Flush DNS:                       █
+echo                                         █  4. [%chbox4%] Clear NetBIOS:                   █
+echo                                         █  5. [%chbox5%] SFC Integrity:                   █
+echo                                         █  6. [%chbox6%] Page 2:                          █
+echo                                         █  7. [%chbox7%] Page 3:                          █
+echo                                         █  8. [%chbox8%] What these commands do [Info]:   █
+echo                                         █  9. [%chbox9%] Page 4/Extras/Programs:          █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
-
+echo.
+echo.
 choice /C 1234567890qa /N /M "Select [1-9] >> [a]pply or [q]uit:"
 echo.
 set inp=%errorlevel%
@@ -344,9 +335,9 @@ ipconfig /all
 pause >nul
 goto :eof
 
-
 :st2
 setlocal
+
 :PROMPT
 SET /P AREYOUSURE=Are you sure (Y/[N])?
 IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
@@ -372,12 +363,9 @@ NBTStat -R
 NBTStat -RR
 ping localhost -n 10 >nul
 
-
 :END
 endlocal
 goto :menu
-
-
 
 :st3
 echo. & echo displaying dns.. 
@@ -401,7 +389,6 @@ endlocal
 goto :menu
 goto :eof
 
-
 :st4
 echo. 
 echo Starting nbtstat..
@@ -411,7 +398,6 @@ nbtstat -RR
 ping localhost -n 4 >nul
 pause
 goto :eof
-
 
 :st5
 sfc /scannow
@@ -430,26 +416,24 @@ title Menu 2
 cls
 ping localhost -n 2 >nul
 
-
-
 :menu2
 cls
 echo.
 echo.
 echo.
-echo                                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #2─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                            █                  Choices:                █
-echo                                            █                                          █
-echo                                            █  10. Enable Trim/System:                 █
-echo                                            █  11. Trim SSD (PowerShell):              █
-echo                                            █  12. System Assessment:                  █
-echo                                            █  13. IP Release/renew                    █
-echo                                            █  14. Register ocx/dll:                   █
-echo                                            █  15. Nagles Alg On                       █
-echo                                            █  16. Nagles Alg Off                      █
-echo                                            █  17. Go Back:                            █
-echo                                            █                                          █
-echo                                            └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #2─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                █
+echo                                         █                                          █
+echo                                         █  10. Enable Trim/System:                 █
+echo                                         █  11. Trim SSD (PowerShell):              █
+echo                                         █  12. System Assessment:                  █
+echo                                         █  13. IP Release/renew                    █
+echo                                         █  14. Register ocx/dll:                   █
+echo                                         █  15. Nagles Alg On                       █
+echo                                         █  16. Nagles Alg Off                      █
+echo                                         █  17. Go Back:                            █
+echo                                         █                                          █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
 
@@ -464,7 +448,6 @@ if "%userinp%"=="14" echo. & echo starting... & goto :regsvr
 if "%userinp%"=="15" echo. & ping localhost -n 1 >nul & goto :naglealg
 if "%userinp%"=="16" echo. & echo starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
 if "%userinp%"=="17" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
-
 
 :naglealg
 setlocal
@@ -482,9 +465,6 @@ ping localhost -n 5 >nul
 endlocal
 goto :menu2
 
-
-
-
 :naglealg2
 setlocal
 SET /P AREYOUSURE=Are you sure you want to enable Nagle Algorithm (Y/[N])?
@@ -500,7 +480,6 @@ ping localhost -n 5 >nul
 :END
 endlocal
 goto :menu2
-
 
 :trimsystemassessment
 setlocal
@@ -534,12 +513,9 @@ chcp 65001 > nul
 
 goto :END
 
-
 :END
 endlocal
 goto :menu2
-
-
 
 :regsvr
 ping localhost -n 1 >nul 
@@ -555,31 +531,30 @@ For /F %s in ('dir /b *.ocx') do regsvr32 /s %s
 pause
 goto :menu2
 
-
 :st7
 title Menu 3
 cls
 ping localhost -n 2 >nul
-
 
 :menu3
 cls
 echo.
 echo.
 echo.
-echo                                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #3─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                            █                  Choices:                █
-echo                                            █                                          █
-echo                                            █  18. Getmac:                             █
-echo                                            █  19. Reset Firewall:                     █
-echo                                            █  20. System Info:                        █
-echo                                            █  21. Tracert/pathping:                   █
-echo                                            █  22. WMIC:                               █
-echo                                            █  23. defrag HDD/trim ssd:                █
-echo                                            █  24. Reset Windows:                      █
-echo                                            █  25. Go Back:                            █
-echo                                            █                                          █
-echo                                            └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #3─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                █
+echo                                         █                                          █
+echo                                         █  18. Getmac:                             █
+echo                                         █  19. Shutdown:                           █
+echo                                         █  20. System Info:                        █
+echo                                         █  21. Tracert/pathping:                   █
+echo                                         █  22. WMIC:                               █
+echo                                         █  23. defrag HDD/trim ssd:                █
+echo                                         █  24. Reset Windows:                      █
+echo                                         █  60. Change DNS Server                   █
+echo                                         █  25. Go Back:                            █
+echo                                         █                                          █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
 
@@ -587,12 +562,13 @@ set /p userinp=Type the number of your choice:
 set userinp=%userinp:~0,2%
 
 if "%userinp%"=="18" echo. & echo starting... & ping localhost -n 1 >nul & goto :getmac
-if "%userinp%"=="19" echo. & echo starting.. & ping localhost -n 1 >nul & netsh advfirewall reset & goto :menu3
+if "%userinp%"=="19" echo. & echo starting.. & ping localhost -n 1 >nul &  goto :shutdown
 if "%userinp%"=="20" echo. & echo Starting... & ping localhost -n 1 >nul & systeminfo & pause
 if "%userinp%"=="21" echo. & echo starting ... It will pathping and tracert the URL or IP address & ping localhost -n 1 >nul & goto :pathtrace
 if "%userinp%"=="22" echo. & echo starting... & ping localhost -n 1 >nul & goto :wmic
 if "%userinp%"=="23" echo. & echo starting.. & ping localhost -n 1 >nul & goto :options
 if "%userinp%"=="24" echo. & echo starting.. & ping localhost -n 1 >nul & goto :resetwindows
+if "%userinp%"=="60" echo. & echo starting.. & ping localhost -n 1 >nul & goto :dnss
 if "%userinp%"=="25" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
 
 
@@ -679,7 +655,6 @@ netsh winsock reset catalog
 ping localhost 5 -n >nul
 goto :menu3
 
-
 :pathtrace
 SET /P _nameorip= Please enter an IP/URL:
 echo.
@@ -694,48 +669,51 @@ pause
 pause
 goto :menu3
 
+:dnss
+SET /p _card= Enter the name of the device (Ethernet, Wi-Fi):
+set /p _ip= Enter the IP:
+netsh interface ipv4 set dns name="%_card%" static %_ip%
+pause
+echo.
+goto :menu3
 
+:shutdown
+SET /P _shutdown= Please enter an name/ip:
+echo.
+shutdown /s /m \\%_shutdown% /f
+ping localhost -n 6 >nul
 
-
-
-
-
-
-
-
+goto :menu3
 
 :st8
 echo.
 ipconfig
 goto :eof
 
-
-
-
 :st9
 title Menu 4
 cls
 ping localhost -n 2 >nul
-
 
 :menu4
 cls
 echo.
 echo.
 echo.
-echo                                            ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #4─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                            █                  Choices:                █
-echo                                            █                                          █
-echo                                            █  26. Disk Manager:                       █
-echo                                            █  27. Device Manager:                     █
-echo                                            █  28. Event Viewer:                       █
-echo                                            █  29. Services:                           █
-echo                                            █  30. Task Scheduler:                     █
-echo                                            █  31. Local User Mgnt:                    █
-echo                                            █  32. user:                               █
-echo                                            █  33. Go Back:                            █
-echo                                            █                                          █
-echo                                            └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #4─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                █
+echo                                         █                                          █
+echo                                         █  26. Disk Manager:                       █
+echo                                         █  27. Device Manager:                     █
+echo                                         █  28. Event Viewer:                       █
+echo                                         █  29. Services:                           █
+echo                                         █  30. Task Scheduler:                     █
+echo                                         █  31. Local User Mgnt:                    █
+echo                                         █  32. create a user:                      █
+echo                                         █  33. Go Back:                            █
+echo                                         █  34. Go Back to normal Command Prompt:   █
+echo                                         █                                          █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
 
@@ -750,30 +728,28 @@ if "%userinp%"=="30" echo. & echo starting task scheduler.. & ping localhost -n 
 if "%userinp%"=="31" lusrmgr.msc & goto :menu4
 if "%userinp%"=="32" goto :19
 if "%userinp%"=="33" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
+if "%userinp%"=="34" echo. & echo Exiting.. & goto :break
 
 :19
 SET /P _inputname= Please enter an username:
-net user %_inputname% 1234 /add
-ping localhost -n 4 >nul
+SET /P _description= Enter a description:
+SET /P _fullname= Name on PC:
+SET /P _password= Enter the password:
+SET /P _admin= Make user an admin (Y/N):
+ping localhost -n 2 >nul
 echo. 
-echo Do you want to add this user as admin?
+net user %_inputname% /comment:"%_description%" /fullname:"%_fullname%" %_password% /add
+ping localhost -n 2 >nul
 
+IF /I "%_admin%" NEQ "Y" GOTO END
 
-setlocal
-goto :PROMPT
-
-:PROMPT
-SET /P AREYOUSURE=Are you sure (Y/[N])?
-IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
-
-SET /P _inputname= Please enter the username:
 net localgroup administrators %_inputname% /add
-ping localhost -n 3 >nul
 
 :END
 endlocal
 goto :menu4
 
-
+:break
+break
 
 eof
