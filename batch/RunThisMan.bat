@@ -141,18 +141,6 @@ echo please run as admin
 ping localhost -n 0.5 >nul
 color a
 echo please run as admin
-ping localhost -n 0.5 >nul
-color c
-echo please run as admin
-ping localhost -n 0.5 >nul
-color a
-echo please run as admin
-ping localhost -n 0.5 >nul
-color c
-echo please run as admin
-ping localhost -n 0.5 >nul
-color a
-echo please run as admin
 ping localhost -n 3 >nul
 goto :UAC
 )
@@ -225,7 +213,7 @@ echo  30. Task Scheduler
 echo  31. Local User Mgnt
 echo  32. Create A User
 echo  33. Go back to Menu 1
-ping localhost -n 7 >nul
+ping localhost -n 4 >nul
 pause
 goto :boot
 
@@ -429,8 +417,8 @@ echo                                         █  11. Trim SSD (PowerShell):    
 echo                                         █  12. System Assessment:                  █
 echo                                         █  13. IP Release/renew                    █
 echo                                         █  14. Register ocx/dll:                   █
-echo                                         █  15. Nagles Alg On                       █
-echo                                         █  16. Nagles Alg Off                      █
+echo                                         █  15. Nagles Alg On:                      █
+echo                                         █  16. Nagles Alg Off:                     █
 echo                                         █  17. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -551,7 +539,7 @@ echo                                         █  21. Tracert/pathping:         
 echo                                         █  22. WMIC:                               █
 echo                                         █  23. defrag HDD/trim ssd:                █
 echo                                         █  24. Reset Windows:                      █
-echo                                         █  60. Change DNS Server                   █
+echo                                         █  60. Change DNS Server:                  █
 echo                                         █  25. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -652,7 +640,7 @@ net start cryptsvc
 bitsadmin.exe /reset /allusers
 ipconfig /flushdns
 netsh winsock reset catalog
-ping localhost 5 -n >nul
+ping localhost 3 -n >nul
 goto :menu3
 
 :pathtrace
@@ -750,6 +738,7 @@ endlocal
 goto :menu4
 
 :break
-break
+start cmd.exe
+exit
 
 eof
