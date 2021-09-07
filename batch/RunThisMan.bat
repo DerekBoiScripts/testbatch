@@ -213,7 +213,7 @@ echo  30. Task Scheduler
 echo  31. Local User Mgnt
 echo  32. Create A User
 echo  33. Go back to Menu 1
-ping localhost -n 4 >nul
+ping localhost -n 1 >nul
 pause
 goto :boot
 
@@ -263,7 +263,7 @@ echo                                         █  5. [%chbox5%] SFC Integrity:  
 echo                                         █  6. [%chbox6%] Page 2:                          █
 echo                                         █  7. [%chbox7%] Page 3:                          █
 echo                                         █  8. [%chbox8%] What these commands do [Info]:   █
-echo                                         █  9. [%chbox9%] Page 4/Extras/Programs:          █
+echo                                         █  9. [%chbox9%] Page 4/5/Extras/Programs:        █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 echo.
@@ -413,7 +413,7 @@ echo                                         ▄▄▄▄▄▄▄▄▄▄▄�
 echo                                         █                  Choices:                █
 echo                                         █                                          █
 echo                                         █  10. Enable Trim/System:                 █
-echo                                         █  11. Trim SSD (PowerShell):              █
+echo                                         █  11. Ping (Powershell):                  █
 echo                                         █  12. System Assessment:                  █
 echo                                         █  13. IP Release/renew                    █
 echo                                         █  14. Register ocx/dll:                   █
@@ -495,7 +495,7 @@ chcp 437 > nul
 SET /P  system=Do you want to Trim? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO END
 
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\pss.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\ping.ps1""' -Verb RunAs}"
 ping localhost -n 2 >nul
 chcp 65001 > nul
 
@@ -678,7 +678,19 @@ echo.
 ipconfig
 goto :eof
 
+
+
 :st9
+set pass=
+choice /C 12 /n /m "1. Menu 4 <|> 2. Menu 5:
+set pass=%errorlevel%
+
+if errorlevel 1 set goto=1
+if errorlevel 2 set goto=2
+goto %goto%
+
+
+:1
 title Menu 4
 cls
 ping localhost -n 2 >nul
@@ -740,5 +752,91 @@ goto :menu4
 :break
 start cmd.exe
 exit
+
+:2
+title Menu 5
+cls
+ping localhost -n 2 >nul
+:menu5
+cls
+echo.
+echo.
+echo.
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #5─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                █
+echo                                         █                                          █
+echo                                         █  35. Powershell Display DNS:             █
+echo                                         █  36. Powershell Flush DNS:               █
+echo                                         █  37. Powershell Register DNS             █
+echo                                         █  38. Empty:                              █
+echo                                         █  39. Empty:                              █
+echo                                         █  40. Empty:                              █
+echo                                         █  41. Empty:                              █
+echo                                         █  42. Go Back:                            █
+echo                                         █                                          █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo.
+
+set /p userinp=Type the number of your choice: 
+set userinp=%userinp:~0,2%
+
+if "%userinp%"=="35" echo. & echo starting PS; Displaying DNS.. & ping localhost -n 1 >nul & goto :PSDDNS
+if "%userinp%"=="36" echo. & echo starting PS; Flushing DNS.. & ping localhost -n 1 >nul & :PSFDNS
+if "%userinp%"=="37" echo. & echo starting PS; Registering DNS.. & ping localhost -n 1 >nul & :PSRDNS
+if "%userinp%"=="38" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
+if "%userinp%"=="39" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
+if "%userinp%"=="40" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
+if "%userinp%"=="41" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
+if "%userinp%"=="42" echo. & echo starting PS; .. & ping localhost -n 1 >nul & goto :menu
+
+
+:PSDDNS
+chcp 437 > nul
+SET /P  system=Do you want to Display the DNS in Powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO END
+
+PowerShell -file %~dp0Scripts\displaydns.ps1
+ping localhost -n 2 >nul
+chcp 65001 > nul
+
+goto :END
+
+:END
+endlocal
+goto :menu5
+
+
+:PSFDNS
+chcp 437 > nul
+SET /P system=Do you want to Clear the DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO END
+
+PowerShell -file %~dp0Scripts\clsdns.ps1
+ping localhost -n 2 >nul
+chcp 65001 > nul
+
+goto :END
+
+:END
+endlocal
+goto :menu5
+
+
+
+:PSRDNS
+chcp 437 > nul
+SET /P system=Do you want to Register the DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO END
+
+PowerShell -file %~dp0Scripts\regdns.ps1
+ping localhost -n 2 >nul
+chcp 65001 > nul
+
+goto :END
+
+:END
+endlocal
+goto :menu5
+
 
 eof
