@@ -213,6 +213,18 @@ echo  30. Task Scheduler
 echo  31. Local User Mgnt
 echo  32. Create A User
 echo  33. Go back to Menu 1
+echo  34. Go Back to normal Command Prompt
+ping localhost -n 1 >nul
+echo. 
+echo  Page 5
+echo  35. Display DNS (PowerShell)
+echo  36. Flush DNS (PowerShell)
+echo  37. Register DNS (PowerShell)
+echo  38. Empty
+echo  39. Empty
+echo  40. Empty
+echo  41. Empty
+echo  42. Empty
 ping localhost -n 1 >nul
 pause
 goto :boot
@@ -842,5 +854,3 @@ goto :END
 endlocal
 goto :menu5
 
-
-eof
