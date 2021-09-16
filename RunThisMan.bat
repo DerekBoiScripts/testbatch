@@ -1,4 +1,7 @@
 @echo off
+chcp 65001 > nul
+title Batch made by ©2021 Derek Vanderver
+chcp 437 > nul
 wscript %~dp0Scripts\noti.vbs
 net session >nul 2>&1
 if %errorlevel% == 0 (
