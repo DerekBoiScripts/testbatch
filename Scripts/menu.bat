@@ -62,15 +62,15 @@ default gateway for each adapter bound to TCP/IP.</li></ul>
 <ul><li>Goes to page 3</li></ul>
 <li>What these commands do [Info]</li>
 <ul><li>Current</li></ul>
-<li>Page 4/Extras/Programs</li>
-<ul><li>Goes to page 4</li></ul>
+<li>Page 4/5/Extras/Programs</li>
+<ul><li>Goes to page 4 & 5</li></ul>
 <br>
 
 <h2>Page 2 </h2>
 <li>Enable Trim / System Assessment</li>
 <ul><li>Enables Periodic TRIM & Starts System Assessment</li></ul>
-<li>Trim SSD</li>
-<ul><li>Trims the SSD</li></ul>
+<li>Ping (Powershell)</li>
+<ul><li>Uses the "trim" feature via opening powershell</li></ul>
 <li>System Assessment</li>
 <ul><li>Starts the System Assessment tool (WinSAT) in CMD.</li></ul>
 <li>IP Release/renew</li>
@@ -100,6 +100,8 @@ default gateway for each adapter bound to TCP/IP.</li></ul>
 <ul><li>Selects a drive and either trims or defrags it</li></ul>
 <li>Reset Windows</li>
 <ul><li>Literally resets windows</li></ul>
+<li>Change the DNS server</li>
+<ul><li>Changes the DNS server that your ethernet OR wifi is using, regardless if it is 'enabled' or not. <br> it helps with internet issues.</li></ul>
 <li>go back</li>
 <ul><li>Go back to menu 1</li></ul>
 <br>
@@ -120,6 +122,24 @@ default gateway for each adapter bound to TCP/IP.</li></ul>
 <li>Create A User</li>
 <ul><li>Creates a user, and can make them into admin accounts.</li></ul>
 <li>Go back to Menu 1</li>
+
+
+<h2>Page 5</h2>
+<li>Powershell Display DNS</li>
+<ul><li>Runs the Powershell script in the \scripts folder.</li></ul>
+<li>Powershell Flush DNS</li>
+<ul><li>Runs the powershell script of \flush dns</li></ul>
+<li>Powershell of Register DNS</li>
+<ul><li>Powershell script of Register dns</li></ul>
+<li>Create a secret docx/txt file</li>
+<ul><li>The user gets to specify the location, and file name of the text file.</li></ul>
+<li>Get hashes on files md5/sha256 & more</li>
+<ul><li>the user specify the location of the file, and the file name <br> and it makes sure that the hashes are the same like you have seen before</li></ul>
+<li>Testing ports on a network</li>
+<ul><li>Hostname</li></ul>
+<li>gives the user host name.</li>
+
+
 </ol>
 <button onclick="closeHTA(1);">Exit</button>
 </BODY>

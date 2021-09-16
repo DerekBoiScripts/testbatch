@@ -7,141 +7,189 @@ goto :info
 ) else (
 color c
 cls
-echo. 
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo Run as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo rUn as admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo ruN as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run As admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run aS admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as Admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as aDmin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as adMin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admIn
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admiN
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admIn
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as adMin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as aDmin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as Admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run aS admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run As admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo ruN as admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo rUn as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo Run as admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo Run as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo rUn as admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo ruN as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run As admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run aS admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as Admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as aDmin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as adMin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admIn
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admiN
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admIn
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as adMin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as aDmin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as Admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run aS admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run As admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo ruN as admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo rUn as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo Run as admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo Run as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo rUn as admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo ruN as admin
+ping localhost -n 1.5 >nul
 color c
-echo please run as admin
-ping localhost -n 0.5 >nul
+echo run As admin
+ping localhost -n 1.5 >nul
 color a
-echo please run as admin
-ping localhost -n 3 >nul
+echo run aS admin
+ping localhost -n 1.5 >nul
+color c
+echo run as Admin
+ping localhost -n 1.5 >nul
+color a
+echo run as aDmin
+ping localhost -n 1.5 >nul
+color c
+echo run as adMin
+ping localhost -n 1.5 >nul
+color a
+echo run as admIn
+ping localhost -n 1.5 >nul
+color c
+echo run as admiN
+ping localhost -n 1.5 >nul
+color a
+echo run as admIn
+ping localhost -n 1.5 >nul
+color c
+echo run as adMin
+ping localhost -n 1.5 >nul
+color a
+echo run as aDmin
+ping localhost -n 1.5 >nul
+color c
+echo run as Admin
+ping localhost -n 1.5 >nul
+color a
+echo run aS admin
+ping localhost -n 1.5 >nul
+color c
+echo run As admin
+ping localhost -n 1.5 >nul
+color a
+echo run as admin
+ping localhost -n 1.5 >nul
+color c
+echo ruN as admin
+ping localhost -n 1.5 >nul
+color a
+echo rUn as admin
+ping localhost -n 1.5 >nul
+color c
+echo Run as admin
+ping localhost -n 1.5 >nul
+color a
+
+
+color a
 goto :UAC
 )
 
@@ -220,11 +268,11 @@ echo  Page 5
 echo  35. Display DNS (PowerShell)
 echo  36. Flush DNS (PowerShell)
 echo  37. Register DNS (PowerShell)
-echo  38. Empty
-echo  39. Empty
-echo  40. Empty
-echo  41. Empty
-echo  42. Empty
+echo  38. Create Secret Docx
+echo  39. Get Hashes on files MD5/SHA256/Others
+echo  40. Powershell Port testing
+echo  41. Hostname
+echo  42. Go back
 ping localhost -n 1 >nul
 pause
 goto :boot
@@ -368,7 +416,10 @@ endlocal
 goto :menu
 
 :st3
-echo. & echo displaying dns.. 
+echo.
+echo It will display your dns  
+echo Must press "y" to continue to flush your dns.
+ping localhost -n 6 >nul
 ipconfig /displaydns
 goto :yesno
 
@@ -397,7 +448,8 @@ ping localhost -n 2 >nul
 nbtstat -RR
 ping localhost -n 4 >nul
 pause
-goto :eof
+ping localhost -n 3 >nul
+goto :menu
 
 :st5
 sfc /scannow
@@ -441,7 +493,7 @@ set /p userinp=Type the number of your choice:
 set userinp=%userinp:~0,2%
 
 if "%userinp%"=="10" echo. & echo Starting.. & ping localhost -n 1 >nul & goto :trimsystemassessment
-if "%userinp%"=="11" echo. & echo Pinging using Powershell.. & goto :trimssd
+if "%userinp%"=="11" echo. & echo Pinging using Powershell.. & goto :pingg
 if "%userinp%"=="12" echo. & echo Starting System Assessment & goto :systemassessment
 if "%userinp%"=="13" echo. & Releasing the IP and Renewing... & ping localhost -n 1 >nul & ipconfig /release & ipconfig /renew & goto :menu2
 if "%userinp%"=="14" echo. & echo Starting... & goto :regsvr
@@ -502,7 +554,7 @@ winsat formal
 pause
 goto :END
 
-:trimssd
+:pingg
 chcp 437 > nul
 SET /P  system=Do you want to Ping? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO END
@@ -698,7 +750,7 @@ goto :eof
 
 :st9
 set pass=
-choice /C 12 /n /m "1. Menu 4 <|> 2. Menu 5:
+choice /C 12 /n /m "4. Menu 4 <|> 5. Menu 5:
 set pass=%errorlevel%
 
 if errorlevel 1 set goto=1
@@ -784,10 +836,10 @@ echo                                         █                                
 echo                                         █  35. Powershell Display DNS:             █
 echo                                         █  36. Powershell Flush DNS:               █
 echo                                         █  37. Powershell Register DNS             █
-echo                                         █  38. Empty:                              █
-echo                                         █  39. Empty:                              █
-echo                                         █  40. Empty:                              █
-echo                                         █  41. Empty:                              █
+echo                                         █  38. Create Secret Docx:                 █
+echo                                         █  39. Get Hashes on files MD5/SHA256:     █
+echo                                         █  40. Powershell Ports:                   █
+echo                                         █  41. Hostname:                           █
 echo                                         █  42. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -797,13 +849,13 @@ set /p userinp=Type the number of your choice:
 set userinp=%userinp:~0,2%
 
 if "%userinp%"=="35" echo. & echo starting PS; Displaying DNS.. & ping localhost -n 1 >nul & goto :PSDDNS
-if "%userinp%"=="36" echo. & echo starting PS; Flushing DNS.. & ping localhost -n 1 >nul & :PSFDNS
-if "%userinp%"=="37" echo. & echo starting PS; Registering DNS.. & ping localhost -n 1 >nul & :PSRDNS
-if "%userinp%"=="38" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
-if "%userinp%"=="39" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
-if "%userinp%"=="40" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
-if "%userinp%"=="41" echo. & echo starting PS; .. & ping localhost -n 1 >nul & 
-if "%userinp%"=="42" echo. & echo starting PS; .. & ping localhost -n 1 >nul & goto :menu
+if "%userinp%"=="36" echo. & echo starting PS; Flushing DNS.. & ping localhost -n 1 >nul & goto :PSFDNS
+if "%userinp%"=="37" echo. & echo starting PS; Registering DNS.. & ping localhost -n 1 >nul & goto :PSRDNS
+if "%userinp%"=="38" echo. & echo starting.. & ping localhost -n 1 >nul & goto :docx
+if "%userinp%"=="39" echo. & echo starting.. & ping localhost -n 1 >nul & goto :md5sha256
+if "%userinp%"=="40" echo. & echo starting PS; Checking the ports on an network.... & ping localhost -n 1 >nul & goto :Ports
+if "%userinp%"=="41" echo. & echo starting.. & ping localhost -n 1 >nul & hostname & pause
+if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
 
 
 :PSDDNS
@@ -814,13 +866,28 @@ IF /I "%system%" NEQ "Y" GOTO END
 PowerShell -file %~dp0Scripts\displaydns.ps1
 ping localhost -n 2 >nul
 chcp 65001 > nul
-
 goto :END
 
 :END
+
 endlocal
 goto :menu5
 
+
+:docx
+cd .. 
+cd ..
+cd ..
+cd ..
+
+SET /P dirr= choose the directory: 
+SET /P visibletextfilename= type the file name text:
+SET /P secretdocx= hidden docx name:
+
+cd %dirr%
+notepad %visibletextfilename%.txt:%secretdocx%.txt 
+pause
+goto :menu5
 
 :PSFDNS
 chcp 437 > nul
@@ -854,3 +921,51 @@ goto :END
 endlocal
 goto :menu5
 
+:md5sha256
+SET /P _FileLocation= Please give me the whole Location AND the file name:
+ping localhost -n 2 >nul
+echo. 
+echo displaying MD2
+certutil -hashfile "%_FileLocation%" MD2
+echo.
+echo displaying MD4
+certutil -hashfile "%_FileLocation%" MD4
+echo.
+echo displaying MD5
+certutil -hashfile "%_FileLocation%" MD5
+echo.
+echo displaying SHA1
+certutil -hashfile "%_FileLocation%" SHA1
+echo.
+echo Displaying SHA256
+certutil -hashfile "%_FileLocation%" SHA256
+echo.
+echo Displaying SHA384
+certutil -hashfile "%_FileLocation%" SHA384
+echo.
+echo Displaying SHA512
+certutil -hashfile "%_FileLocation%" SHA512
+ping localhost -n 2 >nul
+echo.
+echo.
+echo Credit to Joshua Wright for finding the rest of the hashes
+echo MD2, MD4, SHA1, SHA384, SHA 512
+ping localhost -n 3 >nul
+pause
+ping localhost -n 1 >nul
+goto :menu5
+
+:Ports
+chcp 437 > nul
+SET /P system=Do you want to do an advanced ping on the ports? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO END
+
+PowerShell -file %~dp0Scripts\wip2.ps1
+ping localhost -n 2 >nul
+chcp 65001 > nul
+
+goto :END
+
+:END
+endlocal
+goto :menu5 
