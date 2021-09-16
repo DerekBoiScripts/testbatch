@@ -859,14 +859,40 @@ if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
 
 
 :PSDDNS
+set pass=
+choice /C 12 /n /m "1. run in cmd? <> 2. run in powershell?:  "
+set pass=%errorlevel%
+
+if errorlevel 1 set goto=ddnscmd
+if errorlevel 2 set goto=ddnsps
+goto %goto%
+
+:ddnscmd
 chcp 437 > nul
-SET /P  system=Do you want to Display the DNS in Powershell? (Y/[N])?
-IF /I "%system%" NEQ "Y" GOTO END
+SET /P system=Do you want to run Register DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
 
 PowerShell -file %~dp0Scripts\displaydns.ps1
 ping localhost -n 2 >nul
 chcp 65001 > nul
+
 goto :END
+
+:END
+endlocal
+goto :menu5 
+
+:ddnsps
+chcp 437 > nul
+SET /P  system=Do you want to run Register DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\displaydns.ps1""' -Verb RunAs}"
+ping localhost -n 2 >nul
+chcp 65001 > nul
+goto :END
+:END
+endlocal
+goto :menu5
 
 :END
 
@@ -890,9 +916,18 @@ pause
 goto :menu5
 
 :PSFDNS
+set pass=
+choice /C 12 /n /m "1. run in cmd? <> 2. run in powershell?:  "
+set pass=%errorlevel%
+
+if errorlevel 1 set goto=cdnscmd
+if errorlevel 2 set goto=cdnsps
+goto %goto%
+
+:cdnscmd
 chcp 437 > nul
-SET /P system=Do you want to Clear the DNS in powershell? (Y/[N])?
-IF /I "%system%" NEQ "Y" GOTO END
+SET /P system=Do you want to run Register DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
 
 PowerShell -file %~dp0Scripts\clsdns.ps1
 ping localhost -n 2 >nul
@@ -902,14 +937,35 @@ goto :END
 
 :END
 endlocal
+goto :menu5 
+
+:cdnsps
+chcp 437 > nul
+SET /P  system=Do you want to run Register DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\clsdns.ps1""' -Verb RunAs}"
+ping localhost -n 2 >nul
+chcp 65001 > nul
+goto :END
+:END
+endlocal
 goto :menu5
 
 
 
 :PSRDNS
+set pass=
+choice /C 12 /n /m "1. run in cmd? <> 2. run in powershell?:  "
+set pass=%errorlevel%
+
+if errorlevel 1 set goto=rdnscmd
+if errorlevel 2 set goto=rdnsps
+goto %goto%
+
+:rdnscmd
 chcp 437 > nul
-SET /P system=Do you want to Register the DNS in powershell? (Y/[N])?
-IF /I "%system%" NEQ "Y" GOTO END
+SET /P system=Do you want to run Register DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
 
 PowerShell -file %~dp0Scripts\regdns.ps1
 ping localhost -n 2 >nul
@@ -917,6 +973,18 @@ chcp 65001 > nul
 
 goto :END
 
+:END
+endlocal
+goto :menu5 
+
+:rdnsps
+chcp 437 > nul
+SET /P  system=Do you want to run Register DNS in powershell? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\regdns.ps1""' -Verb RunAs}"
+ping localhost -n 2 >nul
+chcp 65001 > nul
+goto :END
 :END
 endlocal
 goto :menu5
@@ -956,9 +1024,18 @@ ping localhost -n 1 >nul
 goto :menu5
 
 :Ports
+set pass=
+choice /C 12 /n /m "1. run in cmd? <> 2. run in powershell?:  "
+set pass=%errorlevel%
+
+if errorlevel 1 set goto=cmd
+if errorlevel 2 set goto=ps
+goto %goto%
+
+:cmd
 chcp 437 > nul
-SET /P system=Do you want to do an advanced ping on the ports? (Y/[N])?
-IF /I "%system%" NEQ "Y" GOTO END
+SET /P system=Do you want to do an advanced scan on the ports? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
 
 PowerShell -file %~dp0Scripts\wip2.ps1
 ping localhost -n 2 >nul
@@ -969,3 +1046,16 @@ goto :END
 :END
 endlocal
 goto :menu5 
+
+:ps
+chcp 437 > nul
+SET /P  system=Do you want to do an advanced scan on the ports? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\wip2.ps1""' -Verb RunAs}"
+ping localhost -n 2 >nul
+chcp 65001 > nul
+goto :END
+:END
+endlocal
+goto :menu5
+
