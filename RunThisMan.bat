@@ -843,7 +843,8 @@ echo                                         █  38. Create Secret Docx:       
 echo                                         █  39. Get Hashes on files MD5/SHA256:     █
 echo                                         █  40. Powershell Ports:                   █
 echo                                         █  41. Hostname:                           █
-echo                                         █  42. Go Back:                            █
+echo                                         █  42. scan network to see who is active:  █
+echo                                         █  43. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
@@ -858,7 +859,48 @@ if "%userinp%"=="38" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="39" echo. & echo starting.. & ping localhost -n 1 >nul & goto :md5sha256
 if "%userinp%"=="40" echo. & echo starting PS; Checking the ports on an network.... & ping localhost -n 1 >nul & goto :Ports
 if "%userinp%"=="41" echo. & echo starting.. & ping localhost -n 1 >nul & hostname & pause
-if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
+if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :scann
+if "%userinp%"=="43" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
+
+:scann
+echo Pinging
+echo.
+::no folder, just in cmd
+ping localhost -n 2 >nul
+echo Don't enter the last three(3)!
+set /P ip=enter ip:
+FOR /L %%i in (1,1,254) do (
+	ping -w 1 -n 1 %ip%.%%i
+)
+pause
+echo.
+echo.
+cls
+set /P options=Output in same directory(Y/[N]) If no then you will have to choose:
+IF /I "%options%" NEQ "Y" goto :folderchoose
+
+
+::Output to the same directory
+ping localhost -n 2 >nul
+echo Don't enter the last three(3)!
+set /P ip=enter ip:
+FOR /L %%i in (1,1,254) do (
+	ping -n 1 %ip%.%%i |find /i "Reply">>%~dp0results.txt
+)
+pause
+
+
+:folderchoose
+::output to folder of their choice
+ping localhost -n 2 >nul
+echo Don't enter the last three(3)!
+set /P ip=enter ip:
+set /P location=Set the location of the .txt file, NEEDS WHOLE DIRECTORY for EXAMPLE: (c:\users\YOURNAME\desktop\FILENAME)
+FOR /L %%i in (1,1,254) do (
+	ping -n 1 %ip%.%%i |find /i "Reply">>%location%.txt
+)
+pause
+
 
 
 :PSDDNS
