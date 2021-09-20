@@ -993,7 +993,7 @@ endlocal
 goto :menu5
 
 :md5sha256
-SET /P _FileLocation= Please give me the whole Location AND the file name:
+SET /P _FileLocation= Please give me the whole Location AND the file name with extension:
 ping localhost -n 2 >nul
 echo. 
 echo displaying MD2
@@ -1020,8 +1020,33 @@ ping localhost -n 2 >nul
 echo.
 echo.
 echo Credit to Joshua Wright for finding the rest of the hashes
-echo MD2, MD4, SHA1, SHA384, SHA 512
+echo (MD2, MD4, SHA1, SHA384, SHA 512)
 ping localhost -n 3 >nul
+pause
+cls
+echo.
+echo Output results?
+set pass=
+choice /c 12 /n /m "1. yes? <> 2. no?: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=resultss
+if errorlevel 2 set goto=nooo
+goto %goto%
+
+:resultss
+certutil -hashfile "%_FileLocation%" MD2 >>c:\users\%USERNAME%\Documents\Results.txt
+certutil -hashfile "%_FileLocation%" MD4 >>c:\users\%USERNAME%\Documents\Results.txt
+certutil -hashfile "%_FileLocation%" MD5 >>c:\users\%USERNAME%\Documents\Results.txt
+certutil -hashfile "%_FileLocation%" SHA1 >>c:\users\%USERNAME%\Documents\Results.txt
+certutil -hashfile "%_FileLocation%" SHA256 >>c:\users\%USERNAME%\Documents\Results.txt
+certutil -hashfile "%_FileLocation%" SHA384 >>c:\users\%USERNAME%\Documents\Results.txt
+certutil -hashfile "%_FileLocation%" SHA512 >>c:\users\%USERNAME%\Documents\Results.txt
+echo.
+echo file outputted to
+echo c:\users\%USERNAME%\Documents
+ping localhost -n 6 >nul
+goto :menu5
+:nooo
 pause
 ping localhost -n 1 >nul
 goto :menu5

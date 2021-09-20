@@ -13,7 +13,7 @@ title Select option
 
 rem Define the options
 set numOpts=0
-for %%a in ("Run the main script=%~dp0RunThisMan.bat & Exit" "Run PowerShell PING=PowerShell -file %~dp0Scripts\ping.ps1 & exit" "Run PowerShell Display DNS=PowerShell -file %~dp0Scripts\displaydns.ps1 & exit" "Run PowerShell Register DNS=PowerShell -file %~dp0Scripts\regdns.ps1 & exit" "Run PowerShell Clear DNS=PowerShell -file %~dp0Scripts\clsdns.ps1 & exit" "Run PowerShell TRIM SSD=PowerShell -file %~dp0Scripts\powershelltrim.ps1 & exit" "Run PowerShell Work in progress GUI=PowerShell -file %~dp0Scripts\wip2.ps1 & exit") do (
+for %%a in ("Run the main script=%~dp0RunThisMan.bat & Exit" "Run PowerShell PING=PowerShell -file %~dp0Scripts\ping.ps1 & exit" "Run PowerShell Display DNS=PowerShell -file %~dp0Scripts\displaydns.ps1 & exit" "Run PowerShell Register DNS=PowerShell -file %~dp0Scripts\regdns.ps1 & exit" "Run PowerShell Clear DNS=PowerShell -file %~dp0Scripts\clsdns.ps1 & exit" "Run PowerShell TRIM SSD=PowerShell -file %~dp0Scripts\powershelltrim.ps1 & exit" "Run PowerShell Work in progress GUI=PowerShell -file %~dp0Scripts\GUI.ps1 & exit" "GUI WIP 2=PowerShell -file %~dp0Scripts\GUIPowerShellWIP.ps1 & exit") do (
    for /F "tokens=1,2 delims==" %%b in (%%a) do (
       set /A numOpts+=1
       set "option[!numOpts!]=%%b"
