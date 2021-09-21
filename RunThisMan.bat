@@ -3,6 +3,8 @@ chcp 65001 > nul
 title Batch made by ©2021 Derek Vanderver
 chcp 437 > nul
 wscript %~dp0Scripts\noti.vbs
+
+::checks if it is ran as admin
 net session >nul 2>&1
 if %errorlevel% == 0 (
 ping localhost -n 2 >nul
@@ -10,6 +12,8 @@ goto :info
 ) else (
 color c
 cls
+
+::Spams the user to run as admin
 echo Run as admin
 ping localhost -n 1.5 >nul
 color c
@@ -204,6 +208,7 @@ goto :PROMPT
 SET /P UAC=Are you sure (Y/[N])?
 IF /I "%UAC%" NEQ "Y" GOTO END
 
+::runs as admin
 echo. & powershell -Command "Start-Process %0 -Verb RunAs"
 exit
 
@@ -218,6 +223,8 @@ ping localhost -n 3 >nul
 exit
 
 wscript %~dp0Scripts\noti.vbs
+
+::information on what you can do
 :info
 title information on what's in the batch
 mode 80,100
@@ -283,6 +290,7 @@ goto :boot
 :boot
 color a
 
+::sets the size of the cmd automatically
 start /b powershell -command "&{$w=(get-host).ui.rawui;$w.buffersize=@{width=102;height=999};$w.windowsize=@{width=102;height=29};}"
 title Current time is %time%
 cls
@@ -491,7 +499,6 @@ echo                                         █                                
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
-
 set /p userinp=Type the number of your choice: 
 set userinp=%userinp:~0,2%
 
@@ -612,7 +619,6 @@ echo                                         █                                
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
-
 set /p userinp=Type the number of your choice: 
 set userinp=%userinp:~0,2%
 
@@ -625,7 +631,6 @@ if "%userinp%"=="23" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="24" echo. & echo starting.. & ping localhost -n 1 >nul & goto :resetwindows
 if "%userinp%"=="60" echo. & echo starting.. & ping localhost -n 1 >nul & goto :dnss
 if "%userinp%"=="25" echo returning to menu... & ping localhost -n 2 >nul & goto :menu
-
 
 :wmic
 echo.
@@ -749,8 +754,6 @@ echo.
 ipconfig
 goto :eof
 
-
-
 :st9
 set pass=
 choice /C 12 /n /m "4. Menu 4 <|> 5. Menu 5:
@@ -759,7 +762,6 @@ set pass=%errorlevel%
 if errorlevel 1 set goto=1
 if errorlevel 2 set goto=2
 goto %goto%
-
 
 :1
 title Menu 4
@@ -787,7 +789,6 @@ echo                                         █                                
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
-
 set /p userinp=Type the number of your choice: 
 set userinp=%userinp:~0,2%
 
@@ -811,9 +812,7 @@ ping localhost -n 2 >nul
 echo. 
 net user %_inputname% /comment:"%_description%" /fullname:"%_fullname%" %_password% /add
 ping localhost -n 2 >nul
-
 IF /I "%_admin%" NEQ "Y" GOTO END
-
 net localgroup administrators %_inputname% /add
 
 :END
@@ -844,7 +843,8 @@ echo                                         █  39. Get Hashes on files MD5/SH
 echo                                         █  40. Powershell Ports:                   █
 echo                                         █  41. Hostname:                           █
 echo                                         █  42. scan network to see who is active:  █
-echo                                         █  43. Go Back:                            █
+echo                                         █  43. embed anything to anything:         █
+echo                                         █  44. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
@@ -860,7 +860,19 @@ if "%userinp%"=="39" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="40" echo. & echo starting PS; Checking the ports on an network.... & ping localhost -n 1 >nul & goto :Ports
 if "%userinp%"=="41" echo. & echo starting.. & ping localhost -n 1 >nul & hostname & pause
 if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :scann
-if "%userinp%"=="43" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
+if "%userinp%"=="43" echo. & echo.. & ping localhost -n 1 >nul & goto :embed
+if "%userinp%"=="44" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
+
+
+:embed
+set /P startingdir=Enter the directory that the files are in:
+set /P filename1=Enter the First file name + extension type:
+set /P filename2=Enter the Second file name + extension type:
+set /P outputfilename=Enter the output file name + extension type:
+cd %startingdir% & copy /b %filename1% + %filename2% %outputfilename%
+pause
+ping localhost -n 4 >nul
+goto :menu5
 
 :scann
 echo Pinging
@@ -879,7 +891,6 @@ cls
 set /P options=Output in same directory(Y/[N]) If no then you will have to choose:
 IF /I "%options%" NEQ "Y" goto :folderchoose
 
-
 ::Output to the same directory
 ping localhost -n 2 >nul
 echo Don't enter the last three(3)!
@@ -889,9 +900,8 @@ FOR /L %%i in (1,1,254) do (
 )
 pause
 
-
-:folderchoose
 ::output to folder of their choice
+:folderchoose
 ping localhost -n 2 >nul
 echo Don't enter the last three(3)!
 set /P ip=enter ip:
@@ -900,8 +910,6 @@ FOR /L %%i in (1,1,254) do (
 	ping -n 1 %ip%.%%i |find /i "Reply">>%location%.txt
 )
 pause
-
-
 
 :PSDDNS
 set pass=
@@ -943,7 +951,6 @@ goto :menu5
 
 endlocal
 goto :menu5
-
 
 :docx
 cd .. 
@@ -995,8 +1002,6 @@ goto :END
 :END
 endlocal
 goto :menu5
-
-
 
 :PSRDNS
 set pass=
@@ -1096,7 +1101,7 @@ goto :menu5
 :Ports
 set pass=
 choice /C 12 /n /m "1. run in cmd? <> 2. run in powershell?:  "
-set pass=%errorlevel%
+set pass=%errorlevel%::output to folder of their choice
 
 if errorlevel 1 set goto=cmd
 if errorlevel 2 set goto=ps
@@ -1128,4 +1133,3 @@ goto :END
 :END
 endlocal
 goto :menu5
-
