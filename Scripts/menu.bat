@@ -138,6 +138,12 @@ default gateway for each adapter bound to TCP/IP.</li></ul>
 <li>Testing ports on a network</li>
 <ul><li>Hostname</li></ul>
 <li>gives the user host name.</li>
+<ul><li>Scan network to see who's computer is active</li></ul>
+<li>scans the user desired range of ip's all the way up to 254, and if allowed, outputs it to a text file</li>
+<ul><li>Anything to anything</li></ul>
+<li>Put a file in anything</li>
+<ul><li>Menu 1</li></ul>
+<li>Goes back to Menu 1</li>
 
 
 </ol>

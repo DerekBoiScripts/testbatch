@@ -282,7 +282,9 @@ echo  38. Create Secret Docx
 echo  39. Get Hashes on files MD5/SHA256/Others
 echo  40. Powershell Port testing
 echo  41. Hostname
-echo  42. Go back
+echo  42. scan network to see who is active
+echo  43. anything to anything
+echo  44. Go Back
 ping localhost -n 1 >nul
 pause
 goto :boot
@@ -844,7 +846,8 @@ echo                                         █  40. Powershell Ports:         
 echo                                         █  41. Hostname:                           █
 echo                                         █  42. scan network to see who is active:  █
 echo                                         █  43. embed anything to anything:         █
-echo                                         █  44. Go Back:                            █
+echo                                         █  44. Menu 6:                             █
+echo                                         █  45. Go back                             █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
@@ -861,7 +864,8 @@ if "%userinp%"=="40" echo. & echo starting PS; Checking the ports on an network.
 if "%userinp%"=="41" echo. & echo starting.. & ping localhost -n 1 >nul & hostname & pause
 if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :scann
 if "%userinp%"=="43" echo. & echo.. & ping localhost -n 1 >nul & goto :embed
-if "%userinp%"=="44" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
+if "%userinp%"=="44" echo. & echo.. & ping localhost -n 1 >nul & goto :menu6
+if "%userinp%"=="45" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
 
 
 :embed
@@ -1133,3 +1137,160 @@ goto :END
 :END
 endlocal
 goto :menu5
+
+
+::WIP menu 6
+title Menu 6
+cls
+ping localhost -n 2 >nul
+:menu6
+cls
+echo.
+echo.
+echo.
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #6─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                █
+echo                                         █                                          █
+echo                                         █  46. Download Notepad++:                 █
+echo                                         █  47. Download Wireshark:                 █
+echo                                         █  48. Advance IP Scanner:                 █
+echo                                         █  49. NetScan:                            █
+echo                                         █  50. :                                   █
+echo                                         █  51. :                                   █
+echo                                         █  52. :                                   █ 
+echo                                         █  53. :                                   █
+echo                                         █  54. :                                   █
+echo                                         █  55. :                                   █
+echo                                         █  56. Go back                             █
+echo                                         █                                          █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo.
+
+set /p userinp=Type the number of your choice: 
+set userinp=%userinp:~0,2%
+
+if "%userinp%"=="46" echo. & echo starting.. Downloading Notepad++ .. & ping localhost -n 1 >nul & goto :notepadplus
+if "%userinp%"=="47" echo. & echo starting.. Downloading Wireshark .. & ping localhost -n 1 >nul & goto :wireshark
+if "%userinp%"=="48" echo. & echo starting.. Downloading Advanced IP Scanner .. & ping localhost -n 1 >nul & goto :advipscanner
+if "%userinp%"=="49" echo. & echo starting.. Downloading NetScan .. & ping localhost -n 1 >nul & goto :netscan
+if "%userinp%"=="50" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="51" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="52" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="54" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="55" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="56" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+
+:notepadplus
+
+cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.4/npp.8.1.4.Installer.x64.exe
+echo.
+echo Downloaded the installer successfully
+ping localhost -n 1 >nul
+echo Do you want to install it?
+set pass=
+choice /c 12 /n /m "1. yes? <> 2. no?: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=installnotepadplus
+if errorlevel 2 set goto=:dontinstallnotepadplus
+goto %goto%
+
+:installnotepadplus: 
+cd C:\Users\%username%\AppData\Local\Temp\
+start npp.8.1.4.Installer.x64
+echo Done.
+pause pause
+del /f npp.8.1.4.Installer.x64.exe
+goto :menu6
+
+:dontinstallnotepadplus
+color a
+cls
+echo.
+echo. notepad++ installation exe is at: 
+ping localhost -n 2 >nul
+echo [91mC:\Users\%username%\AppData\Local\Temp[0m
+pause pause
+pause pause
+goto :menu6
+
+:wireshark
+
+cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://2.na.dl.wireshark.org/win64/Wireshark-win64-3.4.8.exe
+echo.
+echo Downloaded the installer successfully
+ping localhost -n 1 >nul
+echo Do you want to install it?
+set pass=
+choice /c 12 /n /m "1. yes? <> 2. no?: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=installwireshark
+if errorlevel 2 set goto=:dontinstallwireshark
+goto %goto%
+
+:installwireshark: 
+cd C:\Users\%username%\AppData\Local\Temp\
+start Wireshark-win64-3.4.8.exe
+echo Done.
+pause pause
+del /f Wireshark-win64-3.4.8.exe
+goto :menu6
+
+:dontinstallwireshark
+color a
+cls
+echo.
+echo. wireshark installation exe is at: 
+ping localhost -n 2 >nul
+echo [91mC:\Users\%username%\AppData\Local\Temp[0m
+pause pause
+pause pause
+goto :menu6
+
+:advipscanner
+
+cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.3850.exe
+echo.
+echo Downloaded the installer successfully
+ping localhost -n 1 >nul
+echo Do you want to install it?
+set pass=
+choice /c 12 /n /m "1. yes? <> 2. no?: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=installadvipscanner
+if errorlevel 2 set goto=:dontinstalladvipscanner
+goto %goto%
+
+:installadvipscanner 
+cd C:\Users\%username%\AppData\Local\Temp\
+start Advanced_IP_Scanner_2.5.3850.exe
+echo Done.
+pause pause
+pause pause
+pause
+pause pause pause pause
+del /f Advanced_IP_Scanner_2.5.3850.exe
+goto :menu6
+
+:dontinstalladvipscanner
+color a
+cls
+echo.
+echo. Advanced IP Scanner installation exe is at: 
+ping localhost -n 2 >nul
+echo [91mC:\Users\%username%\AppData\Local\Temp[0m
+pause pause
+pause pause
+goto :menu6
+
+
+:netscan
+
+cd %~dp0programs\ & curl -L -O https://www.tcatslms.online/ttcslms/mod/resource/view.php?id=7797
+echo.
+timeout 20
+start netscan
+echo Done.
+echo software is located in %~dp0programs\
+pause pause
+goto :menu6
