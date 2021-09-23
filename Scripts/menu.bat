@@ -146,6 +146,18 @@ default gateway for each adapter bound to TCP/IP.</li></ul>
 <li>Goes back to Menu 1</li>
 
 
+<h2>Page 5</h2>
+<li>Download Notepad++</li>
+<ul><li>It downloads the installer, and then it asks to run the installer, to actually install it, then it deletes the installer</li></ul>
+<li>Download Wireshark</li>
+<ul><li>It downloads the installer, and then it asks to run the installer, to actually install it, then it deletes the installer</li></ul>
+<li>Download Advanced IP Scanner</li>
+<ul><li>It downloads the installer, and then it asks to run the installer, to actually install it, then it deletes the installer</li></ul>
+
+<ul><li>Menu 1</li></ul>
+<li>Goes back to Menu 1</li>
+
+
 </ol>
 <button onclick="closeHTA(1);">Exit</button>
 </BODY>

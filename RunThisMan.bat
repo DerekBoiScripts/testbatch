@@ -1,6 +1,7 @@
 @echo off
+set version=16.0
 chcp 65001 > nul
-title Batch made by ©2021 Derek Vanderver
+title Batch made by ©2021 Derek Vanderverssssssssssssss
 chcp 437 > nul
 wscript %~dp0Scripts\noti.vbs
 
@@ -232,7 +233,7 @@ color 1f
 cls
 echo  Page 1 (Main)
 echo.
-echo  1. ipconfig/ all
+echo  1. ipconfig/ allllllllllll
 echo  2. Reset the TCP/IP (Lots of CMDS)
 echo  3. Flush DNS
 echo  4. Clear NetBIOS
@@ -286,6 +287,19 @@ echo  42. scan network to see who is active
 echo  43. anything to anything
 echo  44. Go Back
 ping localhost -n 1 >nul
+echo. 
+echo  Page 6
+echo  46. Download Notepad++
+echo  47. Download Wireshark
+echo  48. Download Advanced IP Scanner
+echo  49. Download NetScan
+echo  50. Download
+echo  51. Download
+echo  52. Download
+echo  53. Download
+echo  54. Go Back
+ping localhost -n 1 >nul
+pause
 pause
 goto :boot
 
@@ -951,11 +965,6 @@ goto :END
 endlocal
 goto :menu5
 
-:END
-
-endlocal
-goto :menu5
-
 :docx
 cd .. 
 cd ..
@@ -1155,7 +1164,7 @@ echo                                         █  46. Download Notepad++:       
 echo                                         █  47. Download Wireshark:                 █
 echo                                         █  48. Advance IP Scanner:                 █
 echo                                         █  49. NetScan:                            █
-echo                                         █  50. :                                   █
+echo                                         █  50. BleachBit:                          █
 echo                                         █  51. :                                   █
 echo                                         █  52. :                                   █ 
 echo                                         █  53. :                                   █
@@ -1173,7 +1182,7 @@ if "%userinp%"=="46" echo. & echo starting.. Downloading Notepad++ .. & ping loc
 if "%userinp%"=="47" echo. & echo starting.. Downloading Wireshark .. & ping localhost -n 1 >nul & goto :wireshark
 if "%userinp%"=="48" echo. & echo starting.. Downloading Advanced IP Scanner .. & ping localhost -n 1 >nul & goto :advipscanner
 if "%userinp%"=="49" echo. & echo starting.. Downloading NetScan .. & ping localhost -n 1 >nul & goto :netscan
-if "%userinp%"=="50" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="50" echo. & echo starting.. Downloading BleachBit .. & ping localhost -n 1 >nul & goto :BleachBit
 if "%userinp%"=="51" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="52" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
@@ -1191,7 +1200,7 @@ echo Do you want to install it?
 set pass=
 choice /c 12 /n /m "1. yes? <> 2. no?: "
 set pass=%errorlevel%
-if errorlevel 1 set goto=installnotepadplus
+if errorlevel 1 set goto=:installnotepadplus
 if errorlevel 2 set goto=:dontinstallnotepadplus
 goto %goto%
 
@@ -1224,7 +1233,7 @@ echo Do you want to install it?
 set pass=
 choice /c 12 /n /m "1. yes? <> 2. no?: "
 set pass=%errorlevel%
-if errorlevel 1 set goto=installwireshark
+if errorlevel 1 set goto=:installwireshark
 if errorlevel 2 set goto=:dontinstallwireshark
 goto %goto%
 
@@ -1257,7 +1266,7 @@ echo Do you want to install it?
 set pass=
 choice /c 12 /n /m "1. yes? <> 2. no?: "
 set pass=%errorlevel%
-if errorlevel 1 set goto=installadvipscanner
+if errorlevel 1 set goto=:installadvipscanner
 if errorlevel 2 set goto=:dontinstalladvipscanner
 goto %goto%
 
@@ -1294,3 +1303,46 @@ echo Done.
 echo software is located in %~dp0programs\
 pause pause
 goto :menu6
+
+
+:BleachBit
+
+cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://www.bleachbit.org/download/file/t?file=BleachBit-4.4.0-setup.exe
+echo.
+echo Downloaded the installer successfully
+ping localhost -n 1 >nul
+echo Do you want to install it?
+set pass=
+choice /c 12 /n /m "1. yes? <> 2. no?: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=:installBleachBit
+if errorlevel 2 set goto=:dontinstallBleachBit
+goto %goto%
+
+:installBleachBit
+cd C:\Users\%username%\AppData\Local\Temp\
+start BleachBit-4.4.0-setup.exe
+echo Done.
+pause pause
+pause pause
+pause
+pause pause pause pause
+del /f BleachBit-4.4.0-setup.exe
+goto :menu6
+
+:dontinstallBleachBit
+color a
+cls
+echo.
+echo. BleachBit installation exe is at: 
+ping localhost -n 2 >nul
+echo [91mC:\Users\%username%\AppData\Local\Temp[0m
+pause pause
+pause pause
+goto :menu6
+
+
+
+
+
+
