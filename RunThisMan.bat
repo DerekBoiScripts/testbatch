@@ -1,5 +1,6 @@
 @echo off
 set version=16.0
+del /f RunThisMan.zip
 chcp 65001 > nul
 title Batch made by ©2021 Derek Vanderverssssssssssssss
 chcp 437 > nul
