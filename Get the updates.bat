@@ -9,3 +9,5 @@ echo.
 echo extracting the zipped file
 powershell -command "Expand-Archive -Force '%~dp0RunThisMan.zip' '%~dp0'"
 timeout 10
+
+

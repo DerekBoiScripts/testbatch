@@ -1,8 +1,9 @@
 @echo off
-set version=16.0
+::deletes the .zip if user hasn't already
 del /f RunThisMan.zip
+cls
 chcp 65001 > nul
-title Batch made by ©2021 Derek Vanderverssssssssssssss
+title Batch made by ©2021 Derek Vanderver
 chcp 437 > nul
 wscript %~dp0Scripts\noti.vbs
 
@@ -228,7 +229,7 @@ wscript %~dp0Scripts\noti.vbs
 
 ::information on what you can do
 :info
-title information on what's in the batch
+title information on what's in the batch, Do not resize the Window!
 mode 80,100
 color 1f
 cls
@@ -274,7 +275,6 @@ echo  31. Local User Mgnt
 echo  32. Create A User
 echo  33. Go back to Menu 1
 echo  34. Go Back to normal Command Prompt
-ping localhost -n 1 >nul
 echo. 
 echo  Page 5
 echo  35. Display DNS (PowerShell)
@@ -287,7 +287,6 @@ echo  41. Hostname
 echo  42. scan network to see who is active
 echo  43. anything to anything
 echo  44. Go Back
-ping localhost -n 1 >nul
 echo. 
 echo  Page 6
 echo  46. Download Notepad++
@@ -299,8 +298,8 @@ echo  51. Download
 echo  52. Download
 echo  53. Download
 echo  54. Go Back
-ping localhost -n 1 >nul
-pause
+echo [91mDO NOT RESIZE THE WINDOW[0m
+
 pause
 goto :boot
 
@@ -311,12 +310,12 @@ color a
 start /b powershell -command "&{$w=(get-host).ui.rawui;$w.buffersize=@{width=102;height=999};$w.windowsize=@{width=102;height=29};}"
 title Current time is %time%
 cls
-ping localhost -n 4 >nul
+ping localhost -n 2 >nul
 echo Welcome %USERNAME%
 echo.
 echo the current directory this batch file is:
 echo %~dp0
-ping localhost -n 4 >nul
+ping localhost -n 3 >nul
 title Menu
 chcp 65001 2>nul >nul
 cls
@@ -338,7 +337,7 @@ for /L %%i in (0,1,%size%) do (
 :menu
 cls
 echo.
-echo.                                                %date%
+echo.                                                      [91m%date%[0m
 echo.
 echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #1─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 echo                                         █                  Choices:                █
@@ -896,6 +895,22 @@ goto :menu5
 :scann
 echo Pinging
 echo.
+set pass=
+choice /C 12 /n /m "1. run in cmd? <> 2. run in powershell?:  "
+set pass=%errorlevel%
+
+if errorlevel 1 set goto=runincmd
+if errorlevel 2 set goto=runinps
+goto %goto%
+
+:runinps
+chcp 437 > nul
+PowerShell -file %~dp0Scripts\scanningnetwork.ps1
+ping localhost -n 2 >nul
+chcp 65001 > nul
+goto :menu5
+
+:runincmd
 ::no folder, just in cmd
 ping localhost -n 2 >nul
 echo Don't enter the last three(3)!
@@ -1163,10 +1178,10 @@ echo                                         █                  Choices:      
 echo                                         █                                          █
 echo                                         █  46. Download Notepad++:                 █
 echo                                         █  47. Download Wireshark:                 █
-echo                                         █  48. Advance IP Scanner:                 █
-echo                                         █  49. NetScan:                            █
-echo                                         █  50. BleachBit:                          █
-echo                                         █  51. :                                   █
+echo                                         █  48. Download Advance IP Scanner:        █
+echo                                         █  49. Download NetScan:                   █
+echo                                         █  50. Download BleachBit:                 █
+echo                                         █  51. Download Geek Uninstaller:          █
 echo                                         █  52. :                                   █ 
 echo                                         █  53. :                                   █
 echo                                         █  54. :                                   █
@@ -1184,7 +1199,7 @@ if "%userinp%"=="47" echo. & echo starting.. Downloading Wireshark .. & ping loc
 if "%userinp%"=="48" echo. & echo starting.. Downloading Advanced IP Scanner .. & ping localhost -n 1 >nul & goto :advipscanner
 if "%userinp%"=="49" echo. & echo starting.. Downloading NetScan .. & ping localhost -n 1 >nul & goto :netscan
 if "%userinp%"=="50" echo. & echo starting.. Downloading BleachBit .. & ping localhost -n 1 >nul & goto :BleachBit
-if "%userinp%"=="51" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="51" echo. & echo starting.. Downloading Geek Uninstaller.. & ping localhost -n 1 >nul & goto :geek
 if "%userinp%"=="52" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="54" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
@@ -1347,3 +1362,41 @@ goto :menu6
 
 
 
+
+
+
+
+:geek
+
+cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://geekuninstaller.com/geek.zip
+echo.
+echo Downloaded the zip successfully
+ping localhost -n 1 >nul
+echo Do you want to unzip & install it?
+set pass=
+choice /c 12 /n /m "1. yes? <> 2. no?: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=:installgeekuninstaller
+if errorlevel 2 set goto=:dontinstallgeekuninstaller
+goto %goto%
+
+:installgeekuninstaller
+cd C:\Users\%username%\AppData\Local\Temp\
+start powershell -command "Expand-Archive -Force C:\Users\%username%\AppData\Local\Temp\geek.zip -DestinationPath C:\Users\%username%\AppData\Local\Temp\
+echo Done.
+timeout 5
+start geek.exe
+pause
+del /f geek.zip
+goto :menu6
+
+:dontinstallgeekuninstaller
+color a
+cls
+echo.
+echo. Geek Uninstaller- installation exe is at: 
+ping localhost -n 2 >nul
+echo [91mC:\Users\%username%\AppData\Local\Temp[0m
+pause pause
+pause pause
+goto :menu6

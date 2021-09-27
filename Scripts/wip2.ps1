@@ -15,7 +15,7 @@ function Basic()
 
 #Code
     #Testing certain ports, feel free to edit.
-    Test-NetConnection -ComputerName $ip -port 22
+    Test-NetConnection -ComputerName $ip -port 161
 timeout /t 3 /nobreak
     Test-NetConnection -ComputerName $ip -port 3389
 timeout /t 3 /nobreak
@@ -44,7 +44,7 @@ Test-NetConnection -ComputerName $ip -port 22
     timeout /t 1 /nobreak
 Test-NetConnection -ComputerName $ip -port 23
     timeout /t 1 /nobreak
-Test-NetConnection -ComputerName $ip -port 25
+Test-NetConnection -ComputerName $ip -port 161
     timeout /t 1 /nobreak
 Test-NetConnection -ComputerName $ip -port 53
     timeout /t 1 /nobreak
