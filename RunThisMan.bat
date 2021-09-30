@@ -293,7 +293,7 @@ echo  46. Download Notepad++
 echo  47. Download Wireshark
 echo  48. Download Advanced IP Scanner
 echo  49. Download NetScan
-echo  50. Download
+echo  50. Download Geek Uninstaller
 echo  51. Download
 echo  52. Download
 echo  53. Download
@@ -751,10 +751,13 @@ goto :menu3
 
 :dnss
 SET /p _card= Enter the name of the device (Ethernet, Wi-Fi):
-set /p _ip= Enter the IP:
+set /p _ip= Enter the Primary DNS IP Server:
 netsh interface ipv4 set dns name="%_card%" static %_ip%
-pause
-echo.
+SET /P  system=Do you want to set an alternate DNS IP Server? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO :END
+set /p _secondaryip= Alternate DNS IP Server?: 
+netsh interface ipv4 add dns "%_card%" %_secondaryip% index=2
+:end
 goto :menu3
 
 :shutdown
@@ -1185,7 +1188,7 @@ echo                                         █  51. Download Geek Uninstaller:
 echo                                         █  52. :                                   █ 
 echo                                         █  53. :                                   █
 echo                                         █  54. :                                   █
-echo                                         █  55. :                                   █
+echo                                         █  55. Download Spotify:                   █
 echo                                         █  56. Go back                             █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -1203,11 +1206,10 @@ if "%userinp%"=="51" echo. & echo starting.. Downloading Geek Uninstaller.. & pi
 if "%userinp%"=="52" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="54" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
-if "%userinp%"=="55" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="55" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :spotify
 if "%userinp%"=="56" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 
 :notepadplus
-
 cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.4/npp.8.1.4.Installer.x64.exe
 echo.
 echo Downloaded the installer successfully
@@ -1240,7 +1242,6 @@ pause pause
 goto :menu6
 
 :wireshark
-
 cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://2.na.dl.wireshark.org/win64/Wireshark-win64-3.4.8.exe
 echo.
 echo Downloaded the installer successfully
@@ -1273,7 +1274,6 @@ pause pause
 goto :menu6
 
 :advipscanner
-
 cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.3850.exe
 echo.
 echo Downloaded the installer successfully
@@ -1310,7 +1310,6 @@ goto :menu6
 
 
 :netscan
-
 cd %~dp0programs\ & curl -L -O https://www.tcatslms.online/ttcslms/mod/resource/view.php?id=7797
 echo.
 timeout 20
@@ -1322,7 +1321,6 @@ goto :menu6
 
 
 :BleachBit
-
 cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://www.bleachbit.org/download/file/t?file=BleachBit-4.4.0-setup.exe
 echo.
 echo Downloaded the installer successfully
@@ -1340,7 +1338,6 @@ cd C:\Users\%username%\AppData\Local\Temp\
 start BleachBit-4.4.0-setup.exe
 echo Done.
 pause pause
-pause pause
 pause
 pause pause pause pause
 del /f BleachBit-4.4.0-setup.exe
@@ -1357,17 +1354,7 @@ pause pause
 pause pause
 goto :menu6
 
-
-
-
-
-
-
-
-
-
 :geek
-
 cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://geekuninstaller.com/geek.zip
 echo.
 echo Downloaded the zip successfully
@@ -1384,6 +1371,16 @@ goto %goto%
 cd C:\Users\%username%\AppData\Local\Temp\
 start powershell -command "Expand-Archive -Force C:\Users\%username%\AppData\Local\Temp\geek.zip -DestinationPath C:\Users\%username%\AppData\Local\Temp\
 echo Done.
+echo Creating shortcut in this same directory...
+set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
+echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
+echo sLinkFile = "%~dp0GeekUninstaller.lnk" >> %SCRIPT%
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
+echo oLink.TargetPath = "C:\Users\%username%\AppData\Local\Temp\geek.exe" >> %SCRIPT%
+echo oLink.Save >> %SCRIPT%
+cscript /nologo %SCRIPT%
+del %SCRIPT%
+pause pause
 timeout 5
 start geek.exe
 pause
@@ -1394,7 +1391,40 @@ goto :menu6
 color a
 cls
 echo.
-echo. Geek Uninstaller- installation exe is at: 
+echo. Geek Uninstaller- .exe is at: 
+ping localhost -n 2 >nul
+echo [91mC:\Users\%username%\AppData\Local\Temp[0m
+pause pause
+pause pause
+goto :menu6
+
+
+:spotify
+cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://download.spotify.com/SpotifySetup.exe
+echo.
+echo Downloaded the installer successfully
+ping localhost -n 1 >nul
+echo Do you want to install it?
+set pass=
+choice /c 12 /n /m "1. yes? <> 2. no?: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=:installspotify
+if errorlevel 2 set goto=:dontinstallspotify
+goto %goto%
+
+:installspotify: 
+cd C:\Users\%username%\AppData\Local\Temp\
+start SpotifySetup.exe
+echo Done.
+pause pause
+del /f SpotifySetup.exe
+goto :menu6
+
+:dontinstallspotify
+color a
+cls
+echo.
+echo. spotify installation exe is at: 
 ping localhost -n 2 >nul
 echo [91mC:\Users\%username%\AppData\Local\Temp[0m
 pause pause
