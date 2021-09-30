@@ -629,7 +629,7 @@ echo                                         █  21. Tracert/pathping:         
 echo                                         █  22. WMIC:                               █
 echo                                         █  23. defrag HDD/trim ssd:                █
 echo                                         █  24. Reset Windows:                      █
-echo                                         █  60. Change DNS Server:                  █
+echo                                         █  60. Change DNS Servers and card setting █
 echo                                         █  25. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -749,14 +749,19 @@ pause
 pause
 goto :menu3
 
+
 :dnss
 SET /p _card= Enter the name of the device (Ethernet, Wi-Fi):
 set /p _ip= Enter the Primary DNS IP Server:
 netsh interface ipv4 set dns name="%_card%" static %_ip%
-SET /P  system=Do you want to set an alternate DNS IP Server? (Y/[N])?
+SET /P system=Do you want to set an alternate DNS IP Server? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO :END
 set /p _secondaryip= Alternate DNS IP Server?: 
 netsh interface ipv4 add dns "%_card%" %_secondaryip% index=2
+SET /P system1=Do you want to reset everything to dhcp?:
+IF /I "%system1%" NEQ "Y" goto :END
+netsh interface ipv4 set address name="%_card%" source=dhcp
+netsh interface ipv4 set dns "%_card%" dhcp
 :end
 goto :menu3
 
