@@ -221,9 +221,9 @@ goto :quit
 
 :quit
 echo.
-echo Exiting. . .
+echo half of these scripts will [91mNOT[0m work
 ping localhost -n 3 >nul
-exit
+goto :info
 
 wscript %~dp0Scripts\noti.vbs
 
