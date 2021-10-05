@@ -220,7 +220,6 @@ exit
 endlocal
 call %~dp0Scripts\noadmin.bat
 
-
 ::information on what you can do
 :info
 title information on what's in the batch, Do not resize the Window!
@@ -889,7 +888,7 @@ echo                                         █  40. Powershell Ports:         
 echo                                         █  41. Hostname:                           █
 echo                                         █  42. scan network to see who is active:  █
 echo                                         █  43. embed anything to anything:         █
-echo                                         █  44. Menu 6:                             █
+echo                                         █  44. Menu 6/7:                           █
 echo                                         █  45. Go back                             █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -907,9 +906,17 @@ if "%userinp%"=="40" echo. & echo starting PS; Checking the ports on an network.
 if "%userinp%"=="41" echo. & echo starting.. & ping localhost -n 1 >nul & hostname & pause
 if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :scann
 if "%userinp%"=="43" echo. & echo.. & ping localhost -n 1 >nul & goto :embed
-if "%userinp%"=="44" echo. & echo.. & ping localhost -n 1 >nul & goto :menu6
+if "%userinp%"=="44" echo. & echo.. & ping localhost -n 1 >nul & goto :menu6or7s
 if "%userinp%"=="45" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
 
+:menu6or7s
+set pass=
+choice /C 12 /n /m "1. menu 6? <> 2. menu 7:  "
+set pass=%errorlevel%
+
+if errorlevel 1 set goto=:menu6
+if errorlevel 2 set goto=:menu7
+goto %goto%
 
 :embed
 set /P startingdir=Enter the directory that the files are in:
@@ -1455,3 +1462,146 @@ echo [91mC:\Users\%username%\AppData\Local\Temp[0m
 pause pause
 pause pause
 goto :menu6
+
+:menu7
+title Menu 7
+cls
+ping localhost -n 2 >nul
+cls
+echo.
+echo.
+echo.
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #7─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                █
+echo                                         █                                          █
+echo                                         █  57. Registry to add custom Manufacturer:█
+echo                                         █  58. Registry to add custom model:       █
+echo                                         █  59. Registry to disable W11 Hardware chk█
+echo                                         █  60. :                                   █
+echo                                         █  61. :                                   █
+echo                                         █  62. :                                   █
+echo                                         █  63. :                                   █ 
+echo                                         █  64. :                                   █
+echo                                         █  65. :                                   █
+echo                                         █  66. :                                   █
+echo                                         █  67. Go back                             █
+echo                                         █                                          █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo.
+
+set /p userinp=Type the number of your choice: 
+set userinp=%userinp:~0,2%
+
+if "%userinp%"=="57" echo. & echo starting.. & ping localhost -n 1 >nul & goto :57
+if "%userinp%"=="58" echo. & echo starting.. & ping localhost -n 1 >nul & goto :58
+if "%userinp%"=="59" echo. & echo starting.. & ping localhost -n 1 >nul & goto :59
+if "%userinp%"=="60" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="61" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="62" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="63" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="64" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="65" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="66" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="67" echo. & echo starting.. & ping localhost -n 1 >nul & goto :menu
+
+
+:57
+SET /P _usermaninput= Please enter the Manufacturer name you want to set:
+REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation /v "Manufacturer" /d "%_usermaninput%"
+ping localhost -n 2 >nul
+REG query HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation
+pause
+goto :menu7
+
+:58
+SET /P _usermodelinput= Please enter the Model name you want to set:
+REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation /v "Model" /d "%_usermodelinput%"
+ping localhost -n 2 >nul
+REG query HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation
+pause
+goto :menu7
+
+:59
+cls
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.	 #########Disable Windows 11 Installer Hardware Check#########
+echo.  [1]   Disable Windows 11 Installer Hardware Check - BypassCPUCheck
+echo.  [2]   Disable Windows 11 Installer Hardware Check - BypassRAMCheck
+echo.  [3]   Disable Windows 11 Installer Hardware Check - Bypass SecureBootCheck
+echo.  [4]   Disable Windows 11 Installer Hardware Check - BypassStorageCheck
+echo.  [5]   Disable Windows 11 Installer Hardware Check - BypassTPMCheck
+echo.  [6]   Disable Windows 11 Installer Hardware Check - [Recommended] All
+	echo.===============================================================================
+	choice /C:123456 /N /M "Enter Your Choice : "
+	if errorlevel 1  set "reg=bypasscpu"
+	if errorlevel 2  set "reg=bypassramcheck"
+	if errorlevel 3  set "reg=bypasssecureboot"
+	if errorlevel 4  set "reg=bypassstoragecheck"
+	if errorlevel 5  set "reg=bypasstpmcheck"
+	if errorlevel 6  set "reg=DisableW11InstHardwareCheck"
+	)
+	if "%reg%" equ "bypasscpu" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
+echo.
+if "%reg%" equ "bypasscpu" (
+	echo.
+    echo.Editing the registry...
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassCPUCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	echo.
+)
+
+if "%reg%" equ "bypassramcheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
+echo.
+if "%reg%" equ "bypassramcheck" (
+	echo.
+    echo.Editing the registry...
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassRAMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	echo.
+)
+
+if "%reg%" equ "bypasssecureboot" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
+echo.
+if "%reg%" equ "bypasssecureboot" (
+	echo.
+    echo.Editing the registry...
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassSecureBootCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	echo.
+)
+
+if "%reg%" equ "bypassstoragecheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
+echo.
+if "%reg%" equ "bypassstoragecheck" (
+	echo.
+    echo.Editing the registry...
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassStorageCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	echo.
+)
+
+if "%reg%" equ "bypasstpmcheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
+echo.
+if "%reg%" equ "bypasstpmcheck" (
+	echo.
+    echo.Editing the registry...
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	echo.
+)
+
+if "%reg%" equ "DisableW11InstHardwareCheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
+echo.
+if "%reg%" equ "DisableW11InstHardwareCheck" (
+	echo.
+    echo.Editing the registry...
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassCPUCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassRAMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassSecureBootCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassStorageCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	echo.
+)
+
+pause
+goto :menu7
+
