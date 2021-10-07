@@ -15,13 +15,13 @@ function Basic()
 
 #Code
     #Testing certain ports, feel free to edit.
-    Test-NetConnection -ComputerName $ip -port 161
+    Test-NetConnection -ComputerName $ip -port 20
 timeout /t 3 /nobreak
-    Test-NetConnection -ComputerName $ip -port 3389
+    Test-NetConnection -ComputerName $ip -port 21
 timeout /t 3 /nobreak
-    Test-NetConnection -ComputerName $ip -port 646
+    Test-NetConnection -ComputerName $ip -port 80
 timeout /t 3 /nobreak
-    Test-NetConnection -ComputerName $ip -port 5900
+    Test-NetConnection -ComputerName $ip -port 443
 timeout /t 3 /nobreak
 
 #Finally, it pauses the script so you can see what happened.
