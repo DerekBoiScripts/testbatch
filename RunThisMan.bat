@@ -800,7 +800,8 @@ goto :eof
 
 :st9
 set pass=
-choice /C 12 /n /m "4. Menu 4 <|> 5. Menu 5:
+choice /C:45 /N /M "Menu 4 Or Menu 5 [4/5]:
+
 set pass=%errorlevel%
 
 if errorlevel 1 set goto=1
@@ -911,7 +912,8 @@ if "%userinp%"=="45" echo. & echo.. & ping localhost -n 1 >nul & goto :menu
 
 :menu6or7s
 set pass=
-choice /C 12 /n /m "1. menu 6? <> 2. menu 7:  "
+choice /C:67 /N /M "Menu 6 Or Menu 7 [6/7]:
+
 set pass=%errorlevel%
 
 if errorlevel 1 set goto=:menu6
@@ -1138,7 +1140,7 @@ cls
 echo.
 echo Output results?
 set pass=
-choice /c 12 /n /m "1. yes? <> 2. no?: "
+choice /c yn /n /m "1. yes? <> 2. no?: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=resultss
 if errorlevel 2 set goto=nooo
@@ -1198,12 +1200,11 @@ goto :END
 endlocal
 goto :menu5
 
-
+:menu6
 ::WIP menu 6
 title Menu 6
 cls
 ping localhost -n 2 >nul
-:menu6
 cls
 echo.
 echo.
@@ -1239,7 +1240,7 @@ if "%userinp%"=="52" echo. & echo starting..  .. & ping localhost -n 1 >nul & go
 if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="54" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="55" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :spotify
-if "%userinp%"=="56" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="56" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :menu
 
 :notepadplus
 cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.4/npp.8.1.4.Installer.x64.exe
@@ -1248,7 +1249,7 @@ echo Downloaded the installer successfully
 ping localhost -n 1 >nul
 echo Do you want to install it?
 set pass=
-choice /c 12 /n /m "1. yes? <> 2. no?: "
+choice /c yn /n /m "yes? <> no? [Y/N]: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=:installnotepadplus
 if errorlevel 2 set goto=:dontinstallnotepadplus
@@ -1280,7 +1281,7 @@ echo Downloaded the installer successfully
 ping localhost -n 1 >nul
 echo Do you want to install it?
 set pass=
-choice /c 12 /n /m "1. yes? <> 2. no?: "
+choice /c yn /n /m "yes? <> no? [Y/N]: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=:installwireshark
 if errorlevel 2 set goto=:dontinstallwireshark
@@ -1312,7 +1313,7 @@ echo Downloaded the installer successfully
 ping localhost -n 1 >nul
 echo Do you want to install it?
 set pass=
-choice /c 12 /n /m "1. yes? <> 2. no?: "
+choice /c yn /n /m "yes? <> no? [Y/N]: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=:installadvipscanner
 if errorlevel 2 set goto=:dontinstalladvipscanner
@@ -1342,24 +1343,34 @@ goto :menu6
 
 
 :netscan
-cd %~dp0programs\ & curl -L -O https://www.tcatslms.online/ttcslms/mod/resource/view.php?id=7797
+cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://www.dropbox.com/s/19nt31amze6yegu/netscan.exe
 echo.
-timeout 20
+timeout 5
+echo Creating the shortcut to local dir:
+echo " %~dp0 "
+set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
+echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
+echo sLinkFile = "%~dp0GeekUninstaller.lnk" >> %SCRIPT%
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
+echo oLink.TargetPath = "C:\Users\%username%\AppData\Local\Temp\netscan.exe" >> %SCRIPT%
+echo oLink.Save >> %SCRIPT%
+cscript /nologo %SCRIPT%
+del %SCRIPT%
+pause pause
+timeout 5
 start netscan
 echo Done.
-echo software is located in %~dp0programs\
-pause pause
 goto :menu6
 
 
 :BleachBit
-cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://www.bleachbit.org/download/file/t?file=BleachBit-4.4.0-setup.exe
+cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://www.dropbox.com/s/3n9mi0jgkxp2a36/BleachBit-4.4.0-setup.exe
 echo.
 echo Downloaded the installer successfully
 ping localhost -n 1 >nul
 echo Do you want to install it?
 set pass=
-choice /c 12 /n /m "1. yes? <> 2. no?: "
+choice /c yn /n /m "yes? <> no? [Y/N]: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=:installBleachBit
 if errorlevel 2 set goto=:dontinstallBleachBit
@@ -1393,7 +1404,7 @@ echo Downloaded the zip successfully
 ping localhost -n 1 >nul
 echo Do you want to unzip & install it?
 set pass=
-choice /c 12 /n /m "1. yes? <> 2. no?: "
+choice /c yn /n /m "yes? <> no? [Y/N]: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=:installgeekuninstaller
 if errorlevel 2 set goto=:dontinstallgeekuninstaller
@@ -1403,7 +1414,8 @@ goto %goto%
 cd C:\Users\%username%\AppData\Local\Temp\
 start powershell -command "Expand-Archive -Force C:\Users\%username%\AppData\Local\Temp\geek.zip -DestinationPath C:\Users\%username%\AppData\Local\Temp\
 echo Done.
-echo Creating shortcut in this same directory...
+echo Creating shortcut in this same directory... 
+echo " %~dp0 "
 set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
 echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
 echo sLinkFile = "%~dp0GeekUninstaller.lnk" >> %SCRIPT%
@@ -1438,7 +1450,7 @@ echo Downloaded the installer successfully
 ping localhost -n 1 >nul
 echo Do you want to install it?
 set pass=
-choice /c 12 /n /m "1. yes? <> 2. no?: "
+choice /c yn /n /m "yes? <> no? [Y/N]: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=:installspotify
 if errorlevel 2 set goto=:dontinstallspotify
@@ -1477,8 +1489,8 @@ echo                                         █                                
 echo                                         █  57. Registry to add custom Manufacturer:█
 echo                                         █  58. Registry to add custom model:       █
 echo                                         █  59. Registry to disable W11 Hardware chk█
-echo                                         █  60. :                                   █
-echo                                         █  61. :                                   █
+echo                                         █  60. Registry for LLMNR:                 █
+echo                                         █  61. Registry Take Ownership Context Menu█
 echo                                         █  62. :                                   █
 echo                                         █  63. :                                   █ 
 echo                                         █  64. :                                   █
@@ -1495,8 +1507,8 @@ set userinp=%userinp:~0,2%
 if "%userinp%"=="57" echo. & echo starting.. & ping localhost -n 1 >nul & goto :57
 if "%userinp%"=="58" echo. & echo starting.. & ping localhost -n 1 >nul & goto :58
 if "%userinp%"=="59" echo. & echo starting.. & ping localhost -n 1 >nul & goto :59
-if "%userinp%"=="60" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
-if "%userinp%"=="61" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="60" echo. & echo starting.. & ping localhost -n 1 >nul & goto :60
+if "%userinp%"=="61" echo. & echo starting.. & ping localhost -n 1 >nul & goto :61
 if "%userinp%"=="62" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="63" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="64" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
@@ -1510,6 +1522,9 @@ SET /P _usermaninput= Please enter the Manufacturer name you want to set:
 REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation /v "Manufacturer" /d "%_usermaninput%"
 ping localhost -n 2 >nul
 REG query HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation
+start shell:::{bb06c0e4-d293-4f75-8a90-cb05b6477eee
+gpupdate /force
+
 pause
 goto :menu7
 
@@ -1518,6 +1533,9 @@ SET /P _usermodelinput= Please enter the Model name you want to set:
 REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation /v "Model" /d "%_usermodelinput%"
 ping localhost -n 2 >nul
 REG query HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation
+start shell:::{bb06c0e4-d293-4f75-8a90-cb05b6477eee}
+gpupdate /force
+
 pause
 goto :menu7
 
@@ -1529,11 +1547,11 @@ echo.
 echo.
 echo.
 echo.	 #########Disable Windows 11 Installer Hardware Check#########
-echo.  [1]   Disable Windows 11 Installer Hardware Check - BypassCPUCheck
-echo.  [2]   Disable Windows 11 Installer Hardware Check - BypassRAMCheck
-echo.  [3]   Disable Windows 11 Installer Hardware Check - Bypass SecureBootCheck
-echo.  [4]   Disable Windows 11 Installer Hardware Check - BypassStorageCheck
-echo.  [5]   Disable Windows 11 Installer Hardware Check - BypassTPMCheck
+echo.  [1]   Disable Windows 11 Installer Hardware Check - Bypass CPU Check
+echo.  [2]   Disable Windows 11 Installer Hardware Check - Bypass RAM Check
+echo.  [3]   Disable Windows 11 Installer Hardware Check - Bypass SecureBoot Check
+echo.  [4]   Disable Windows 11 Installer Hardware Check - Bypass Storage Check
+echo.  [5]   Disable Windows 11 Installer Hardware Check - Bypass TPM Check
 echo.  [6]   Disable Windows 11 Installer Hardware Check - [Recommended] All
 	echo.===============================================================================
 	choice /C:123456 /N /M "Enter Your Choice : "
@@ -1551,6 +1569,7 @@ if "%reg%" equ "bypasscpu" (
     echo.Editing the registry...
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassCPUCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	echo.
+	gpupdate /force
 )
 
 if "%reg%" equ "bypassramcheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
@@ -1560,6 +1579,7 @@ if "%reg%" equ "bypassramcheck" (
     echo.Editing the registry...
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassRAMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	echo.
+	gpupdate /force
 )
 
 if "%reg%" equ "bypasssecureboot" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
@@ -1569,6 +1589,7 @@ if "%reg%" equ "bypasssecureboot" (
     echo.Editing the registry...
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassSecureBootCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	echo.
+	gpupdate /force
 )
 
 if "%reg%" equ "bypassstoragecheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
@@ -1578,6 +1599,7 @@ if "%reg%" equ "bypassstoragecheck" (
     echo.Editing the registry...
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassStorageCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	echo.
+	gpupdate /force
 )
 
 if "%reg%" equ "bypasstpmcheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
@@ -1587,6 +1609,7 @@ if "%reg%" equ "bypasstpmcheck" (
     echo.Editing the registry...
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	echo.
+	gpupdate /force
 )
 
 if "%reg%" equ "DisableW11InstHardwareCheck" echo.####Applying Disable Windows 11 Installer Hardware Check#######################
@@ -1600,8 +1623,44 @@ if "%reg%" equ "DisableW11InstHardwareCheck" (
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassStorageCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	echo.
+	gpupdate /force
 )
 
+:60
+REG ADD  "HKLM\Software\policies\Microsoft\Windows NT\DNSClient"
+REG ADD "HKLM\Software\policies\Microsoft\Windows NT\DNSClient" /v "EnableMulticast" /t REG_DWORD /d "0" /f
+gpupdate /force
 pause
 goto :menu7
 
+:61
+cls
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.	 #########Take Ownership Context Menu#########
+echo.  [1]   Add "Take Ownership" to Context Menu
+echo.  [2]   Remove "Take Ownership" to Context Menu
+
+	echo.===============================================================================
+	choice /C:12 /N /M "Enter Your Choice : "
+	if errorlevel 1  set "reg=take"
+	if errorlevel 2  set "reg=remove"
+	)
+if "%reg%" equ "take" echo.####Applying reg keys#######################
+echo.
+if "%reg%" equ "take" (
+	echo.
+    echo.Editing the registry...
+start %~dp0Scripts\take.reg
+)
+if "%reg%" equ "take" echo.####Applying reg keys#######################
+echo.
+if "%reg%" equ "remove" (
+	echo.
+    echo.Editing the registry...
+start %~dp0Scripts\remove.reg
+)
+goto :menu7
