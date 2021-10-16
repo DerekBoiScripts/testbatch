@@ -18,6 +18,7 @@ cls
 
 ::Spams the user to run as admin
 echo Run as admin
+
 ping localhost -n 1.5 >nul
 color c
 echo rUn as admin
@@ -197,7 +198,8 @@ color c
 echo Run as admin
 ping localhost -n 1.5 >nul
 color a
-echo If you choose 'n' it will run the limited vers.
+ver.exe
+echo [91mIf you choose 'n' it will run the limited vers.[0m
 ping localhost -n 1.5 >nul
 
 
@@ -380,6 +382,7 @@ for /L %%i in (0,1,%size%) do (
 echo.
 pause
 goto :menu
+
 
 
 :st1
@@ -1450,7 +1453,7 @@ echo Downloaded the installer successfully
 ping localhost -n 1 >nul
 echo Do you want to install it?
 set pass=
-choice /c yn /n /m "yes? <> no? [Y/N]: "
+choice /c yn /n /m " yes? <>  no?: "
 set pass=%errorlevel%
 if errorlevel 1 set goto=:installspotify
 if errorlevel 2 set goto=:dontinstallspotify
@@ -1458,10 +1461,15 @@ goto %goto%
 
 :installspotify: 
 cd C:\Users\%username%\AppData\Local\Temp\
-start SpotifySetup.exe
-echo Done.
-pause pause
-del /f SpotifySetup.exe
+echo " %~dp0 "
+set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
+echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
+echo sLinkFile = "%~dp0SpotifyInstaller.lnk" >> %SCRIPT%
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> %SCRIPT%
+echo oLink.TargetPath = "C:\Users\%username%\AppData\Local\Temp\SpotiftSetup.exe" >> %SCRIPT%
+echo oLink.Save >> %SCRIPT%
+cscript /nologo %SCRIPT%
+del %SCRIPT%
 goto :menu6
 
 :dontinstallspotify
@@ -1473,7 +1481,8 @@ ping localhost -n 2 >nul
 echo [91mC:\Users\%username%\AppData\Local\Temp[0m
 pause pause
 pause pause
-goto :menu6
+
+
 
 :menu7
 title Menu 7
@@ -1483,23 +1492,24 @@ cls
 echo.
 echo.
 echo.
-echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #7─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                         █                  Choices:                █
-echo                                         █                                          █
-echo                                         █  57. Registry to add custom Manufacturer:█
-echo                                         █  58. Registry to add custom model:       █
-echo                                         █  59. Registry to disable W11 Hardware chk█
-echo                                         █  60. Registry for LLMNR:                 █
-echo                                         █  61. Registry Take Ownership Context Menu█
-echo                                         █  62. :                                   █
-echo                                         █  63. :                                   █ 
-echo                                         █  64. :                                   █
-echo                                         █  65. :                                   █
-echo                                         █  66. :                                   █
-echo                                         █  67. Go back                             █
-echo                                         █                                          █
-echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #7─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                         █                  Choices:                      █
+echo                                         █                                                █
+echo                                         █  57. Registry to add custom Manufacturer:      █
+echo                                         █  58. Registry to add custom model:             █
+echo                                         █  59. Registry to disable W11 Hardware Check:   █
+echo                                         █  60. Registry for LLMNR:                       █
+echo                                         █  61. Registry for Take Ownership Context Menu: █
+echo                                         █  62. :                                         █
+echo                                         █  63. :                                         █ 
+echo                                         █  64. :                                         █
+echo                                         █  65. :                                         █
+echo                                         █  66. :                                         █
+echo                                         █  67. Go back                                   █
+echo                                         █                                                █
+echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
+echo. [x] does a setup, do not choose unless you inspect the code
 
 set /p userinp=Type the number of your choice: 
 set userinp=%userinp:~0,2%
@@ -1513,11 +1523,11 @@ if "%userinp%"=="62" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="63" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="64" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="65" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
-if "%userinp%"=="66" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="x" echo. & echo starting.. & ping localhost -n 1 >nul & goto :x
 if "%userinp%"=="67" echo. & echo starting.. & ping localhost -n 1 >nul & goto :menu
-if "%userinp%"=="sp" echo. & echo starting.. & ping localhost -n 1 >nul & goto :sp
 
-:sp
+
+:x
 echo settings prequesite..
 REG add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /d "GamerMode" /f >nul 2>&1
 REG add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Manufacturer" /d "GamerMode" /f >nul 2>&1
@@ -1541,18 +1551,29 @@ reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Pers
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d "0" /f >nul 2>&1
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowTaskViewButton" /t REG_DWORD /d "0" /f
 reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" /v "PeopleBand" /t REG_DWORD /d "0" /f
+REG ADD  "HKLM\Software\policies\Microsoft\Windows NT\DNSClient"
+REG ADD "HKLM\Software\policies\Microsoft\Windows NT\DNSClient" /v "EnableMulticast" /t REG_DWORD /d "0" /f
 gpupdate /force
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\wip2.ps1""' -Verb RunAs}"
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\wip2.ps1""' -Verb RunAs}"
+echo.
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\StopEdgePDF.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\UninstallOneDrive.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\UnpinStart.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\DisableCortana.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\ProtectPrivacy.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\DebloatWindows.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\RemoveBloatwareRegKeys.ps1""' -Verb RunAs}"
+echo done...
+pause pause
 
 goto :menu7
+
 
 :57
 SET /P _usermaninput= Please enter the Manufacturer name you want to set:
 REG ADD HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation /v "Manufacturer" /d "%_usermaninput%"
 ping localhost -n 2 >nul
 REG query HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation
-start shell:::{bb06c0e4-d293-4f75-8a90-cb05b6477eee}
+start shell:::{bb06c0e4-d293-4f75-8a90-cb05b6477eee
 gpupdate /force
 
 pause
@@ -1657,6 +1678,7 @@ if "%reg%" equ "DisableW11InstHardwareCheck" (
 )
 
 :60
+echo disabling LLMNR
 REG ADD  "HKLM\Software\policies\Microsoft\Windows NT\DNSClient"
 REG ADD "HKLM\Software\policies\Microsoft\Windows NT\DNSClient" /v "EnableMulticast" /t REG_DWORD /d "0" /f
 gpupdate /force

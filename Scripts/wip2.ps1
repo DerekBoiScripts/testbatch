@@ -12,13 +12,17 @@ function Basic()
 
         #The user gets to select the targets IP
         $ip = Read-Host -Prompt 'Enter the IP'
+
 #Code
     #Testing certain ports, feel free to edit.
-    Test-NetConnection -ComputerName $ip -port 139 | Out-File -FilePath $PSScriptRoot\port.txt -append
-    Test-NetConnection -ComputerName $ip -port 445 | Out-File -FilePath $PSScriptRoot\port.txt -append
-    Test-NetConnection -ComputerName $ip -port 873 | Out-File -FilePath $PSScriptRoot\port.txt -append
-    Test-NetConnection -ComputerName $ip -port 8081 | Out-File -FilePath $PSScriptRoot\port.txt -append
-	Get-Content -Path $PSScriptRoot\port.txt
+    Test-NetConnection -ComputerName $ip -port 20
+timeout /t 3 /nobreak
+    Test-NetConnection -ComputerName $ip -port 21
+timeout /t 3 /nobreak
+    Test-NetConnection -ComputerName $ip -port 80
+timeout /t 3 /nobreak
+    Test-NetConnection -ComputerName $ip -port 443
+timeout /t 3 /nobreak
 
 #Finally, it pauses the script so you can see what happened.
 pause
@@ -32,7 +36,7 @@ function Full()
         Write-Host -ForegroundColor Red  'This is the FULL scan, This CAN trip the firewall and lead to serious consequences; 
         I am not responsible for anything that may go wrong.'
         $ip = Read-Host -Prompt 'Enter the IP'
-		
+
     #Probing ALL viable ports.. almost in order, feel free to edit.
 Test-NetConnection -ComputerName $ip -port 21
     timeout /t 1 /nobreak
