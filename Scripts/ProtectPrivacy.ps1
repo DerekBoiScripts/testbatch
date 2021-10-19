@@ -14,14 +14,6 @@
         New-Item $WebSearch
 	}
 	Set-ItemProperty $WebSearch DisableWebSearch -Value 1 
-            
-    #Stops the Windows Feedback Experience from sending anonymous data
-    Write-Output "Stopping the Windows Feedback Experience program"
-    $Period = "HKCU:\Software\Microsoft\Siuf\Rules"
-    If (!(Test-Path $Period)) { 
-        New-Item $Period
-    }
-    Set-ItemProperty $Period PeriodInNanoSeconds -Value 0 
 
     #Prevents bloatware applications from returning and removes Start Menu suggestions               
     Write-Output "Adding Registry key to prevent bloatware apps from returning"
@@ -32,16 +24,7 @@
     }
     Set-ItemProperty $registryPath DisableWindowsConsumerFeatures -Value 1 
 
-    If (!(Test-Path $registryOEM)) {
-        New-Item $registryOEM
-    }
-        Set-ItemProperty $registryOEM  ContentDeliveryAllowed -Value 0 
-        Set-ItemProperty $registryOEM  OemPreInstalledAppsEnabled -Value 0 
-        Set-ItemProperty $registryOEM  PreInstalledAppsEnabled -Value 0 
-        Set-ItemProperty $registryOEM  PreInstalledAppsEverEnabled -Value 0 
-        Set-ItemProperty $registryOEM  SilentInstalledAppsEnabled -Value 0 
-        Set-ItemProperty $registryOEM  SystemPaneSuggestionsEnabled -Value 0          
-    
+
     #Preping mixed Reality Portal for removal    
     Write-Output "Setting Mixed Reality Portal value to 0 so that you can uninstall it in Settings"
     $Holo = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Holographic"    
@@ -100,13 +83,6 @@
     }
     Set-ItemProperty $LocationConfig Status -Value 0 
         
-    #Disables People icon on Taskbar
-    Write-Output "Disabling People icon on Taskbar"
-    $People = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"    
-    If (!(Test-Path $People)) {
-        New-Item $People
-    }
-    Set-ItemProperty $People  PeopleBand -Value 0 
         
     #Disables scheduled tasks that are considered unnecessary 
     Write-Output "Disabling scheduled tasks"
