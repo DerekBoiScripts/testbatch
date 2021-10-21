@@ -19,17 +19,16 @@ if errorlevel 2 set goto=:no
 goto %goto%
 
 :yes
-reg add HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "MUIVerb" /d "RunThisMan Menu Selection" /t REG_SZ /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "subcommands" /t REG_SZ /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell" /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch" /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /t REG_SZ /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /ve /d "C:\users\%USERNAME%\AppData\Local\Temp\RunThisMan.bat" /t REG_SZ /f >nul 2>&1
-
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\FlushDNS" /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\Batch\FlushDNS\command" /ve /d "cmd.exe /k "ipconfig /flushdns & exit" " /t REG_SZ /f >nul 2>&1
-
+reg add HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "MUIVerb" /d "RunThisMan Menu Selection" /t REG_SZ /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "subcommands" /t REG_SZ /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell" /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch" /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /t REG_SZ /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /ve /d "C:\users\%USERNAME%\AppData\Local\Temp\RunThisMan.bat" /t REG_SZ /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\FlushDNS" /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\FlushDNS\command"
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\FlushDNS\command" /ve /d "cmd.exe /c "ipconfig/flushdns"" /t REG_SZ /f 
 
 set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
 echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
