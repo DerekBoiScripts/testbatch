@@ -289,8 +289,8 @@ echo  47. Download Wireshark
 echo  48. Download Advanced IP Scanner
 echo  49. Download NetScan
 echo  50. Download Geek Uninstaller
-echo  51. Download
-echo  52. Download
+echo  51. Download OWASP
+echo  52. Download 
 echo  53. Download
 echo  54. Go Back
 echo [91mDO NOT RESIZE THE WINDOW[0m
@@ -1226,7 +1226,7 @@ echo                                         █  48. Download Advance IP Scanne
 echo                                         █  49. Download NetScan:                   █
 echo                                         █  50. Download BleachBit:                 █
 echo                                         █  51. Download Geek Uninstaller:          █
-echo                                         █  52. :                                   █ 
+echo                                         █  52. Download OWASP:                     █
 echo                                         █  53. :                                   █
 echo                                         █  54. :                                   █
 echo                                         █  55. Download Spotify:                   █
@@ -1244,11 +1244,44 @@ if "%userinp%"=="48" echo. & echo starting.. Downloading Advanced IP Scanner .. 
 if "%userinp%"=="49" echo. & echo starting.. Downloading NetScan .. & ping localhost -n 1 >nul & goto :netscan
 if "%userinp%"=="50" echo. & echo starting.. Downloading BleachBit .. & ping localhost -n 1 >nul & goto :BleachBit
 if "%userinp%"=="51" echo. & echo starting.. Downloading Geek Uninstaller.. & ping localhost -n 1 >nul & goto :geek
-if "%userinp%"=="52" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="52" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :owasp
 if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="54" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="55" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :spotify
 if "%userinp%"=="56" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :menu
+
+:owasp
+cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://github.com/zaproxy/zaproxy/releases/download/v2.11.0/ZAP_2_11_0_windows.exe
+echo.
+echo Downloaded the installer successfully
+ping localhost -n 1 >nul
+echo Do you want to install it?
+set pass=
+choice /c yn /n /m "yes? <> no? [Y/N]: "
+set pass=%errorlevel%
+if errorlevel 1 set goto=:installowasp
+if errorlevel 2 set goto=:dontinstallowasp
+goto %goto%
+
+:installowasp: 
+cd C:\Users\%username%\AppData\Local\Temp\
+start ZAP_2_11_0_windows.exe
+echo Done.
+pause pause
+del /f ZAP_2_11_0_windows.exe
+goto :menu6
+
+:dontinstallowasp
+color a
+cls
+echo.
+echo. OWASP installation is at: 
+ping localhost -n 2 >nul
+echo [91mC:\Users\%username%\AppData\Local\Temp[0m
+pause pause
+pause pause
+goto :menu6
+
 
 :notepadplus
 cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.4/npp.8.1.4.Installer.x64.exe
