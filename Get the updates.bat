@@ -1,17 +1,16 @@
 @echo off
 chcp 437 > nul
-rmdir /s /q %~dp0Scripts\
-del /f %~dp0runwlegacy.bat
-del /f %~dp0RunThisMan.bat
-del /f %~dp0RunThisMan.zip
+rmdir /s /q %~dp0Scripts\ >nul
+del /f c:\users\%username%\AppData\Local\Temp\RunThisMan.bat >nul
+del /f %~dp0RunThisMan.lnk >nul
+del /f %~dp0Uninstall.lnk >nul
 cd %~dp0 & curl -L -O https://www.dropbox.com/s/qytkmsz5hnsl9kr/RunThisMan.zip
 echo. 
 echo File Updated OR Downloaded
 echo.
 echo extracting the zipped file
 powershell -command "Expand-Archive -Force '%~dp0RunThisMan.zip' 'C:\users\%USERNAME%\AppData\Local\Temp'"
-del /f RunThisMan.bat
-del /f RunThisMan.zip
+del /f %~dp0RunThisMan.zip >nul
 set pass=
 choice /C yn /n /m "Do you want to add RunThisMan to the context menu? [{Y}/N]"
 set pass=%errorlevel%
@@ -21,7 +20,17 @@ goto %goto%
 
 :yes
 reg add HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan /f >nul 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\command" /ve /d "C:\users\%USERNAME%\AppData\Local\Temp\RunThisMan.bat" /f >nul 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "MUIVerb" /d "RunThisMan Menu Selection" /t REG_SZ /f >nul 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "subcommands" /t REG_SZ /f >nul 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell" /f >nul 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch" /f >nul 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /t REG_SZ /f >nul 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /ve /d "C:\users\%USERNAME%\AppData\Local\Temp\RunThisMan.bat" /t REG_SZ /f >nul 2>&1
+
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\FlushDNS" /f >nul 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\Batch\FlushDNS\command" /ve /d "cmd.exe /k "ipconfig /flushdns & exit" " /t REG_SZ /f >nul 2>&1
+
+
 set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
 echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
 echo sLinkFile = "%~dp0RunThisMan.lnk" >> %SCRIPT%
@@ -63,3 +72,4 @@ timeout /t 5
 exit
 
 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\command" /ve /d  /f >nul 2>&1
