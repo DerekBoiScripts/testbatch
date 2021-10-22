@@ -1,2 +1,1 @@
-Clear-DnsClientCache
-timeout /t 10
+powershell.exe -EncodedCommand "QwBsAGUAYQByAC0ARABuAHMAQwBsAGkAZQBuAHQAQwBhAGMAaABlAA0ACgB0AGkAbQBlAG8AdQB0ACAALwB0ACAANQA="
