@@ -1,6 +1,6 @@
 @echo off
 
-
+powershell.exe -EncodedCommand "JABUAGkAdABsAGUAIAA9ACAAIgBIAGUAeQAhACIADQAKACQATQBlAHMAcwBhAGcAZQAgAD0AIAAiAFQAaABhAG4AawBzACAAZgBvAHIAIAB1AHMAaQBuAGcAIAB0AGgAaQBzACAAYgBhAHQAYwBoACAAZgBpAGwAZQAiAA0ACgAkAFQAeQBwAGUAIAA9ACAAIgBpAG4AZgBvACIADQAKACAAIAANAAoAWwByAGUAZgBsAGUAYwB0AGkAbwBuAC4AYQBzAHMAZQBtAGIAbAB5AF0AOgA6AGwAbwBhAGQAdwBpAHQAaABwAGEAcgB0AGkAYQBsAG4AYQBtAGUAKAAiAFMAeQBzAHQAZQBtAC4AVwBpAG4AZABvAHcAcwAuAEYAbwByAG0AcwAiACkAIAB8ACAAbwB1AHQALQBuAHUAbABsAA0ACgAkAHAAYQB0AGgAIAA9ACAARwBlAHQALQBQAHIAbwBjAGUAcwBzACAALQBpAGQAIAAkAHAAaQBkACAAfAAgAFMAZQBsAGUAYwB0AC0ATwBiAGoAZQBjAHQAIAAtAEUAeABwAGEAbgBkAFAAcgBvAHAAZQByAHQAeQAgAFAAYQB0AGgADQAKACQAaQBjAG8AbgAgAD0AIABbAFMAeQBzAHQAZQBtAC4ARAByAGEAdwBpAG4AZwAuAEkAYwBvAG4AXQA6ADoARQB4AHQAcgBhAGMAdABBAHMAcwBvAGMAaQBhAHQAZQBkAEkAYwBvAG4AKAAkAHAAYQB0AGgAKQANAAoAJABuAG8AdABpAGYAeQAgAD0AIABuAGUAdwAtAG8AYgBqAGUAYwB0ACAAcwB5AHMAdABlAG0ALgB3AGkAbgBkAG8AdwBzAC4AZgBvAHIAbQBzAC4AbgBvAHQAaQBmAHkAaQBjAG8AbgANAAoAJABuAG8AdABpAGYAeQAuAGkAYwBvAG4AIAA9ACAAJABpAGMAbwBuAA0ACgAkAG4AbwB0AGkAZgB5AC4AdgBpAHMAaQBiAGwAZQAgAD0AIAAkAHQAcgB1AGUADQAKACQAbgBvAHQAaQBmAHkALgBzAGgAbwB3AGIAYQBsAGwAbwBvAG4AdABpAHAAKAAxADAALAAkAFQAaQB0AGwAZQAsACQATQBlAHMAcwBhAGcAZQAsACAAWwBzAHkAcwB0AGUAbQAuAHcAaQBuAGQAbwB3AHMALgBmAG8AcgBtAHMALgB0AG8AbwBsAHQAaQBwAGkAYwBvAG4AXQA6ADoAJABUAHkAcABlACkA"
 ::deletes the .zip if user hasn't already
 del /f RunThisMan.zip
 cls
@@ -1002,7 +1002,7 @@ goto %goto%
 
 :ddnscmd
 chcp 437 > nul
-SET /P system=Do you want to run Register DNS in powershell? (Y/[N])?
+SET /P system=Do you want to run display DNS in powershell? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO :END
 
 PowerShell -file %~dp0Scripts\displaydns.ps1
@@ -1017,7 +1017,7 @@ goto :menu5
 
 :ddnsps
 chcp 437 > nul
-SET /P  system=Do you want to run Register DNS in powershell? (Y/[N])?
+SET /P  system=Do you want to run Display DNS in powershell? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO :END
 PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\displaydns.ps1""' -Verb RunAs}"
 ping localhost -n 2 >nul
@@ -1052,7 +1052,7 @@ goto %goto%
 
 :cdnscmd
 chcp 437 > nul
-SET /P system=Do you want to run Register DNS in powershell? (Y/[N])?
+SET /P system=Do you want to run Clear DNS in powershell? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO :END
 
 PowerShell -file %~dp0Scripts\clsdns.ps1
@@ -1067,7 +1067,7 @@ goto :menu5
 
 :cdnsps
 chcp 437 > nul
-SET /P  system=Do you want to run Register DNS in powershell? (Y/[N])?
+SET /P  system=Do you want to run Clear DNS in powershell? (Y/[N])?
 IF /I "%system%" NEQ "Y" GOTO :END
 PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\clsdns.ps1""' -Verb RunAs}"
 ping localhost -n 2 >nul
