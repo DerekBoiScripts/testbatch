@@ -1,6 +1,5 @@
 @echo off
 
-powershell.exe -EncodedCommand "JABUAGkAdABsAGUAIAA9ACAAIgBIAGUAeQAhACIADQAKACQATQBlAHMAcwBhAGcAZQAgAD0AIAAiAFQAaABhAG4AawBzACAAZgBvAHIAIAB1AHMAaQBuAGcAIAB0AGgAaQBzACAAYgBhAHQAYwBoACAAZgBpAGwAZQAiAA0ACgAkAFQAeQBwAGUAIAA9ACAAIgBpAG4AZgBvACIADQAKACAAIAANAAoAWwByAGUAZgBsAGUAYwB0AGkAbwBuAC4AYQBzAHMAZQBtAGIAbAB5AF0AOgA6AGwAbwBhAGQAdwBpAHQAaABwAGEAcgB0AGkAYQBsAG4AYQBtAGUAKAAiAFMAeQBzAHQAZQBtAC4AVwBpAG4AZABvAHcAcwAuAEYAbwByAG0AcwAiACkAIAB8ACAAbwB1AHQALQBuAHUAbABsAA0ACgAkAHAAYQB0AGgAIAA9ACAARwBlAHQALQBQAHIAbwBjAGUAcwBzACAALQBpAGQAIAAkAHAAaQBkACAAfAAgAFMAZQBsAGUAYwB0AC0ATwBiAGoAZQBjAHQAIAAtAEUAeABwAGEAbgBkAFAAcgBvAHAAZQByAHQAeQAgAFAAYQB0AGgADQAKACQAaQBjAG8AbgAgAD0AIABbAFMAeQBzAHQAZQBtAC4ARAByAGEAdwBpAG4AZwAuAEkAYwBvAG4AXQA6ADoARQB4AHQAcgBhAGMAdABBAHMAcwBvAGMAaQBhAHQAZQBkAEkAYwBvAG4AKAAkAHAAYQB0AGgAKQANAAoAJABuAG8AdABpAGYAeQAgAD0AIABuAGUAdwAtAG8AYgBqAGUAYwB0ACAAcwB5AHMAdABlAG0ALgB3AGkAbgBkAG8AdwBzAC4AZgBvAHIAbQBzAC4AbgBvAHQAaQBmAHkAaQBjAG8AbgANAAoAJABuAG8AdABpAGYAeQAuAGkAYwBvAG4AIAA9ACAAJABpAGMAbwBuAA0ACgAkAG4AbwB0AGkAZgB5AC4AdgBpAHMAaQBiAGwAZQAgAD0AIAAkAHQAcgB1AGUADQAKACQAbgBvAHQAaQBmAHkALgBzAGgAbwB3AGIAYQBsAGwAbwBvAG4AdABpAHAAKAAxADAALAAkAFQAaQB0AGwAZQAsACQATQBlAHMAcwBhAGcAZQAsACAAWwBzAHkAcwB0AGUAbQAuAHcAaQBuAGQAbwB3AHMALgBmAG8AcgBtAHMALgB0AG8AbwBsAHQAaQBwAGkAYwBvAG4AXQA6ADoAJABUAHkAcABlACkA"
 ::deletes the .zip if user hasn't already
 del /f RunThisMan.zip
 cls
@@ -19,185 +18,54 @@ color c
 cls
 
 ::Spams the user to run as admin
+mode 100,50
+echo tttttttttttttttttttffftttt1111111tt1111tt1111111ttttttttt11tttt1111111ttttttttttttttttttt1
+echo fttttttttttttttttffLfttffttfffttttt1111111111111tffffftttt111111111111111tttffttftttttttt1
+echo ttttttttttttttffffLftttfffffffffftt11111iii1i11ffffffffttttttt111111tttttffffftfLLfttttttt
+echo ttttttttttttttffffftttffffffffffttt11;::,,,,,:;1ffffffffttttttt1111ttfffffffLfttffffffttt1
+echo ttttttttttfffftttffttffffffffttttt1;:,,,,,,,,,,:tffffftttttt111t111111ttffffLLffttfLLft111
+echo ttttttttffLLLLftttttffLLfttttttft;,,,,,,,,:::,:itfffftttfffft11t111tt111ttfffLLfttfftt1ttt
+echo ttttttffLLLLLLLffttfLLLfttfffttt;,,,,,,:;ii1111tttttttffffffftt1111tftt111tttfLLfttt11tfff
+echo tttttfffLLLLLLLLffttfttttffffft1:,,,,,:;iii11111fttttffffffffftt111tft1ttft11tffLfttttffff
+echo tttttfLLLLLLLLLffttttffftfffftt1:,,,,,:;;;iiiii1ftttfffffffffftt1111t11ttffttttttt1ttfffff
+echo tffttfLLLLLLLLLLfttfttffftttttft::;;::;;iiiiiii1ttttttttfffffftt1111tft1ttt1tffttt11tffffL
+echo ffffffffLLLLLLffftfffttttffftfLfi:;i;;;;;iiiiii1tffftt11tfffft111111ffftt1tt1tt1tttttfffLL
+echo fftfttttfLLLfftttttffffttfLLftfff;:;;;;;;;iiiii1tffffftt1tttt11tt111fffttffft1ttfftttffLLL
+echo tttttttttfffttttttttttttttffffffft;;;;;;;;iiii1ttffffffft1ttt1111111tfftfffftttttttttttfLL
+echo ffffffffftttfffffffffttft1tfffttt1i;;;;;;;;iii1ttfffftttt1tffft11111tfttffftttttttttttttfL
+echo ffffffffftttfffffffftttffttttti::i;;;i;;;;ii1111tttttt11tttttfftt111tt1tffttffttfffffLLfff
+echo ffffffffttttfffffffft1ttt11i;:,.,ii;;iiiii11:i1111tt111tfft1ttft11111tt1ttttffttttfffLLLft
+echo tffffffffttffffffftt111i;:,......:11;;iiiii1::;;;::;i1ttffft11t11111tfftttttttt1ttffffLfft
+echo ttttttfffttfttt1111ii;:,.........,it1iii;;1ti::;;,..,:1tfffft1111111ttttt11tfft11ttfffffff
+echo ttttttttt1tt111111;,..............;1111ii1ti:;:;;,,,,.:tffftt11t1111tttt1tt1tffftt1111ttff
+echo ttfffftt1111ttttti,................:;;;i;;;,,:;;:,,,,,,itt1111tt1111ttt11tf1tffffftttttt1t
+echo 1tfffffft1ttttttt:..........,,......:;;;;;;,.,i;,,,,,,.;t111111111111t111tft1tffffttfffftt
+echo 1ttfffft111ttttt1,............,.....,;;;;;:,.:1i,......;11t111111111111t11tt1tfffttfffffff
+echo tt1tftt11111tt11;....................:;;;;:,.:1i,......:tt11111111111111111t1tffttttffffft
+echo ft11ttttttt1111i,....................,:;:;:.,,;:,......:111tttt11111111tttt11tttfLffttfft1
+echo tttt1ttttttt111;......................,;:;:..,:,.......:11tttttt111111tttffttttffLLffttttf
+echo fft11ttttttt11i,.......................:::,..,:,.......,1tttttttt11111ttttfftttffffffftttf
+echo fft11ttttttt11;........................,:::,..:,........;11tttt11111111ttffttttffLLfLfttff
+echo tft11ttttttt11;......................,:;;;;;;,:,........,111tt1111111111tttttttffLLfLfttff
+echo ttt11ttttttt11i.....................:::;;;;;:.:,....... ,1t11111111111t111tftttfffLLLfttff
+echo tt111ttttttt11:....................,:::;;;;;.,:,..........,:;iii11111ttt11tffttffffffftttf
+echo ttt11tt1111111,....................,:::;;;;,.,:..........   .::;;;;ii11111ttftttftfffft1tf
+echo ttt11ttttttt11i................. ....,,,,.....:.... ........,:::;;;;ii111tt1tttfffffttt1tf
+echo ttt11ttttttt11ti,.     .........,...   .. ....,..:,..    ....,:::;;;iii1ttt1111ttttttt11tt
+echo 111111ttt111111t1ii;;;,.......................:..,.:1;:,,..   ..,;i1i1t1ttt1111ttttttt111t
+echo 11111111111111111ttttt:,......................:..  ,tttt111i;;;;i1tt1111111111111111111111
+echo 1111111111111111111111:,..................,...:.....it1t1ttttttttt111111111111111111111111
+echo 1111111111111111111111;,..................,...:.... ;tttt11t11t111111111111111111111111111
+echo 1111111111111111111111:...................,..,:.....:ttttttttttt11111111111111111111111111
+echo 111111111111111111111i,...................:,.,:.....,1ttttttttt111111111111111111111111111
+echo 111111111111111111111;...................,::..:.....,1ttttttttt1t11t1111t11111111111111111
+echo 111111111111111111111:.................. :;:,,:......itttttttttttttt111ttt11t1111t111t1ttt
+echo 1111111111111111111t1:.................. :;;:::......;ttttttttttttttttt1ttt1ttt11ttttttttt
+echo.
+
+powershell.exe -command "& {[System.Console]::Beep(523.25 ,150); [System.Console]::Beep(587.33 ,150); [System.Console]::Beep(698.46 ,150); [System.Console]::Beep(587.33 ,150); [System.Console]::Beep(880.00 ,450); [System.Console]::Beep(880.00 ,450); [System.Console]::Beep(783.99 ,1200); [System.Console]::Beep(523.25 ,150); [System.Console]::Beep(587.33 ,150); [System.Console]::Beep(698.46 ,150); [System.Console]::Beep(587.33 ,150); [System.Console]::Beep(783.99 ,450); [System.Console]::Beep(783.99 ,450); [System.Console]::Beep(698.46 ,450); [System.Console]::Beep(659.25 ,150); [System.Console]::Beep(587.33 ,300); [System.Console]::Beep(523.25 ,150); [System.Console]::Beep(587.33 ,150); [System.Console]::Beep(698.46 ,150); [System.Console]::Beep(587.33 ,150); [System.Console]::Beep(698.46 ,600); [System.Console]::Beep(783.99 ,300); [System.Console]::Beep(659.25 ,300); [System.Console]::Beep(587.33 ,125); [System.Console]::Beep(523.25 ,600); [System.Console]::Beep(523.25 ,300); [System.Console]::Beep(783.99 ,600); [System.Console]::Beep(698.46 ,1200);}"
+
 echo Run as admin
-ping localhost -n 1.5 >nul
-color c
-echo rUn as admin
-ping localhost -n 1.5 >nul
-color a
-echo ruN as admin
-ping localhost -n 1.5 >nul
-color c
-echo run As admin
-ping localhost -n 1.5 >nul
-color a
-echo run aS admin
-ping localhost -n 1.5 >nul
-color c
-echo run as Admin
-ping localhost -n 1.5 >nul
-color a
-echo run as aDmin
-ping localhost -n 1.5 >nul
-color c
-echo run as adMin
-ping localhost -n 1.5 >nul
-color a
-echo run as admIn
-ping localhost -n 1.5 >nul
-color c
-echo run as admiN
-ping localhost -n 1.5 >nul
-color a
-echo run as admIn
-ping localhost -n 1.5 >nul
-color c
-echo run as adMin
-ping localhost -n 1.5 >nul
-color a
-echo run as aDmin
-ping localhost -n 1.5 >nul
-color c
-echo run as Admin
-ping localhost -n 1.5 >nul
-color a
-echo run aS admin
-ping localhost -n 1.5 >nul
-color c
-echo run As admin
-ping localhost -n 1.5 >nul
-color a
-echo run as admin
-ping localhost -n 1.5 >nul
-color c
-echo ruN as admin
-ping localhost -n 1.5 >nul
-color a
-echo rUn as admin
-ping localhost -n 1.5 >nul
-color c
-echo Run as admin
-ping localhost -n 1.5 >nul
-color a
-echo Run as admin
-ping localhost -n 1.5 >nul
-color c
-echo rUn as admin
-ping localhost -n 1.5 >nul
-color a
-echo ruN as admin
-ping localhost -n 1.5 >nul
-color c
-echo run As admin
-ping localhost -n 1.5 >nul
-color a
-echo run aS admin
-ping localhost -n 1.5 >nul
-color c
-echo run as Admin
-ping localhost -n 1.5 >nul
-color a
-echo run as aDmin
-ping localhost -n 1.5 >nul
-color c
-echo run as adMin
-ping localhost -n 1.5 >nul
-color a
-echo run as admIn
-ping localhost -n 1.5 >nul
-color c
-echo run as admiN
-ping localhost -n 1.5 >nul
-color a
-echo run as admIn
-ping localhost -n 1.5 >nul
-color c
-echo run as adMin
-ping localhost -n 1.5 >nul
-color a
-echo run as aDmin
-ping localhost -n 1.5 >nul
-color c
-echo run as Admin
-ping localhost -n 1.5 >nul
-color a
-echo run aS admin
-ping localhost -n 1.5 >nul
-color c
-echo run As admin
-ping localhost -n 1.5 >nul
-color a
-echo run as admin
-ping localhost -n 1.5 >nul
-color c
-echo ruN as admin
-ping localhost -n 1.5 >nul
-color a
-echo rUn as admin
-ping localhost -n 1.5 >nul
-color c
-echo Run as admin
-ping localhost -n 1.5 >nul
-color a
-echo Run as admin
-ping localhost -n 1.5 >nul
-color c
-echo rUn as admin
-ping localhost -n 1.5 >nul
-color a
-echo ruN as admin
-ping localhost -n 1.5 >nul
-color c
-echo run As admin
-ping localhost -n 1.5 >nul
-color a
-echo run aS admin
-ping localhost -n 1.5 >nul
-color c
-echo run as Admin
-ping localhost -n 1.5 >nul
-color a
-echo run as aDmin
-ping localhost -n 1.5 >nul
-color c
-echo run as adMin
-ping localhost -n 1.5 >nul
-color a
-echo run as admIn
-ping localhost -n 1.5 >nul
-color c
-echo run as admiN
-ping localhost -n 1.5 >nul
-color a
-echo run as admIn
-ping localhost -n 1.5 >nul
-color c
-echo run as adMin
-ping localhost -n 1.5 >nul
-color a
-echo run as aDmin
-ping localhost -n 1.5 >nul
-color c
-echo run as Admin
-ping localhost -n 1.5 >nul
-color a
-echo run aS admin
-ping localhost -n 1.5 >nul
-color c
-echo run As admin
-ping localhost -n 1.5 >nul
-color a
-echo run as admin
-ping localhost -n 1.5 >nul
-color c
-echo ruN as admin
-ping localhost -n 1.5 >nul
-color a
-echo rUn as admin
-ping localhost -n 1.5 >nul
-color c
-echo Run as admin
-ping localhost -n 1.5 >nul
 color a
 echo If you choose 'n' it will run the limited vers.
 ping localhost -n 1.5 >nul
@@ -224,6 +92,8 @@ call %~dp0Scripts\noadmin.bat
 
 ::information on what you can do
 :info
+powershell.exe -EncodedCommand "JABUAGkAdABsAGUAIAA9ACAAIgBIAGUAeQAhACIADQAKACQATQBlAHMAcwBhAGcAZQAgAD0AIAAiAFQAaABhAG4AawBzACAAZgBvAHIAIAB1AHMAaQBuAGcAIAB0AGgAaQBzACAAYgBhAHQAYwBoACAAZgBpAGwAZQAiAA0ACgAkAFQAeQBwAGUAIAA9ACAAIgBpAG4AZgBvACIADQAKACAAIAANAAoAWwByAGUAZgBsAGUAYwB0AGkAbwBuAC4AYQBzAHMAZQBtAGIAbAB5AF0AOgA6AGwAbwBhAGQAdwBpAHQAaABwAGEAcgB0AGkAYQBsAG4AYQBtAGUAKAAiAFMAeQBzAHQAZQBtAC4AVwBpAG4AZABvAHcAcwAuAEYAbwByAG0AcwAiACkAIAB8ACAAbwB1AHQALQBuAHUAbABsAA0ACgAkAHAAYQB0AGgAIAA9ACAARwBlAHQALQBQAHIAbwBjAGUAcwBzACAALQBpAGQAIAAkAHAAaQBkACAAfAAgAFMAZQBsAGUAYwB0AC0ATwBiAGoAZQBjAHQAIAAtAEUAeABwAGEAbgBkAFAAcgBvAHAAZQByAHQAeQAgAFAAYQB0AGgADQAKACQAaQBjAG8AbgAgAD0AIABbAFMAeQBzAHQAZQBtAC4ARAByAGEAdwBpAG4AZwAuAEkAYwBvAG4AXQA6ADoARQB4AHQAcgBhAGMAdABBAHMAcwBvAGMAaQBhAHQAZQBkAEkAYwBvAG4AKAAkAHAAYQB0AGgAKQANAAoAJABuAG8AdABpAGYAeQAgAD0AIABuAGUAdwAtAG8AYgBqAGUAYwB0ACAAcwB5AHMAdABlAG0ALgB3AGkAbgBkAG8AdwBzAC4AZgBvAHIAbQBzAC4AbgBvAHQAaQBmAHkAaQBjAG8AbgANAAoAJABuAG8AdABpAGYAeQAuAGkAYwBvAG4AIAA9ACAAJABpAGMAbwBuAA0ACgAkAG4AbwB0AGkAZgB5AC4AdgBpAHMAaQBiAGwAZQAgAD0AIAAkAHQAcgB1AGUADQAKACQAbgBvAHQAaQBmAHkALgBzAGgAbwB3AGIAYQBsAGwAbwBvAG4AdABpAHAAKAAxADAALAAkAFQAaQB0AGwAZQAsACQATQBlAHMAcwBhAGcAZQAsACAAWwBzAHkAcwB0AGUAbQAuAHcAaQBuAGQAbwB3AHMALgBmAG8AcgBtAHMALgB0AG8AbwBsAHQAaQBwAGkAYwBvAG4AXQA6ADoAJABUAHkAcABlACkA"
+
 title information on what's in the batch, Do not resize the Window!
 mode 80,100
 color 1f
@@ -1316,7 +1186,7 @@ pause pause
 goto :menu6
 
 :wireshark
-cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://2.na.dl.wireshark.org/win64/Wireshark-win64-3.4.8.exe
+cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://2.na.dl.wireshark.org/win64/Wireshark-win64-3.4.9.exe
 echo.
 echo Downloaded the installer successfully
 ping localhost -n 1 >nul
@@ -1583,6 +1453,7 @@ Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassRAMCheck" /t REG_D
 Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassSecureBootCheck" /t REG_DWORD /d 1 /f >nul 2>&1
 Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassStorageCheck" /t REG_DWORD /d 1 /f >nul 2>&1
 Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_DWORD /d 1 /f >nul 2>&1
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup" /v "AllowUpgradesWithUnsupportedTPMOrCPU" /t REG_DWORD /d 1 /f >nul 2>&1
 timeout /t 3
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d 0 /f >nul 2>&1
 echo. "Allow Telemetry" is set to Enabled, can set to Disable, but Insider Build won't work.
@@ -1725,6 +1596,7 @@ if "%reg%" equ "DisableW11InstHardwareCheck" (
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassSecureBootCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassStorageCheck" /t REG_DWORD /d "1" /f >nul 2>&1
 	Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_DWORD /d "1" /f >nul 2>&1
+	reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup" /v "AllowUpgradesWithUnsupportedTPMOrCPU" /t REG_DWORD /d 1 /f >nul 2>&1
 	echo.
 	gpupdate /force
 )

@@ -56,12 +56,27 @@ reg add HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan /f >nul 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "MUIVerb" /d "RunThisMan Menu Selection" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan" /v "subcommands" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell" /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch" /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /t REG_SZ /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Batch\command" /ve /d "C:\users\%USERNAME%\AppData\Local\Temp\RunThisMan.bat" /t REG_SZ /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\FlushDNS" /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\FlushDNS\command" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\FlushDNS\command" /ve /d "cmd.exe /c "ipconfig/flushdns"" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Execute Batch" /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Execute Batch\command" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Execute Batch\command" /ve /d "C:\users\%USERNAME%\AppData\Local\Temp\RunThisMan.bat" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts" /v "MUIVerb" /d "Command Line Scripts" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts" /v "subcommands" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell" /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Flush DNS" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Flush DNS\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Flush DNS\command" /ve /d "cmd.exe /c ipconfig /flushdns" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware" /v "MUIVerb" /d "Software Download" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware" /v "subcommands" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell" /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Notepad++" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Notepad++\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Notepad++\command" /ve /d "cmd.exe /c cd c:\users\%username%\AppData\Local\Temp && curl -L -O https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.4/npp.8.1.4.Installer.x64.exe && start npp.8.1.4.Installer.x64.exe && del /f npp.8.1.4.Installer.x64.exe " /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Wireshark" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Wireshark\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Wireshark\command" /ve /d "cmd.exe /c cd c:\users\%username%\AppData\Local\Temp && curl -L -O https://2.na.dl.wireshark.org/win64/Wireshark-win64-3.4.9.exe && start Wireshark-win64-3.4.9.exe && del /f Wireshark-win64-3.4.9.exe " /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify\command" /ve /d "cmd.exe /c cd c:\users\%username%\AppData\Local\Temp && curl -L -O https://download.spotify.com/SpotifySetup.exe && start SpotifySetup.exe && del /f SpotifySetup.exe" /t REG_SZ /f 2>&1
 
 set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
 echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
