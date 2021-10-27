@@ -44,6 +44,25 @@ echo.
 echo extracting the zipped file
 powershell -command "Expand-Archive -Force '%~dp0RunThisMan.zip' 'C:\users\%USERNAME%\AppData\Local\Temp'"
 del /f %~dp0RunThisMan.zip >nul
+echo.
+echo Preview of context menu:
+echo. [x] Command Line 
+echo. 	[x] Flush DNS
+echo. 	[x] Release/Renew IP Address
+echo. 	[x] Create a user
+echo. 	[x] GetMac
+echo. 	[x] DNS
+echo.
+echo. [x] RunThisMan Batch
+echo. 	[x] Executes
+echo.
+echo. [x] Software Download "&" Insallation
+echo. 	[x] Notepad++
+echo. 	[x] Wireshark
+echo. 	[x] Spotify
+echo. 	[x] OWASP "+" Java
+echo. 	[x] Advanced IP Scanner
+echo.
 set pass=
 choice /C yn /n /m "Do you want to add RunThisMan to the context menu? [{Y}/N]"
 set pass=%errorlevel%
@@ -65,6 +84,18 @@ reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command L
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Flush DNS" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Flush DNS\command" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Flush DNS\command" /ve /d "cmd.exe /c ipconfig /flushdns" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Release IP & Renew" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Release IP & Renew\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Release IP & Renew\command" /ve /d "cmd.exe /c ipconfig /release && ipconfig /renew" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Fast Create a User" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Fast Create a User\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\Fast Create a User\command" /ve /d "cmd.exe /k net user ss /comment:"s" /fullname:"s" 1234 /add" /f
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\getmac" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\getmac\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\getmac\command" /ve /d "cmd.exe /c getmac && timeout /t 5" /t REG_SZ /f 
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\dns" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\dns\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\dns\command" /ve /d "cmd.exe /k" /f
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware" /v "MUIVerb" /d "Software Download" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware" /v "subcommands" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell" /f 2>&1
@@ -77,6 +108,12 @@ reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSo
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify\command" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify\command" /ve /d "cmd.exe /c cd c:\users\%username%\AppData\Local\Temp && curl -L -O https://download.spotify.com/SpotifySetup.exe && start SpotifySetup.exe && del /f SpotifySetup.exe" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\OWASP" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\OWASP\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\OWASP\command" /ve /d "cmd.exe /c cd c:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://github.com/zaproxy/zaproxy/releases/download/v2.11.0/ZAP_2_11_0_windows.exe & curl -L -O https://javadl.oracle.com/webapps/download/AutoDL?BundleId=245479_4d5417147a92418ea8b615e228bb6935 && start jre-8u311-windows-au.exe && start ZAP_2_11_0_windows.exe && del /f ZAP_2_11_0_windows.exe && del /f jre-8u311-windows-au.exe" /t REG_SZ /f 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Advanced IP Scanner" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Advanced IP Scanner\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Advanced IP Scanner\command" /ve /d "cmd.exe /c cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.3850.exe && start Advanced_IP_Scanner_2.5.3850.exe && del /f Advanced_IP_Scanner_2.5.3850.exe" /t REG_SZ /f 2>&1
 
 set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
 echo Set oWS = WScript.CreateObject("WScript.Shell") >> %SCRIPT%
