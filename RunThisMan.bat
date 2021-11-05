@@ -1402,7 +1402,7 @@ echo                                         █  58. Registry to add custom mod
 echo                                         █  59. Registry to disable W11 Hardware chk█
 echo                                         █  60. Registry for LLMNR:                 █
 echo                                         █  61. Registry Take Ownership Context Menu█
-echo                                         █  62. :                                   █
+echo                                         █  62. Registry for USB write protection:  █
 echo                                         █  63. :                                   █ 
 echo                                         █  64. :                                   █
 echo                                         █  65. :                                   █
@@ -1421,7 +1421,7 @@ if "%userinp%"=="58" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="59" echo. & echo starting.. & ping localhost -n 1 >nul & goto :59
 if "%userinp%"=="60" echo. & echo starting.. & ping localhost -n 1 >nul & goto :60
 if "%userinp%"=="61" echo. & echo starting.. & ping localhost -n 1 >nul & goto :61
-if "%userinp%"=="62" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="62" echo. & echo starting.. & ping localhost -n 1 >nul & goto :62
 if "%userinp%"=="63" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="64" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="65" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
@@ -1456,7 +1456,7 @@ Reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\LabConfig" /v "BypassTPMCheck" /t REG_D
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\Setup\MoSetup" /v "AllowUpgradesWithUnsupportedTPMOrCPU" /t REG_DWORD /d 1 /f >nul 2>&1
 timeout /t 3
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t REG_DWORD /d 0 /f >nul 2>&1
-echo. "Allow Telemetry" is set to Enabled, can set to Disable, but Insider Build won't work.
+echo. "Allow Telemetry" is set to Enabled, can set to Disable, but Insider Build won't work. -- Skipping
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v "AllowTelemetry" /t REG_DWORD /d 1 /f >nul 2>&1
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v "EnableActivityFeed" /t REG_DWORD /d 0 /f >nul 2>&1
@@ -1489,6 +1489,39 @@ pause pause
 goto :menu7
 
 :sike
+goto :menu7
+
+
+:62
+cls
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.	 #########USB Write Protection#########
+echo.  [1]   Add "USB Write Protection" to Context Menu
+echo.  [2]   Remove "USB Write Protection" to Context Menu
+
+	echo.===============================================================================
+	choice /C:ed /N /M "Enter Your Choice : "
+	if errorlevel 1  set "reg=enable"
+	if errorlevel 2  set "reg=disable"
+	)
+if "%reg%" equ "enable" echo.####Applying reg keys#######################
+echo.
+if "%reg%" equ "enable" (
+	echo.
+    echo.Editing the registry...
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies" /v "WriteProtect" /d "1" /t REG_DWORD /f 
+)
+if "%reg%" equ "enable" echo.####Applying reg keys#######################
+echo.
+if "%reg%" equ "disable" (
+	echo.
+    echo.Editing the registry...
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\StorageDevicePolicies" /v "WriteProtect" /d "0" /t REG_DWORD /f 
+)
 goto :menu7
 
 :57
