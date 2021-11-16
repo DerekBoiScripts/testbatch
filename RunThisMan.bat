@@ -170,7 +170,7 @@ goto :boot
 
 :boot
 color a
-
+chcp 437 > nul
 ::sets the size of the cmd automatically
 start /b powershell -command "&{$w=(get-host).ui.rawui;$w.buffersize=@{width=102;height=999};$w.windowsize=@{width=102;height=29};}"
 title Current time is %time%
@@ -375,12 +375,12 @@ echo                                         ▄▄▄▄▄▄▄▄▄▄▄�
 echo                                         █                  Choices:                █
 echo                                         █                                          █
 echo                                         █  10. Enable Trim/System:                 █
-echo                                         █  11. Ping (Powershell):                  █
+echo                                         █  11. Hostname:                           █
 echo                                         █  12. System Assessment:                  █
 echo                                         █  13. IP Release/renew                    █
 echo                                         █  14. Register ocx/dll:                   █
-echo                                         █  15. Nagles Alg On:                      █
-echo                                         █  16. Nagles Alg Off:                     █
+echo                                         █  15. :                     █
+echo                                         █  16. :                     █
 echo                                         █  17. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -390,45 +390,14 @@ set /p userinp=Type the number of your choice:
 set userinp=%userinp:~0,2%
 
 if "%userinp%"=="10" echo. & echo Starting.. & ping localhost -n 1 >nul & goto :trimsystemassessment
-if "%userinp%"=="11" echo. & echo Pinging using Powershell.. & goto :pingg
+if "%userinp%"=="11" echo. & echo Pinging using Powershell.. & hostname & pause & goto :menu2
 if "%userinp%"=="12" echo. & echo Starting System Assessment & goto :systemassessment
 if "%userinp%"=="13" echo. & Releasing the IP and Renewing... & ping localhost -n 1 >nul & ipconfig /release & ipconfig /renew & goto :menu2
 if "%userinp%"=="14" echo. & echo Starting... & goto :regsvr
-if "%userinp%"=="15" echo. & ping localhost -n 1 >nul & goto :naglealg
-if "%userinp%"=="16" echo. & echo Starting disksssssssssss manager.. & ping localhost -n 1 >nul & diskmgmt & goto :menu2
+if "%userinp%"=="15" echo. & ping localhost -n 1 >nul & goto :menu2
+if "%userinp%"=="16" echo. & echo Starting .. & ping localhost -n 1 >nul & goto :menu2
 if "%userinp%"=="17" echo Returning to menu... & ping localhost -n 2 >nul & goto :menu
-
-:naglealg
-setlocal
-SET /P AREYOUSURE=Are you sure you want to enable Nagle Algorithm (Y/[N])?
-IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
-echo starting nagle reg keys...
-echo.
-REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TcpAckFrequency /t REG_DWORD /d 1 /f
-REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TCPNoDelay /t REG_DWORD /d 1 /f
-taskkill /f /im explorer.exe
-start explorer.exe
-ping localhost -n 5 >nul
-
-:END
-endlocal
-goto :menu2
-
-:naglealg2
-setlocal
-SET /P AREYOUSURE=Are you sure you want to enable Nagle Algorithm (Y/[N])?
-IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
-echo disabling nagle reg keys...
-echo.
-REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TcpAckFrequency /t REG_DWORD /d 0 /f
-REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TCPNoDelay /t REG_DWORD /d 0 /f
-taskkill /f /im explorer.exe
-start explorer.exe
-ping localhost -n 5 >nul
-
-:END
-endlocal
-goto :menu2
+if "%userinp%"=="{TAB}" goto :menu
 
 :trimsystemassessment
 setlocal
@@ -451,29 +420,14 @@ winsat formal
 pause
 goto :END
 
-:pingg
-chcp 437 > nul
-SET /P  system=Do you want to Ping? (Y/[N])?
-IF /I "%system%" NEQ "Y" GOTO END
-
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\ping.ps1""' -Verb RunAs}"
-ping localhost -n 2 >nul
-chcp 65001 > nul
-
-goto :END
-
-:END
-endlocal
-goto :menu2
-
 :regsvr
 ping localhost -n 1 >nul 
 cd ..
 cd ..
 cd ..
 cd ..
-cd\windows
-cd\windows\system32
+cd cd\windows
+cd cd\windows\system32
 For /F %s in ('dir /b *.dll') do regsvr32 /s %s
 ping localhost -n 2 >nul
 For /F %s in ('dir /b *.ocx') do regsvr32 /s %s
@@ -696,20 +650,20 @@ cls
 echo.
 echo.
 echo.
-echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #4─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                         █                  Choices:                █
-echo                                         █                                          █
-echo                                         █  26. Disk Manager:                       █
-echo                                         █  27. Device Manager:                     █
-echo                                         █  28. Event Viewer:                       █
-echo                                         █  29. Services:                           █
-echo                                         █  30. Task Scheduler:                     █
-echo                                         █  31. Local User Mgnt:                    █
-echo                                         █  32. create a user:                      █
-echo                                         █  33. Go Back:                            █
-echo                                         █  34. Go Back to normal Command Prompt:   █
-echo                                         █                                          █
-echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                                   ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - Utility #4─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                                   █                  Choices:                        █
+echo                                   █                                                  █
+echo                                   █  26. Disk Manager:                               █
+echo                                   █  27. Device Manager:                             █
+echo                                   █  28. Event Viewer:                               █
+echo                                   █  29. Services:                                   █
+echo                                   █  30. Task Scheduler:                             █
+echo                                   █  31. Local User Mgnt:                            █
+echo                                   █  32. create a user:                              █
+echo                                   █  33. Go Back:                                    █
+echo                                   █  34. Go Back to normal Command Prompt:           █
+echo                                   █                                                  █
+echo                                   └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
 set /p userinp=Type the number of your choice: 
@@ -729,11 +683,16 @@ if "%userinp%"=="34" echo. & echo Exiting.. & goto :break
 SET /P _inputname= Please enter an username:
 SET /P _description= Enter a description:
 SET /P _fullname= Name on PC:
-SET /P _password= Enter the password:
+
+set "psCommand=powershell -Command "$pword = read-host 'Enter Password' -AsSecureString ; ^
+    $BSTR=[System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pword); ^
+        [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)""
+for /f "usebackq delims=" %%p in (`%psCommand%`) do set password=%%p
+
 SET /P _admin= Make user an admin (Y/N):
 ping localhost -n 2 >nul
 echo. 
-net user %_inputname% /comment:"%_description%" /fullname:"%_fullname%" %_password% /add
+net user %_inputname% /comment:"%_description%" /fullname:"%_fullname%" %password% /add
 ping localhost -n 2 >nul
 IF /I "%_admin%" NEQ "Y" GOTO END
 net localgroup administrators %_inputname% /add
@@ -755,22 +714,22 @@ cls
 echo.
 echo.
 echo.
-echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #5─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                         █                  Choices:                █
-echo                                         █                                          █
-echo                                         █  35. Powershell Display DNS:             █
-echo                                         █  36. Powershell Flush DNS:               █
-echo                                         █  37. Powershell Register DNS             █
-echo                                         █  38. Create Secret Docx:                 █
-echo                                         █  39. Get Hashes on files MD5/SHA256:     █
-echo                                         █  40. Powershell Ports:                   █
-echo                                         █  41. Hostname:                           █
-echo                                         █  42. scan network to see who is active:  █
-echo                                         █  43. embed anything to anything:         █
-echo                                         █  44. Menu 6/7:                           █
-echo                                         █  45. Go back                             █
-echo                                         █                                          █
-echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                             ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - Powershell Scripts #5─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                             █                  Choices:                                   █
+echo                             █                                                             █
+echo                             █  35. Powershell Display DNS:                                █
+echo                             █  36. Powershell Flush DNS:                                  █
+echo                             █  37. Powershell Register DNS                                █
+echo                             █  38. Create Secret Docx:                                    █
+echo                             █  39. Get Hashes on files MD5/SHA256:                        █
+echo                             █  40. Powershell Ports:                                      █
+echo                             █  41. Powershell Ping:                                       █
+echo                             █  42. scan network to see who is active:                     █
+echo                             █  43. embed anything to anything:                            █
+echo                             █  44. Menu 6/7:                                              █
+echo                             █  45. Go back                                                █
+echo                             █                                                             █
+echo                             └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
 set /p userinp=Type the number of your choice: 
@@ -782,7 +741,7 @@ if "%userinp%"=="37" echo. & echo starting PS; Registering DNS.. & ping localhos
 if "%userinp%"=="38" echo. & echo starting.. & ping localhost -n 1 >nul & goto :docx
 if "%userinp%"=="39" echo. & echo starting.. & ping localhost -n 1 >nul & goto :md5sha256
 if "%userinp%"=="40" echo. & echo starting PS; Checking the ports on an network.... & ping localhost -n 1 >nul & goto :Ports
-if "%userinp%"=="41" echo. & echo starting.. & ping localhost -n 1 >nul & hostname & pause
+if "%userinp%"=="41" echo. & echo starting.. & ping localhost -n 1 >nul & goto :pingg
 if "%userinp%"=="42" echo. & echo.. & ping localhost -n 1 >nul & goto :scann
 if "%userinp%"=="43" echo. & echo.. & ping localhost -n 1 >nul & goto :embed
 if "%userinp%"=="44" echo. & echo.. & ping localhost -n 1 >nul & goto :menu6or7s
@@ -934,6 +893,23 @@ goto :END
 :END
 endlocal
 goto :menu5 
+
+
+:pingg
+chcp 437 > nul
+SET /P  system=Do you want to Ping? (Y/[N])?
+IF /I "%system%" NEQ "Y" GOTO END
+
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\ping.ps1""' -Verb RunAs}"
+ping localhost -n 2 >nul
+chcp 65001 > nul
+
+goto :END
+
+:END
+endlocal
+goto :menu5
+
 
 :cdnsps
 chcp 437 > nul
@@ -1087,22 +1063,22 @@ cls
 echo.
 echo.
 echo.
-echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #6─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                         █                  Choices:                █
-echo                                         █                                          █
-echo                                         █  46. Download Notepad++:                 █
-echo                                         █  47. Download Wireshark:                 █
-echo                                         █  48. Download Advance IP Scanner:        █
-echo                                         █  49. Download NetScan:                   █
-echo                                         █  50. Download BleachBit:                 █
-echo                                         █  51. Download Geek Uninstaller:          █
-echo                                         █  52. Download OWASP:                     █
-echo                                         █  53. :                                   █
-echo                                         █  54. :                                   █
-echo                                         █  55. Download Spotify:                   █
-echo                                         █  56. Go back                             █
-echo                                         █                                          █
-echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                             ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - Software Downloads #6─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                             █                  Choices:                                   █
+echo                             █                                                             █
+echo                             █  46. Download Notepad++:                                    █
+echo                             █  47. Download Wireshark:                                    █
+echo                             █  48. Download Advance IP Scanner:                           █
+echo                             █  49. Download NetScan:                                      █
+echo                             █  50. Download BleachBit:                                    █
+echo                             █  51. Download Geek Uninstaller:                             █
+echo                             █  52. Download OWASP:                                        █
+echo                             █  53. :                                                      █
+echo                             █  54. :                                                      █
+echo                             █  55. Download Spotify:                                      █
+echo                             █  56. Go back                                                █
+echo                             █                                                             █
+echo                             └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 
 set /p userinp=Type the number of your choice: 
@@ -1256,7 +1232,7 @@ goto :menu6
 :netscan
 cd C:\Users\%username%\AppData\Local\Temp\ & timeout 5 & curl -L -O https://www.dropbox.com/s/19nt31amze6yegu/netscan.exe
 echo.
-timeout 5
+timeout /t 5
 echo Creating the shortcut to local dir:
 echo " %~dp0 "
 set SCRIPT="%TEMP%\%RANDOM%-%RANDOM%-%RANDOM%-%RANDOM%.vbs"
@@ -1394,22 +1370,22 @@ cls
 echo.
 echo.
 echo.
-echo                                         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - #7─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-echo                                         █                  Choices:                █
-echo                                         █                                          █
-echo                                         █  57. Registry to add custom Manufacturer:█
-echo                                         █  58. Registry to add custom model:       █
-echo                                         █  59. Registry to disable W11 Hardware chk█
-echo                                         █  60. Registry for LLMNR:                 █
-echo                                         █  61. Registry Take Ownership Context Menu█
-echo                                         █  62. Registry for USB write protection:  █
-echo                                         █  63. :                                   █ 
-echo                                         █  64. :                                   █
-echo                                         █  65. :                                   █
-echo                                         █  66. :                                   █
-echo                                         █  67. Go back                             █
-echo                                         █                                          █
-echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
+echo                             ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄─Menu - Registry #7─▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+echo                             █                  Choices:                         █
+echo                             █                                                   █
+echo                             █  57. Registry to add custom Manufacturer:         █
+echo                             █  58. Registry to add custom model:                █
+echo                             █  59. Disable W11 Hardware chk(Might work)         █
+echo                             █  60. Registry for LLMNR:                          █
+echo                             █  61. Registry Take Ownership Context Menu         █
+echo                             █  62. Registry for USB write protection:           █
+echo                             █  63. Registry to enable Nagles Algorithm:         █ 
+echo                             █  64. Registry to disable Nagles Algorithm:        █
+echo                             █  65. :                                            █
+echo                             █  66. :                                            █
+echo                             █  67. Go back                                      █
+echo                             █                                                   █
+echo                             └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
 echo.
 echo. [x] does a setup, do not choose unless you inspect the code
 
@@ -1422,8 +1398,8 @@ if "%userinp%"=="59" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="60" echo. & echo starting.. & ping localhost -n 1 >nul & goto :60
 if "%userinp%"=="61" echo. & echo starting.. & ping localhost -n 1 >nul & goto :61
 if "%userinp%"=="62" echo. & echo starting.. & ping localhost -n 1 >nul & goto :62
-if "%userinp%"=="63" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
-if "%userinp%"=="64" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="63" echo. & echo starting.. & ping localhost -n 1 >nul & goto :naglealg
+if "%userinp%"=="64" echo. & echo starting.. & ping localhost -n 1 >nul & goto :naglealg2
 if "%userinp%"=="65" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="66" echo. & echo starting.. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="67" echo. & echo starting.. & ping localhost -n 1 >nul & goto :menu
@@ -1477,8 +1453,8 @@ gpupdate /force
 echo.
 
 :: -> :: means that it doesn't read it. I blanked it out for now, will use in future uses.
-::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\StopEdgePDF.ps1""' -Verb RunAs}"
-::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\UninstallOneDrive.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\StopEdgePDF.ps1""' -Verb RunAs}"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\UninstallOneDrive.ps1""' -Verb RunAs}"
 ::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\UnpinStart.ps1""' -Verb RunAs}"
 ::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\DisableCortana.ps1""' -Verb RunAs}"
 ::PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& {Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0Scripts\ProtectPrivacy.ps1""' -Verb RunAs}"
@@ -1545,6 +1521,40 @@ gpupdate /force
 
 pause
 goto :menu7
+
+
+:naglealg
+setlocal
+SET /P AREYOUSURE=Are you sure you want to enable Nagle Algorithm (Y/[N])?
+IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
+echo starting nagle reg keys...
+echo.
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TcpAckFrequency /t REG_DWORD /d 1 /f
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TCPNoDelay /t REG_DWORD /d 1 /f
+taskkill /f /im explorer.exe
+start explorer.exe
+ping localhost -n 5 >nul
+
+:END
+endlocal
+goto :menu7
+
+:naglealg2
+setlocal
+SET /P AREYOUSURE=Are you sure you want to enable Nagle Algorithm (Y/[N])?
+IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
+echo disabling nagle reg keys...
+echo.
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TcpAckFrequency /t REG_DWORD /d 0 /f
+REG ADD HKey_Local_Machine\System\CurrentControlSet\Services\Tcpip\Parameters\Interfaces\ /v TCPNoDelay /t REG_DWORD /d 0 /f
+taskkill /f /im explorer.exe
+start explorer.exe
+ping localhost -n 5 >nul
+
+:END
+endlocal
+goto :menu7
+
 
 :59
 cls
