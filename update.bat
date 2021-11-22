@@ -46,6 +46,17 @@ powershell -command "Expand-Archive -Force '%~dp0RunThisMan.zip' 'C:\users\%USER
 del /f %~dp0RunThisMan.zip >nul
 echo.
 echo Preview of context menu:
+echo. 
+echo. Top of Context Menu
+echo.
+echo. [x] Power Plan Context Menu
+echo. 	[x] Balanced
+echo. 	[x] High Performance
+echo. 	[x] Power Saver
+echo.
+echo. 
+echo. Bottom Of Context Menu
+echo.
 echo. [x] Command Line 
 echo. 	[x] Flush DNS
 echo. 	[x] Release/Renew IP Address
@@ -61,8 +72,7 @@ echo. 	[x] Executes
 echo.
 echo. [x] Software Download "&" Insallation
 echo. 	[x] Notepad++
-echo. 	[x] Wireshark
-echo. 	[x] Spotify
+echo. 	[x] Discord
 echo. 	[x] OWASP "+" Java
 echo. 	[x] Advanced IP Scanner
 echo.
@@ -99,7 +109,6 @@ reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command L
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\dns" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\dns\command" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\dns\command" /ve /d "cmd.exe /k" /f 2>&1
-
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\a" /v "MUIVerb" /d "Encrypt and decrypt ON/OFF" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\a" /v "subcommands" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\a\shell" /f 2>&1
@@ -109,41 +118,36 @@ reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command L
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\Shell\Command Line Scripts\shell\a\shell\Off" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\a\shell\Off\command" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\Command Line Scripts\shell\a\shell\Off\command" /ve /d "cmd.exe /c reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "EncryptionContextMenu" /d "0" /t REG_DWORD /f 2>&1
-
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan" /v "MUIVerb" /d "Switch Power Plan" /t REG_SZ /f 
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan" /v "subcommands" /t REG_SZ /f 
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan" /v "Position" /d "Top" /t REG_SZ /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan" /v "Icon" /d "powercpl.dll" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Balanced" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Balanced" /v "MUIVerb" /d "Balanced" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Balanced" /v "Icon" /d "powercpl.dll" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Balanced\command" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Balanced\command" /ve /d "powercfg.exe /S 381b4222-f694-41f0-9685-ff5bb260df2e" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\High Performance" /v "MUIVerb" /d "High Performance" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\High Performance" /v "Icon" /d "powercpl.dll" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\High Performance\command" /ve /d "powercfg.exe /S 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Power Saver" /v "MUIVerb" /d "Power Saver" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Power Saver" /v "Icon" /d "powercpl.dll" /f
+reg add "HKEY_CLASSES_ROOT\DesktopBackground\Shell\Power Plan\shell\Power Saver\command" /ve /d "powercfg.exe /S a1841308-3541-4fab-bc81-f71556f20b4a"
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware" /v "MUIVerb" /d "Software Download" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware" /v "subcommands" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell" /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Notepad++" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Notepad++\command" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Notepad++\command" /ve /d "cmd.exe /c cd c:\users\%username%\AppData\Local\Temp && curl -L -O -# https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.4/npp.8.1.4.Installer.x64.exe && start npp.8.1.4.Installer.x64.exe && del /f npp.8.1.4.Installer.x64.exe " /t REG_SZ /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\VS Code" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\VS Code\command" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\VS Code\command" /ve /d "cmd.exe /c cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://az764295.vo.msecnd.net/stable/6cba118ac49a1b88332f312a8f67186f7f3c1643/VSCodeUserSetup-x64-1.61.2.exe && start VSCodeUserSetup-x64-1.61.2.exe && del /fVSCodeUserSetup-x64-1.61.2.exe" /t REG_SZ /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify\command" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Spotify\command" /ve /d "cmd.exe /c cd c:\users\%username%\AppData\Local\Temp && curl -L -O https://download.spotify.com/SpotifySetup.exe && start SpotifySetup.exe && del /f SpotifySetup.exe" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\OWASP" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\OWASP\command" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\OWASP\command" /ve /d "cmd.exe /c cd c:\Users\%username%\AppData\Local\Temp\ & curl --insecure --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" -L https://download.oracle.com/otn-pub/java/jdk/8u311-b11/4d5417147a92418ea8b615e228bb6935/jdk-8u311-windows-x64.exe && curl -L -O https://github.com/zaproxy/zaproxy/releases/download/v2.11.0/ZAP_2_11_0_windows.exe && start jdk-8u311-windows-x64.exe && start ZAP_2_11_0_windows.exe && del /f ZAP_2_11_0_windows.exe && del /f jdk-8u311-windows-x64.exe && pause" /t REG_SZ /f 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Advanced IP Scanner" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Advanced IP Scanner\command" 2>&1
 reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Advanced IP Scanner\command" /ve /d "cmd.exe /c cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.3850.exe && start Advanced_IP_Scanner_2.5.3850.exe && del /f Advanced_IP_Scanner_2.5.3850.exe" /t REG_SZ /f 2>&1
-
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2" /v "MUIVerb" /d "Part 2" /t REG_SZ /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2" /v "subcommands" /t REG_SZ /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell" /f 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\Wireshark" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\Wireshark\command" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\Wireshark\command" /ve /d "cmd.exe /c cd c:\users\%username%\AppData\Local\Temp && curl -L -O https://2.na.dl.wireshark.org/win64/Wireshark-win64-3.4.9.exe && start Wireshark-win64-3.4.9.exe && del /f Wireshark-win64-3.4.9.exe" /t REG_SZ /f 2>&1
-
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\Discord" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\Discord\command" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\Discord\command" /ve /d "cmd.exe /c cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O -# https://discord.com/downloads/distributions/app/installers/latest?channel=stable&platform=win&arch=x86.exe && start DiscordSetup.exe && del /f DiscordSetup.exe" /t REG_SZ /f 2>&1
-
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\VS Code" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\VS Code\command" 2>&1
-reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\part2\shell\VS Code\command" /ve /d "cmd.exe /c cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O https://az764295.vo.msecnd.net/stable/6cba118ac49a1b88332f312a8f67186f7f3c1643/VSCodeUserSetup-x64-1.61.2.exe && start VSCodeUserSetup-x64-1.61.2.exe && del /fVSCodeUserSetup-x64-1.61.2.exe" /t REG_SZ /f 2>&1
-
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Discord" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Discord\command" 2>&1
+reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\RunThisMan\shell\InstallSoftware\shell\Discord\command" /ve /d "cmd.exe /c cd C:\Users\%username%\AppData\Local\Temp\ & curl -L -O -# https://discord.com/downloads/distributions/app/installers/latest?channel=stable&platform=win&arch=x86.exe && start DiscordSetup.exe && del /f DiscordSetup.exe" /t REG_SZ /f 2>&1
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer" /v "MultipleInvokePromptMinimum" /d "200" /t REG_DWORD /f
 
 

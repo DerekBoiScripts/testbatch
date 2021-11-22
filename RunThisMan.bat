@@ -379,8 +379,8 @@ echo                                         █  11. Hostname:                 
 echo                                         █  12. System Assessment:                  █
 echo                                         █  13. IP Release/renew                    █
 echo                                         █  14. Register ocx/dll:                   █
-echo                                         █  15. :                     █
-echo                                         █  16. :                     █
+echo                                         █  15. Enable periodic update:             █
+echo                                         █  16.                                     █
 echo                                         █  17. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -394,10 +394,15 @@ if "%userinp%"=="11" echo. & echo Pinging using Powershell.. & hostname & pause 
 if "%userinp%"=="12" echo. & echo Starting System Assessment & goto :systemassessment
 if "%userinp%"=="13" echo. & Releasing the IP and Renewing... & ping localhost -n 1 >nul & ipconfig /release & ipconfig /renew & goto :menu2
 if "%userinp%"=="14" echo. & echo Starting... & goto :regsvr
-if "%userinp%"=="15" echo. & ping localhost -n 1 >nul & goto :menu2
+if "%userinp%"=="15" echo. & ping localhost -n 1 >nul & goto :taskschedule
 if "%userinp%"=="16" echo. & echo Starting .. & ping localhost -n 1 >nul & goto :menu2
 if "%userinp%"=="17" echo Returning to menu... & ping localhost -n 2 >nul & goto :menu
 if "%userinp%"=="{TAB}" goto :menu
+
+
+:taskschedule
+schtasks /create /tn updatedownload /tr C:\Users\%USERNAME%\AppData\Local\Temp\update.bat /sc WEEKLY /mo 2
+schtasks /query /fo LIST /TN updatedownload
 
 :trimsystemassessment
 setlocal
@@ -1073,8 +1078,8 @@ echo                             █  49. Download NetScan:                     
 echo                             █  50. Download BleachBit:                                    █
 echo                             █  51. Download Geek Uninstaller:                             █
 echo                             █  52. Download OWASP:                                        █
-echo                             █  53. :                                                      █
-echo                             █  54. :                                                      █
+echo                             █  53. Download and install Kali Linux, and Windows Terminal: █
+echo                             █  54. Download Reddit:                                       █
 echo                             █  55. Download Spotify:                                      █
 echo                             █  56. Go back                                                █
 echo                             █                                                             █
@@ -1091,7 +1096,7 @@ if "%userinp%"=="49" echo. & echo starting.. Downloading NetScan .. & ping local
 if "%userinp%"=="50" echo. & echo starting.. Downloading BleachBit .. & ping localhost -n 1 >nul & goto :BleachBit
 if "%userinp%"=="51" echo. & echo starting.. Downloading Geek Uninstaller.. & ping localhost -n 1 >nul & goto :geek
 if "%userinp%"=="52" echo. & echo starting.. Downloading OWASP .. & ping localhost -n 1 >nul & goto :owasp
-if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
+if "%userinp%"=="53" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :a11
 if "%userinp%"=="54" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :
 if "%userinp%"=="55" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :spotify
 if "%userinp%"=="56" echo. & echo starting..  .. & ping localhost -n 1 >nul & goto :menu
@@ -1361,6 +1366,65 @@ echo [91mC:\Users\%username%\AppData\Local\Temp[0m
 pause pause
 pause pause
 goto :menu6
+
+
+:a11
+SET /P a11=Do you have Linux Subsystem, VirtualMachinePlatform enabled (Y/[N])?
+IF /I "%a11%" NEQ "Y" GOTO :a22
+echo ok.
+goto :a33
+
+:a22
+SET /P a22=Install Linux Subsystem enabled, VirtualMachinePlatform (Y/[N])?
+IF /I "%a22%" NEQ "Y" GOTO :ENDDD
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+DISM /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+DISM /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+echo.
+echo you must restart your computer; and open this script again to continue.
+goto :a33
+
+:a33
+SET /P a33= (Optional) Do you have Windows Terminal installed, (Y/[N])?
+IF /I "%a33%" NEQ "Y" GOTO :a44
+goto :a55
+
+:a44
+SET /P a44= (Optional) Do you want to install Windows Terminal, (Y/[N])?
+IF /I "%a44%" NEQ "Y" GOTO :a55
+curl -L -# -o wterminal.msixbundle https://github.com/microsoft/terminal/releases/download/v1.11.2921.0/Microsoft.WindowsTerminal_1.11.2921.0_8wekyb3d8bbwe.msixbundle
+powershell -command "Add-AppxPackage .\wterminal.msixbundle"
+goto :a11
+
+:a55
+set /p aaaaaaaaa= (Optional) Do you want to make your own settings.json file? (Y/[N])
+if /I "%a55%" NEQ "Y" goto :a66
+cd C:\Users\%username%\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState
+echo [x] press CTRL + Z to save and quit
+echo.
+copy con settings.json
+goto :a66
+
+:a66
+echo.
+echo We're almost done, just a few more prequesites.
+echo installing kali linux...
+timeout /t 3
+cd C:\Users\%username%\AppData\Local\Temp
+curl -L -# -o kali.appx https://wsldownload.azureedge.net/kali-linux-08-06-2019.appx
+timeout /t 3
+powershell -command "wsl --set-default-version 2"
+powershell -command "Add-AppxPackage .\kali.appx"
+powershell -command "wsl --set-version kali-linux 2"
+echo done.
+timeout /t 5
+goto :menu6
+
+:ENDDD
+echo linux subsystem is required.
+timeout /t 3
+goto :menu6
+
 
 :menu7
 title Menu 7
