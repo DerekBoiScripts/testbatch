@@ -293,7 +293,7 @@ echo starting...
 netsh winsock reset catalog
 netsh interface ipv4 reset
 netsh interface ipv6 reset
-arp -d
+arp d
 netsh winsock reset
 netsh int tcp reset
 netsh int ip reset
@@ -379,7 +379,7 @@ echo                                         █  11. Hostname:                 
 echo                                         █  12. System Assessment:                  █
 echo                                         █  13. IP Release/renew                    █
 echo                                         █  14. Register ocx/dll:                   █
-echo                                         █  15. Enable periodic update:             █
+echo                                         █  15. Enable periodic updates:            █
 echo                                         █  16.                                     █
 echo                                         █  17. Go Back:                            █
 echo                                         █                                          █
