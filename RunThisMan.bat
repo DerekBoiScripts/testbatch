@@ -1,5 +1,6 @@
 @echo off
 
+
 ::deletes the .zip if user hasn't already
 del /f RunThisMan.zip
 cls
