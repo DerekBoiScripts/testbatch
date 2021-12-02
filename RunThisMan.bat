@@ -381,7 +381,7 @@ echo                                         █  12. System Assessment:        
 echo                                         █  13. IP Release/renew                    █
 echo                                         █  14. Register ocx/dll:                   █
 echo                                         █  15. Enable periodic updates:            █
-echo                                         █  16.                                     █
+echo                                         █  16. OpenSSH on kali WSL2                █
 echo                                         █  17. Go Back:                            █
 echo                                         █                                          █
 echo                                         └▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄┘
@@ -396,9 +396,54 @@ if "%userinp%"=="12" echo. & echo Starting System Assessment & goto :systemasses
 if "%userinp%"=="13" echo. & Releasing the IP and Renewing... & ping localhost -n 1 >nul & ipconfig /release & ipconfig /renew & goto :menu2
 if "%userinp%"=="14" echo. & echo Starting... & goto :regsvr
 if "%userinp%"=="15" echo. & ping localhost -n 1 >nul & goto :taskschedule
-if "%userinp%"=="16" echo. & echo Starting .. & ping localhost -n 1 >nul & goto :menu2
+if "%userinp%"=="16" echo. & echo Starting .. & ping localhost -n 1 >nul & goto :opensshkali
 if "%userinp%"=="17" echo Returning to menu... & ping localhost -n 2 >nul & goto :menu
 if "%userinp%"=="{TAB}" goto :menu
+
+:opensshkali
+echo 
+SET /P kali1=Do you have openssh installed on kali (Y/[N])?
+IF /I "%kali1%" NEQ "Y" GOTO :installopensshkali
+
+
+:windowsconfigsshkali
+echo showing portproxies
+netsh interface portproxy show v4tov4
+echo.
+echo check your config file on kali to find out
+SET /P _startinglisteningaddress= Enter the Starting Listening Address:
+SET /p listenport= Enter the port number that you set up your openssh in wsl2:
+SET /P wsl2ip= Enter the wsl2 ip address:
+set /p connectport= Enter the connecting port:
+netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=%listenport% connectaddress=%wsl2ip% connectport=%connectport%
+timeout /t 3
+set /p _rulename= Enter the Rule Name for this:
+set /p _localport= Enter the Local Port (Make it the same as listen port):
+netsh advfirewall firewall add rule name=%_rulename% dir=in action=allow protocol=TCP localport=%_localport%
+goto :menu
+
+:installopensshkali
+echo in the kali terminal type in:
+echo [91m sudo apt install openssh-server[0m
+echo Then hit the [91mEnter[0m key
+timeout /t 30
+echo Type [91m"y"[0m then press [91mEnter[0m
+timeout /t 10
+cls
+echo after it installs, go into your preferred editor and edit the sshd_config file.
+echo type in: 
+echo [91m sudo nano /etc/ssh/sshd_config [0m
+timeout /t 60
+echo you will see something like this:
+echo #Port
+echo #AddressFamily
+echo #ListenAddress
+echo -------------
+echo you would want to remove the "#" hashtags and make changes.
+echo -Press enter when ready-
+pause
+goto :windowsconfigsshkali
+
 
 
 :taskschedule
