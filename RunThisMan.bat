@@ -401,9 +401,9 @@ if "%userinp%"=="17" echo Returning to menu... & ping localhost -n 2 >nul & goto
 if "%userinp%"=="{TAB}" goto :menu
 
 :opensshkali
-echo 
+echo.
 SET /P kali1=Do you have openssh installed on kali (Y/[N])?
-IF /I "%kali1%" NEQ "Y" GOTO :installopensshkali
+IF /I "%kali1%" NEQ "Y" GOTO :kaliconfigmenu
 
 
 :windowsconfigsshkali
@@ -423,7 +423,30 @@ set /p _localport= Enter the Local Port (Make it the same as listen port):
 netsh advfirewall firewall add rule name=%_rulename% dir=in action=allow protocol=TCP localport=%_localport%
 goto :menu
 
-:installopensshkali
+
+:kaliconfigmenu
+SET /P configmenu=Do you want to proceed to edit in this terminal, If [N] Please open WSL2 Kali Terminal (Y/[N])?
+IF /I "%configmenu%" NEQ "Y" GOTO :installopensshkalibasic
+
+
+:installopensshkaliknowwhatyouredoing
+wsl.exe sudo apt install openssh-server
+echo.
+echo.
+echo.
+echo.
+echo showing WSL2 IP:
+wsl hostname -I
+echo ------
+echo going into editor..
+echo edit what you will need
+timeout /t 3
+wsl.exe sudo nano /etc/ssh/sshd_config
+echo done.
+goto :windowsconfigsshkali
+
+
+:installopensshkalibasic
 echo in the kali terminal type in:
 echo [91m sudo apt install openssh-server[0m
 echo Then hit the [91mEnter[0m key
