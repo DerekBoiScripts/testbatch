@@ -409,9 +409,10 @@ IF /I "%kali1%" NEQ "Y" GOTO :installopensshkali
 :windowsconfigsshkali
 echo showing portproxies
 netsh interface portproxy show v4tov4
+echo showing wsl2 IP Address
+wsl hostname -I
 echo.
 echo check your config file on kali to find out
-SET /P _startinglisteningaddress= Enter the Starting Listening Address:
 SET /p listenport= Enter the port number that you set up your openssh in wsl2:
 SET /P wsl2ip= Enter the wsl2 ip address:
 set /p connectport= Enter the connecting port:
