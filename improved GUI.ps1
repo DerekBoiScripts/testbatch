@@ -158,7 +158,7 @@ $console.Text = "Done"
 #add another button to the form
 $sysinfo_button = new-object windows.forms.button
 $sysinfo_button.text = "Systeminfo"
-$sysinfo_button.location = New-Object system.Drawing.Size(240,80)
+$sysinfo_button.location = New-Object system.Drawing.Size(240,110)
 $sysinfo_button.size = New-Object System.Drawing.Size(110,30)
 $sysinfo_button.add_click({$console.Text =Get-ComputerInfo -Property "*Version"| Out-String})
 
@@ -215,17 +215,51 @@ $console.Text = "Registering the DNS Cache"
 
 
 
+#add another button to the form
+$stopptr_button = new-object windows.forms.button
+$stopptr_button.text = "Stop Printer"
+$stopptr_button.location = New-Object system.Drawing.Size(120,170) 
+$stopptr_button.size = New-Object System.Drawing.Size(80,30)
+$stopptr_button.add_click({
+net stop spooler
+$console.Text = "Stopping Printer Services.."
+})
+
+#add another button to the form
+$startptr_button = new-object windows.forms.button
+$startptr_button.text = "Start Printer"
+$startptr_button.location = New-Object system.Drawing.Size(200,170) 
+$startptr_button.size = New-Object System.Drawing.Size(80,30)
+$startptr_button.add_click({
+net start spooler
+$console.Text = "Starting Printer Services.."
+})
 
 
 
 
 
+#add a input textbox to the form
+$nslookupx2textbox = New-Object system.Windows.Forms.Textbox
+$nslookupx2textbox.text = "Enter IP/HostName"
+$nslookupx2textbox.location = New-Object system.Drawing.Size(240,50)
+$nslookupx2textbox.size = New-Object System.Drawing.Size(100,20)
 
 
+#add another button to the form
+$nslookupv2 = new-object windows.forms.button
+$nslookupv2.text = "Resolve "
+$nslookupv2.location = New-Object system.Drawing.Size(240,80) 
+$nslookupv2.size = New-Object System.Drawing.Size(80,30)
+$nslookupv2.add_click({
+$console.Text = resolve-DnsName $nslookupx2textbox.Text | Out-String 
+})
 
 
-
-
+$Tab1.Controls.add($nslookupx2textbox)
+$Tab1.Controls.Add($nslookupv2)
+$Tab1.Controls.add($stopptr_button)
+$Tab1.Controls.add($startptr_button)
 $Tab1.Controls.add($ping_button)
 $Tab1.controls.add($theTbox)
 $Tab1.Controls.add($console)
