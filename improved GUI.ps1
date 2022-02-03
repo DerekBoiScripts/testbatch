@@ -10,6 +10,7 @@ $consolePtr = [Console.Window]::GetConsoleWindow()
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName PresentationCore,PresentationFramework
+
 [System.Windows.Forms.Application]::EnableVisualStyles()
 
 
@@ -59,12 +60,13 @@ $Tab1.Text = "General Use”
 $FormTabControl.Controls.Add($Tab1)
 
 #console box
-$console = New-Object System.Windows.Forms.TextBox
+$console = New-Object System.Windows.Forms.RichTextBox
 $console.Location = New-Object System.Drawing.Size(364,0)
 $console.Size = New-Object System.Drawing.Size(220,300)
 $console.ReadOnly = $true
 $console.Multiline = $true
 $console.ScrollBars = [System.Windows.Forms.ScrollBars]::Both
+$console.ForeColor = [Drawing.Color]::Black
 
 #add label
 $textboxlabel = new-object windows.forms.label
@@ -109,7 +111,36 @@ $tracert_button.text = "TraceRoute"
 $tracert_button.location = New-Object system.Drawing.Size(0,140) 
 $tracert_button.size = New-Object System.Drawing.Size(110,30)
 $tracert_button.add_click({
-Test-NetConnection -ComputerName $theTbox.text -Traceroute -Hops 2 
+ 
+Start-Job -ScriptBlock { Test-NetConnection -ComputerName $theTbox.text -Traceroute -Hops 2 } 
+Get-Job -Id 1 | Receive-Job
+ 
+})
+
+$tcpipstack_button = new-object windows.forms.button
+$tcpipstack_button.text = "Clear TCP/IP Stack"
+$tcpipstack_button.location = New-Object system.Drawing.Size(120,140) 
+$tcpipstack_button.size = New-Object System.Drawing.Size(110,30)
+$tcpipstack_button.add_click({
+$console.Text = "Please wait.." 
+netsh winsock reset catalog;
+netsh interface ipv4 reset;
+netsh interface ipv6 reset;
+arp d;
+netsh winsock reset;
+netsh int tcp reset;
+netsh int ip reset;
+netsh int ip delete neighbors;
+netsh int ip delete destinationcache;
+netsh int ip delete arpcache;
+ipconfig /flushDNS;
+ipconfig /registerDNS;
+ipconfig /displayDNS;
+NBTStat -R;
+NBTStat -RR;
+$console.Text = "Done."
+$console.Lines += ipconfig /displaydns ; $console.Lines += ipconfig /all
+
 })
 
 
@@ -128,7 +159,7 @@ $pingtextbox.text = "Enter IP"
 $pingtextbox.location = New-Object system.Drawing.Size(120,50)
 $pingtextbox.size = New-Object System.Drawing.Size(100,20)
 
-
+	
 
 
 #add another button to the form
@@ -138,21 +169,41 @@ $Scan_button.location = New-Object system.Drawing.Size(120,110)
 $Scan_button.size = New-Object System.Drawing.Size(110,30)
 $Scan_button.add_click({
 
-$enterip = $pingtextbox
-$range = 1..254
-$ErrorActionPreference = "SilentlyContinue"
-$console.Text = "Scanning..."
-$range | ForEach-Object {
-$address = "$enterip.$_"
-Write-Progress "Scanning Network" $address -PercentComplete (($_/$range.Count)*100)
-New-Object PSObject -Property @{
-Address = $address
-Ping = Test-Connection $address -Quiet -Count 1
-}
-} | Out-File $PSScriptRoot\Result.csv
-$console.Text = "Done"
-})
 
+
+
+$ipv4 = $pingtextbox.Text 
+$firstoctic = 1
+$lastoctic = 254
+$ping = 1
+
+$data = while ($firstoctic -le $lastoctic) 
+{
+$IP = "$ipv4.$firstoctic"
+try
+{
+$console.SelectionColor = [Drawing.Color]::Green
+(Test-Connection -ComputerName $IP -count $ping  -ErrorAction Stop)
+$testresult = $console.AppendText("pinging $IP : Reachable `n")
+
+
+}
+catch 
+{
+
+$console.SelectionColor = [Drawing.Color]::Red
+$testresult1 = $console.AppendText("pinging $IP : Unreachable `n")
+
+}
+$firstoctic++ |	Out-File $PSScriptRoot\Result.csv -append
+} 
+
+
+
+
+
+
+})
 
 
 #add another button to the form
@@ -199,7 +250,6 @@ $form.CancelButton = $CancelButton
 $form.Controls.Add($CancelButton)
 
 })
-
 
 #add another button to the form
 $regdns_button = new-object windows.forms.button
@@ -275,6 +325,11 @@ $Tab1.Controls.add($tracerts_button)
 $Tab1.Controls.add($pingtextbox)
 $Tab1.Controls.add($Scan_button)
 $Tab1.Controls.Add($sysinfo_button)
+$Tab1.Controls.Add($CancelButton)
+$Tab1.Controls.Add($OKButton)
+$Tab1.Controls.Add($label)
+$Tab1.Controls.Add($tcpipstack_button)
+
 
 #############################################
 
@@ -397,13 +452,10 @@ $pingResult=New-NetIPAddress -IPAddress $ipaddr.Text -InterfaceAlias $device -Pr
 $console3.text=$pingResult
                      } #end procInfo
 
-############################################## end functions
-
-############################################## Start drop down boxes
 
 $dropdown1 = New-Object System.Windows.Forms.ComboBox
 $dropdown1.Location = New-Object System.Drawing.Size(12,10) 
-$dropdown1.Size = New-Object System.Drawing.Size(180,20) 
+$dropdown1.Size = New-Object System.Drawing.Size(100,20) 
 $dropdown1.DropDownHeight = 200 
 $Tab3.Controls.Add($dropdown1) 
 
@@ -413,7 +465,7 @@ foreach ($wks in $wksList) {
                       $dropdown1.Items.Add($wks)
                               } #end foreach
 
-############################################## end drop down boxes
+
 
 
 
@@ -483,9 +535,6 @@ if ($result -eq [System.Windows.Forms.DialogResult]::OK)
 {
     write-host 'a'
 } 
-
-
-
 
 
 
