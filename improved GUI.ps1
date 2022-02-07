@@ -818,7 +818,7 @@ $AdvancedIP.Add_Click{
 
     $destination = "c:\Temp\Advanced_IP_Scanner_2.5.3850.exe"
     #Check if software is installed. If installed terminate script
-    if ((Test-Path "C:\Program Files\Notepad++") -Or (Test-Path "C:\Program Files\Notepad++")){
+    if ((Test-Path "C:\Program Files\Advanced IP Scanner") -Or (Test-Path "C:\Program Files (x86)\Advanced IP Scanner")){
     $console4.text = "Software already installed" 
     exit
 }
@@ -829,7 +829,7 @@ If ((Test-Path $destination) -eq $false) {
 } 
 
 Invoke-WebRequest $source -OutFile $destination
-Start-Process -FilePath "C:\TempAdvanced_IP_Scanner_2.5.3850.exe" -ArgumentList "/S","/v","/qn" -Wait
+Start-Process -FilePath "C:\Temp\Advanced_IP_Scanner_2.5.3850.exe" -ArgumentList "/S","/v","/qn" -Wait
  
 #Delete installer
 Start-sleep -s 25
@@ -852,11 +852,8 @@ $OWASP.Text = 'OWASP'
 $OWASP.Add_Click{
     $source = "https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2_11_1_windows.exe"
 
-    $destination = "c:\Temp\npp.8.3.Installer.x64.exe"
-    #Check if software is installed. If installed terminate script
-    if ((Test-Path "C:\Program Files\Notepad++") -Or (Test-Path "C:\Program Files\Notepad++")){
-    $console4.text = "Software already installed" 
-    exit
+    $destination = "c:\Temp\ZAP_2_11_1_windows.exe"
+
 }
 
 #Check if the installer is in the folder. If installer exist, replace it
