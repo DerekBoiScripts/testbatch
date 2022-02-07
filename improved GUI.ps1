@@ -28,11 +28,7 @@ try
 {
   param([switch]$Elevated)
 }
-# NOTE: When you use a SPECIFIC catch block, exceptions thrown by -ErrorAction Stop MAY LACK
-# some InvocationInfo details such as ScriptLineNumber.
-# REMEDY: If that affects you, remove the SPECIFIC exception type [System.Management.Automation.CommandNotFoundException] in the code below
-# and use ONE generic catch block instead. Such a catch block then handles ALL error types, so you would need to
-# add the logic to handle different error types differently by yourself.
+
 catch [System.Management.Automation.CommandNotFoundException]
 {
   # get error record
@@ -72,11 +68,7 @@ try
 {
   Set-ExecutionPolicy -ExecutionPolicy Unrestricted -ErrorAction Stop
 }
-# NOTE: When you use a SPECIFIC catch block, exceptions thrown by -ErrorAction Stop MAY LACK
-# some InvocationInfo details such as ScriptLineNumber.
-# REMEDY: If that affects you, remove the SPECIFIC exception type [System.Security.SecurityException] in the code below
-# and use ONE generic catch block instead. Such a catch block then handles ALL error types, so you would need to
-# add the logic to handle different error types differently by yourself.
+
 catch [System.Security.SecurityException]
 {
   # get error record
@@ -651,8 +643,10 @@ $TabPages = 'System.Windows.Forms.Tabpage'
 $Size = 'System.Drawing.Size'
 $buttons = 'System.Windows.Forms.Button'
 $textboxes = 'system.Windows.Forms.Textbox'
+$rtb = 'system.Windows.Forms.RichTextBox'
 $drawings = 'system.Drawing.Size'
 $buttons = 'windows.forms.button'
+
 
 $Tab4 = New-object -TypeName $TabPages
 $Tab4.DataBindings.DefaultDataSourceUpdateMode = 0 
@@ -661,14 +655,22 @@ $Tab4.Name = 'Tab4'
 $Tab4.Text = 'Software / PC Optimization'
 $FormTabControl.Controls.Add($Tab4)
 
-$Optimization = New-Object -TypeName System.Windows.Forms.Label
-$Optimization.Location = New-Object -TypeName $Point -ArgumentList (170,210)
-$Optimization.Size = New-Object -TypeName $drawings -ArgumentList (280,20)
-$Optimization.Text = 'Optimization'
-$form.Controls.Add($Optimization)
+
+$FormTabControl1 = New-object -TypeName System.Windows.Forms.TabControl 
+$FormTabControl1.Size = '340,260' 
+$FormTabControl1.Location = '10,10' 
+$form.Controls.Add($FormTabControl1)
+
+$Tab5 = New-object -TypeName $TabPages
+$Tab5.DataBindings.DefaultDataSourceUpdateMode = 0 
+$Tab5.UseVisualStyleBackColor = $True 
+$Tab5.Name = 'Tab5' 
+$Tab5.Text = 'Utilties' 
+$FormTabControl1.Controls.Add($Tab5)
+
 
 $Cleartempfiles = New-Object -TypeName $buttons
-$Cleartempfiles.Location = New-Object -TypeName $Point -ArgumentList (10,182)
+$Cleartempfiles.Location = New-Object -TypeName $Point -ArgumentList (0,0)
 $Cleartempfiles.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $Cleartempfiles.Text = 'Clean Temp Files'
 $Cleartempfiles.Add_Click{
@@ -691,26 +693,165 @@ $Cleartempfiles.Add_Click{
 }
 
 
+$BigTweaks = New-Object -TypeName $buttons
+$BigTweaks.Location = New-Object -TypeName $Point -ArgumentList (150,150)
+$BigTweaks.Size = New-Object -TypeName $Size -ArgumentList (80,80)
+$BigTweaks.Text = 'BigTweaks, irreversible (unless you know what youre doing)'
+$BigTweaks.Add_Click{
+
+}
 
 
+
+
+$Tab6 = New-object -TypeName $TabPages
+$Tab6.DataBindings.DefaultDataSourceUpdateMode = 0 
+$Tab6.UseVisualStyleBackColor = $True 
+$Tab6.Name = 'Tab6' 
+$Tab6.Text = 'Software' 
+$FormTabControl1.Controls.Add($Tab6)
+
+$checkwinget = New-Object -TypeName $buttons
+$checkwinget.Location = New-Object -TypeName $Point -ArgumentList (0,0)
+$checkwinget.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$checkwinget.Text = 'Click me first'
+$checkwinget.Add_Click{
+if (Test-Path ~\AppData\Local\Microsoft\WindowsApps\winget.exe){
+    $console4.SelectionColor = [Drawing.Color]::Green
+    $console4.text = 'Winget Already Installed'
+    
+}  
+else{
+    # Installing winget from the Microsoft Store
+	Write-Host "Winget not found, installing it now."
+    $console4.text = "`r`n" +"`r`n" + "Installing Winget... Please Wait"
+	Start-Process "ms-appinstaller:?source=https://aka.ms/getwinget"
+	$nid = (Get-Process AppInstaller).Id
+	Wait-Process -Id $nid
+	Write-Host Winget Installed
+    $console4.text = "`r`n" +"`r`n" + "Winget Installed - Ready for Next Task"
+}
+
+}
+
+
+$Notepad = New-Object -TypeName $buttons
+$Notepad.Location = New-Object -TypeName $Point -ArgumentList (0,30)
+$Notepad.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$Notepad.Text = 'Notepad++'
+$Notepad.Add_Click{
+    $source = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3/npp.8.3.Installer.x64.exe";
+    $destination = "c:\Temp\npp.8.3.Installer.x64.exe"
+
+    #Check if software is installed. If installed terminate script
+    if ((Test-Path "C:\Program Files\Notepad++") -Or (Test-Path "C:\Program Files\Notepad++")){
+    $console4.text = "Software already installed" 
+    exit
+}
+
+#Check if the installer is in the folder. If installer exist, replace it
+If ((Test-Path $destination) -eq $false) {
+    New-Item -ItemType File -Path $destination -Force
+} 
+
+Invoke-WebRequest $source -OutFile $destination
+
+Start-Process -FilePath "C:\Temp\npp.8.3.Installer.x64.exe" -ArgumentList "/S","/v","/qn" -Wait
+ 
+
+#Delete installer
+Start-sleep -s 25
+Remove-Item -recurse "C:\Temp\npp.8.3.Installer.x64.exe"
+}
+
+
+$Nmap = New-Object -TypeName $buttons
+$Nmap.Location = New-Object -TypeName $Point -ArgumentList (0,30)
+$Nmap.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$Nmap.Text = 'Nmap'
+$Nmap.Add_Click{
+
+}
+
+$AdvancedIP = New-Object -TypeName $buttons
+$AdvancedIP.Location = New-Object -TypeName $Point -ArgumentList (0,60)
+$AdvancedIP.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$AdvancedIP.Text = 'Adv IP Scanner'
+$AdvancedIP.Add_Click{
+
+}
+
+$NetScan = New-Object -TypeName $buttons
+$NetScan.Location = New-Object -TypeName $Point -ArgumentList (0,90)
+$NetScan.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$NetScan.Text = 'NetScan'
+$NetScan.Add_Click{
+
+}
+
+$OWASP = New-Object -TypeName $buttons
+$OWASP.Location = New-Object -TypeName $Point -ArgumentList (0,120)
+$OWASP.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$OWASP.Text = 'OWASP'
+$OWASP.Add_Click{
+    $source = "https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2_11_1_windows.exe";
+    $destination = "c:\Temp\npp.8.3.Installer.x64.exe"
+    #Check if software is installed. If installed terminate script
+    if ((Test-Path "C:\Program Files\Notepad++") -Or (Test-Path "C:\Program Files\Notepad++")){
+    $console4.text = "Software already installed" 
+    exit
+}
+
+#Check if the installer is in the folder. If installer exist, replace it
+If ((Test-Path $destination) -eq $false) {
+    New-Item -ItemType File -Path $destination -Force
+} 
+
+Invoke-WebRequest $source -OutFile $destination
+Start-Process -FilePath "C:\Temp\ZAP_2_11_1_windows.exe" -ArgumentList "/S","/v","/qn" -Wait
+ 
+#Delete installer
+Start-sleep -s 25
+Remove-Item -recurse "C:\Temp\ZAP_2_11_1_windows.exe"
+
+}
+
+$winterminal = New-Object -TypeName $buttons
+$winterminal.Location = New-Object -TypeName $Point -ArgumentList (0,150)
+$winterminal.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$winterminal.Text = 'winterminal'
+$winterminal.Add_Click{
+
+}
 
 
 
 
 
 #console4 box
-$console4 = New-Object -TypeName $textboxes
+$console4 = New-Object -TypeName $rtb
 $console4.Location = New-Object -TypeName $Size -ArgumentList (364,0)
 $console4.Size = New-Object -TypeName $Size -ArgumentList (220,300)
 $console4.ReadOnly = $true
 $console4.Multiline = $true
 $console4.ScrollBars = [Windows.Forms.ScrollBars]::Both
+$console4.ForeColor = [Drawing.Color]::Black
+
+
+
+
 $Tab4.Controls.add($console4)
-$Tab4.Controls.add($Cleartempfiles)
+$Tab4.Controls.Add($FormTabControl1)
+$Tab5.Controls.add($Cleartempfiles)
+$Tab5.Controls.add($BigTweaks)
 
-
-
-
+$Tab6.Controls.add($Notepad)
+$Tab6.Controls.add($checkwinget)
+$Tab6.Controls.add($Nmap)
+$Tab6.Controls.add($AdvancedIP)
+$Tab6.Controls.add($NetScan)
+$Tab6.Controls.add($OWASP)
+$Tab6.Controls.add($winterminal)
 
 
 
