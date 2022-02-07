@@ -1,4 +1,4 @@
-#!/usr/bin/env powershell
+﻿#!/usr/bin/env powershell
 # Hide PowerShell Console
 $Point = 'System.Drawing.Point'
 $textboxes = 'System.Windows.Forms.TextBox'
@@ -29,7 +29,7 @@ try
   param([switch]$Elevated)
 }
 
-catch [System.Management.Automation.CommandNotFoundException]
+catch [Management.Automation.CommandNotFoundException]
 {
   # get error record
   [Management.Automation.ErrorRecord]$e = $_
@@ -69,7 +69,7 @@ try
   Set-ExecutionPolicy -ExecutionPolicy Unrestricted -ErrorAction Stop
 }
 
-catch [System.Security.SecurityException]
+catch [Security.SecurityException]
 {
   # get error record
   [Management.Automation.ErrorRecord]$e = $_
@@ -698,7 +698,42 @@ $BigTweaks.Location = New-Object -TypeName $Point -ArgumentList (150,150)
 $BigTweaks.Size = New-Object -TypeName $Size -ArgumentList (80,80)
 $BigTweaks.Text = 'BigTweaks, irreversible (unless you know what youre doing)'
 $BigTweaks.Add_Click{
-
+ Enable-ComputerRestore -Drive "C:\"
+    REG.exe ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" /V "SystemRestorePointCreationFrequency" /T REG_DWORD /D 0 /F
+    Checkpoint-Computer -Description "b4tweaks" -RestorePointType "MODIFY_SETTINGS"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "ContentDeliveryAllowed" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "OemPreInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEverEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SilentInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableActivityFeed" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "DoNotShowFeedbackNotifications" -Type DWord -Value 1
+    $null = Disable-ScheduledTask -TaskName "Microsoft\Windows\Feedback\Siuf\DmClient" -ErrorAction SilentlyContinue
+    $null = Disable-ScheduledTask -TaskName "Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload" -ErrorAction SilentlyContinue
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value 1
+    Write-Host "Disabling Error reporting..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 1
+    $null = Disable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting"
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -Type DWord -Value 0
+     If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        $null = New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "IRPStackSize" -Type DWord -Value 25
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
 }
 
 
@@ -740,7 +775,8 @@ $Notepad.Location = New-Object -TypeName $Point -ArgumentList (0,30)
 $Notepad.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $Notepad.Text = 'Notepad++'
 $Notepad.Add_Click{
-    $source = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3/npp.8.3.Installer.x64.exe";
+    $source = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3/npp.8.3.Installer.x64.exe"
+
     $destination = "c:\Temp\npp.8.3.Installer.x64.exe"
 
     #Check if software is installed. If installed terminate script
@@ -778,6 +814,26 @@ $AdvancedIP.Location = New-Object -TypeName $Point -ArgumentList (0,60)
 $AdvancedIP.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $AdvancedIP.Text = 'Adv IP Scanner'
 $AdvancedIP.Add_Click{
+    $source = "https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.3850.exe"
+
+    $destination = "c:\Temp\Advanced_IP_Scanner_2.5.3850.exe"
+    #Check if software is installed. If installed terminate script
+    if ((Test-Path "C:\Program Files\Notepad++") -Or (Test-Path "C:\Program Files\Notepad++")){
+    $console4.text = "Software already installed" 
+    exit
+}
+
+#Check if the installer is in the folder. If installer exist, replace it
+If ((Test-Path $destination) -eq $false) {
+    New-Item -ItemType File -Path $destination -Force
+} 
+
+Invoke-WebRequest $source -OutFile $destination
+Start-Process -FilePath "C:\TempAdvanced_IP_Scanner_2.5.3850.exe" -ArgumentList "/S","/v","/qn" -Wait
+ 
+#Delete installer
+Start-sleep -s 25
+Remove-Item -recurse "C:\Temp\Advanced_IP_Scanner_2.5.3850.exe"
 
 }
 
@@ -794,7 +850,8 @@ $OWASP.Location = New-Object -TypeName $Point -ArgumentList (0,120)
 $OWASP.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $OWASP.Text = 'OWASP'
 $OWASP.Add_Click{
-    $source = "https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2_11_1_windows.exe";
+    $source = "https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2_11_1_windows.exe"
+
     $destination = "c:\Temp\npp.8.3.Installer.x64.exe"
     #Check if software is installed. If installed terminate script
     if ((Test-Path "C:\Program Files\Notepad++") -Or (Test-Path "C:\Program Files\Notepad++")){
