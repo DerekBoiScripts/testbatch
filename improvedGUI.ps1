@@ -1,5 +1,13 @@
 ﻿#!/usr/bin/env powershell
 # Hide PowerShell Console
+
+$version="2.0"
+$githubver = "https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/v.txt"
+$updatefile = "https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/update.ps1"
+
+
+
+
 $Point = 'System.Drawing.Point'
 $textboxes = 'System.Windows.Forms.TextBox'
 $TabPages = 'System.Windows.Forms.Tabpage'
@@ -288,39 +296,84 @@ $sysinfo_button.add_click{$console.Text =Get-ComputerInfo -Property '*Version'| 
 
 
 
+function script:UpdatesAvailable()
+{
+  $updateavailable = $false
+  $nextversion = $null
+  try
+  {
+    $nextversion = (New-Object System.Net.WebClient).DownloadString($githubver).Trim([Environment]::NewLine)
+  }
+  catch [System.Exception] 
+  {
+    $console.Text = "$_ debug" 
+  }
+	
+  $console.Text = "CURRENT VERSION: $version debug"
+  $console.Text = "NEXT VERSION: $nextversion debug"
+  if ($nextversion -ne $null -and $version -ne $nextversion)
+  {
+    #An update is most likely available, but make sure
+    $updateavailable = $false
+    $curr = $version.Split('.')
+    $next = $nextversion.Split('.')
+    for($i=0; $i -le ($curr.Count -1); $i++)
+    {
+      if ([int]$next[$i] -gt [int]$curr[$i])
+      {
+        $updateavailable = $true
+        break
+      }
+    }
+  }
+  return $UpdatesAvailable
+}
+
+
+function script:Process-Updates()
+{
+  if (Test-Connection 8.8.8.8 -Count 1 -Quiet)
+  {
+    $updatepath = "$($PSScriptRoot)\update.ps1"
+    if (Test-Path -Path $PSScriptRoot)	
+    {
+      #Remove-Item $updatepath
+    }
+    if (UpdatesAvailable)
+    {
+			
+      {	
+        (New-Object System.Net.Webclient).DownloadFile($updatefile, $updatepath)
+        Start-Process PowerShell -Arg $updatepath
+        exit
+      }
+    }
+  }
+  else
+  {
+    $console.Text = "Unable to check for updates. Internet connection not available. - warning"
+  }
+}
+
+
 
 
 
 
 #add another button to the form
 $shutdown_button = new-object -TypeName $buttons
-$shutdown_button.text = 'Shutdown local PC'
+$shutdown_button.text = 'Get Updates'
 $shutdown_button.location = New-Object -TypeName $drawing -ArgumentList (0,230) 
 $shutdown_button.size = New-Object -TypeName $Size -ArgumentList (110,30)
-
 $shutdown_button.add_click{
-  $Point = 'System.Drawing.Point'
-  $drawings = 'System.Drawing.Size'
-  $buttons = 'System.Windows.Forms.Button'
-  $label = New-Object -TypeName System.Windows.Forms.Label
-  $label.Location = New-Object -TypeName $Point -ArgumentList (170,210)
-  $label.Size = New-Object -TypeName $drawings -ArgumentList (280,20)
-  $label.Text = 'Are you sure?'
-  $form.Controls.Add($label)
+ 
 
-  $OKButton = New-Object -TypeName $buttons
-  $OKButton.Location = New-Object -TypeName $Point -ArgumentList (135,230)
-  $OKButton.Size = New-Object -TypeName $drawings -ArgumentList (75,23)
-  $OKButton.Text = 'OK'
-  $form.Controls.Add($OKButton)
+ UpdatesAvailable
+ Process-Updates
 
-  $CancelButton = New-Object -TypeName $buttons
-  $CancelButton.Location = New-Object -TypeName $Point -ArgumentList (210,230)
-  $CancelButton.Size = New-Object -TypeName $drawings -ArgumentList (75,23)
-  $CancelButton.Text = 'Cancel'
-  $CancelButton.DialogResult = [Windows.Forms.DialogResult]::Cancel
-  $form.CancelButton = $CancelButton
-  $form.Controls.Add($CancelButton)
+
+
+
 
 }
 
@@ -389,6 +442,7 @@ $Tab1.Controls.add($console)
 $Tab1.controls.add($Go_button)
 $Tab1.controls.add($displaydns_button)
 $Tab1.Controls.add($shutdown_button)
+$Tab1.Controls.add($update)
 $Tab1.Controls.add($tracert_button)
 $Tab1.Controls.add($ipconf_button)
 $Tab1.Controls.add($regdns_button)
@@ -579,46 +633,10 @@ $altDNS.location = New-Object -TypeName $drawing -ArgumentList (12,150)
 $altDNS.size = New-Object -TypeName $Size -ArgumentList (100,20)
 
 
-
-
-
-
-
-
-$netuse = New-Object -TypeName $buttons
-$netuse.Location = New-Object -TypeName $Point -ArgumentList (150,130)
-$netuse.Size = New-Object -TypeName $Size -ArgumentList (55,25)
-$netuse.Text = 'Map'
-$netuse.Add_Click{
-  $console3.Text = 'Starting.. '
-
-}
-
-
-
-#add a input textbox to the form
-$netuseip = New-Object -TypeName $textboxes
-$netuseip.text = 'x.x.x.x'
-$netuseip.location = New-Object -TypeName $drawing -ArgumentList (150,50)
-$netuseip.size = New-Object -TypeName $Size -ArgumentList (100,20)
-
-#add a input textbox to the form
-$ShareName = New-Object -TypeName $textboxes
-$ShareName.text = 'e.g Cool Folder'
-$ShareName.location = New-Object -TypeName $drawing -ArgumentList (150,75)
-$ShareName.size = New-Object -TypeName $Size -ArgumentList (100,20)
-
-#add a input textbox to the form
-$pass = New-Object -TypeName $textboxes
-$pass.text = 'e.g 123456789'
-$pass.location = New-Object -TypeName $drawing -ArgumentList (150,100)
-$pass.size = New-Object -TypeName $Size -ArgumentList (100,20)
-
-
-
-
-
-
+##################################
+##################################
+##################################
+##################################
 
 
 
@@ -657,7 +675,7 @@ $Tab3.Controls.Add($netuse)
 $Tab3.Controls.Add($netuseip)
 $Tab3.Controls.Add($ShareName)
 $Tab3.Controls.Add($pass)
-
+$Tab3.Controls.Add($dropdown2)
 
 
 
@@ -731,21 +749,21 @@ $Cleartempfiles.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $Cleartempfiles.Text = 'Clean Temp Files'
 $Cleartempfiles.Add_Click{
   $tempfolders = @( 'C:\Windows\Temp\*', "$env:temp\*" )
-        Remove-Item -Path $tempfolders -Recurse -Force
+  Remove-Item -Path $tempfolders -Recurse -Force
 
-         $data = Get-ChildItem -Path $tempfolders -Recurse | Measure-Object -property length -sum
-                  if ($data.sum -ige 1074000000){
-             $inbytes = $data.sum  / 1074000000
-             $inmbs = ('{0}' -f $inbytes).split('.')
-             $size = $inmbs[0] + '.' + $inmbs[1][0] + $inmbs[1][1] + ' Gbs'
-         }elseif ($data.sum -ige 1049000){
-             $inbytes = $data.sum  / 1049000
-             $inmbs = ('{0}' -f $inbytes).split('.')
-             $size = $inmbs[0] + '.' + $inmbs[1][0] + $inmbs[1][1] + ' mbs'
-         }else{ $size = -join($data.sum, ' ', 'bytes') }
-            $count = -join($data.count, ' ', 'temporary files') 
+  $data = Get-ChildItem -Path $tempfolders -Recurse | Measure-Object -property length -sum
+  if ($data.sum -ige 1074000000){
+    $inbytes = $data.sum  / 1074000000
+    $inmbs = ('{0}' -f $inbytes).split('.')
+    $size = $inmbs[0] + '.' + $inmbs[1][0] + $inmbs[1][1] + ' Gbs'
+  }elseif ($data.sum -ige 1049000){
+    $inbytes = $data.sum  / 1049000
+    $inmbs = ('{0}' -f $inbytes).split('.')
+    $size = $inmbs[0] + '.' + $inmbs[1][0] + $inmbs[1][1] + ' mbs'
+  }else{ $size = -join($data.sum, ' ', 'bytes') }
+  $count = -join($data.count, ' ', 'temporary files') 
 
-            $console4.Text = ('Total {0}, Size of {1} Removed' -f $count, $size)
+  $console4.Text = ('Total {0}, Size of {1} Removed' -f $count, $size)
 }
 
 
@@ -754,46 +772,79 @@ $BigTweaks.Location = New-Object -TypeName $Point -ArgumentList (150,150)
 $BigTweaks.Size = New-Object -TypeName $Size -ArgumentList (80,80)
 $BigTweaks.Text = 'BigTweaks, irreversible (unless you know what youre doing)'
 $BigTweaks.Add_Click{
- Enable-ComputerRestore -Drive 'C:\'
-    & "$env:windir\system32\reg.exe" ADD 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore' /V 'SystemRestorePointCreationFrequency' /T REG_DWORD /D 0 /F
-    Checkpoint-Computer -Description 'b4tweaks' -RestorePointType 'MODIFY_SETTINGS'
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection' -Name 'AllowTelemetry' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'ContentDeliveryAllowed' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'OemPreInstalledAppsEnabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'PreInstalledAppsEnabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'PreInstalledAppsEverEnabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SilentInstalledAppsEnabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SystemPaneSuggestionsEnabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'EnableActivityFeed' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'PublishUserActivities' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'UploadUserActivities' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Siuf\Rules' -Name 'NumberOfSIUFInPeriod' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection' -Name 'DoNotShowFeedbackNotifications' -Type DWord -Value 1
-    $null = Disable-ScheduledTask -TaskName 'Microsoft\Windows\Feedback\Siuf\DmClient' -ErrorAction SilentlyContinue
-    $null = Disable-ScheduledTask -TaskName 'Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload' -ErrorAction SilentlyContinue
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo' -Name 'DisabledByGroupPolicy' -Type DWord -Value 1
-    Write-Host 'Disabling Error reporting...'
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting' -Name 'Disabled' -Type DWord -Value 1
-    $null = Disable-ScheduledTask -TaskName 'Microsoft\Windows\Windows Error Reporting\QueueReporting'
-    Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-338387Enabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-338388Enabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-338389Enabled' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-353698Enabled' -Type DWord -Value 0
-     If (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent')) {
-        $null = New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent' -Force
+  Enable-ComputerRestore -Drive 'C:\'
+  & "$env:windir\system32\reg.exe" ADD 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore' /V 'SystemRestorePointCreationFrequency' /T REG_DWORD /D 0 /F
+  Checkpoint-Computer -Description 'b4tweaks' -RestorePointType 'MODIFY_SETTINGS'
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection' -Name 'AllowTelemetry' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'ContentDeliveryAllowed' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'OemPreInstalledAppsEnabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'PreInstalledAppsEnabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'PreInstalledAppsEverEnabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SilentInstalledAppsEnabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SystemPaneSuggestionsEnabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'EnableActivityFeed' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'PublishUserActivities' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Name 'UploadUserActivities' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Siuf\Rules' -Name 'NumberOfSIUFInPeriod' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection' -Name 'DoNotShowFeedbackNotifications' -Type DWord -Value 1
+  $null = Disable-ScheduledTask -TaskName 'Microsoft\Windows\Feedback\Siuf\DmClient' -ErrorAction SilentlyContinue
+  $null = Disable-ScheduledTask -TaskName 'Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload' -ErrorAction SilentlyContinue
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo' -Name 'DisabledByGroupPolicy' -Type DWord -Value 1
+  Write-Host 'Disabling Error reporting...'
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting' -Name 'Disabled' -Type DWord -Value 1
+  $null = Disable-ScheduledTask -TaskName 'Microsoft\Windows\Windows Error Reporting\QueueReporting'
+  Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-338387Enabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-338388Enabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-338389Enabled' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Name 'SubscribedContent-353698Enabled' -Type DWord -Value 0
+  If (!(Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent')) {
+    $null = New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent' -Force
+  }
+  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAnimations" -Type DWord -Value 0
+  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name "VisualFXSetting" -Type DWord -Value 3
+  Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent' -Name 'DisableWindowsConsumerFeatures' -Type DWord -Value 1
+  Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters' -Name 'IRPStackSize' -Type DWord -Value 25
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People' -Name 'PeopleBand' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People' -Name 'PeopleBand' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'SystemUsesLightTheme' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'AppsUseLightTheme' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'ShowTaskViewButton' -Type DWord -Value 0
+  Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People' -Name 'PeopleBand' -Type DWord -Value 0
+  Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSuperHidden" -Type DWord -Value 1
+  
+  Powercfg.exe -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61
+      
+            Powercfg.exe /S $A[3]
+        $A = (powercfg.exe -l | findstr -i Ultimate).split()
+        Powercfg.exe /S $A[3]
+
+  $form.WindowState = 1
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" | Out-Null
     }
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent' -Name 'DisableWindowsConsumerFeatures' -Type DWord -Value 1
-    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters' -Name 'IRPStackSize' -Type DWord -Value 25
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People' -Name 'PeopleBand' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People' -Name 'PeopleBand' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'SystemUsesLightTheme' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name 'AppsUseLightTheme' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'ShowTaskViewButton' -Type DWord -Value 0
-    Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People' -Name 'PeopleBand' -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 1
+    Stop-Process -Name "OneDrive" -ErrorAction SilentlyContinue
+    Start-Sleep -s 2
+    $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
+    If (!(Test-Path $onedrive)) {
+        $onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
+    }
+    Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
+    Start-Sleep -s 2
+    Stop-Process -Name "explorer" -ErrorAction SilentlyContinue
+    Start-Sleep -s 2
+    Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -Path "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
+    If (!(Test-Path "HKCR:")) {
+        New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+    }
+    Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+    Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+    $formWindowsToolbox.WindowState = 0
+
 }
-
-
-
 
 $Tab6 = New-object -TypeName $TabPages
 $Tab6.DataBindings.DefaultDataSourceUpdateMode = 0 
@@ -807,21 +858,21 @@ $checkwinget.Location = New-Object -TypeName $Point -ArgumentList (0,0)
 $checkwinget.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $checkwinget.Text = 'Click me first'
 $checkwinget.Add_Click{
-if (Test-Path ~\AppData\Local\Microsoft\WindowsApps\winget.exe){
+  if (Test-Path ~\AppData\Local\Microsoft\WindowsApps\winget.exe){
     $console4.SelectionColor = [Drawing.Color]::Green
     $console4.text = 'Winget Already Installed'
     
-}  
-else{
+  }  
+  else{
     # Installing winget from the Microsoft Store
-	Write-Host 'Winget not found, installing it now.'
+    Write-Host 'Winget not found, installing it now.'
     $console4.text = "`r`n" +"`r`n" + 'Installing Winget... Please Wait'
-	Start-Process 'ms-appinstaller:?source=https://aka.ms/getwinget'
-	$nid = (Get-Process AppInstaller).Id
-	Wait-Process -Id $nid
-	Write-Host Winget Installed
+    Start-Process 'ms-appinstaller:?source=https://aka.ms/getwinget'
+    $nid = (Get-Process AppInstaller).Id
+    Wait-Process -Id $nid
+    Write-Host Winget Installed
     $console4.text = "`r`n" +"`r`n" + 'Winget Installed - Ready for Next Task'
-}
+  }
 
 }
 
@@ -831,29 +882,29 @@ $Notepad.Location = New-Object -TypeName $Point -ArgumentList (0,30)
 $Notepad.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $Notepad.Text = 'Notepad++'
 $Notepad.Add_Click{
-    $source = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3/npp.8.3.Installer.x64.exe'
+  $source = 'https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3/npp.8.3.Installer.x64.exe'
 
-    $destination = 'c:\Temp\npp.8.3.Installer.x64.exe'
+  $destination = 'c:\Temp\npp.8.3.Installer.x64.exe'
 
-    #Check if software is installed. If installed terminate script
-    if ((Test-Path 'C:\Program Files\Notepad++') -Or (Test-Path 'C:\Program Files\Notepad++')){
+  #Check if software is installed. If installed terminate script
+  if ((Test-Path 'C:\Program Files\Notepad++') -Or (Test-Path 'C:\Program Files\Notepad++')){
     $console4.text = 'Software already installed' 
     exit
-}
+  }
 
-#Check if the installer is in the folder. If installer exist, replace it
-If ((Test-Path $destination) -eq $false) {
+  #Check if the installer is in the folder. If installer exist, replace it
+  If ((Test-Path $destination) -eq $false) {
     New-Item -ItemType File -Path $destination -Force
-} 
+  } 
 
-Invoke-WebRequest $source -OutFile $destination
+  Invoke-WebRequest $source -OutFile $destination
 
-Start-Process -FilePath 'C:\Temp\npp.8.3.Installer.x64.exe' -ArgumentList '/S','/v','/qn' -Wait
+  Start-Process -FilePath 'C:\Temp\npp.8.3.Installer.x64.exe' -ArgumentList '/S','/v','/qn' -Wait
  
 
-#Delete installer
-Start-sleep -s 25
-Remove-Item -recurse 'C:\Temp\npp.8.3.Installer.x64.exe'
+  #Delete installer
+  Start-sleep -s 25
+  Remove-Item -recurse 'C:\Temp\npp.8.3.Installer.x64.exe'
 }
 
 
@@ -862,21 +913,21 @@ $Nmap.Location = New-Object -TypeName $Point -ArgumentList (0,180)
 $Nmap.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $Nmap.Text = 'Nmap'
 $Nmap.Add_Click{
-   $source = 'https://nmap.org/dist/nmap-7.92-setup.exe'
+  $source = 'https://nmap.org/dist/nmap-7.92-setup.exe'
 
-    $destination = 'c:\Temp\nmap-7.92-setup.exe'
+  $destination = 'c:\Temp\nmap-7.92-setup.exe'
 
-#Check if the installer is in the folder. If installer exist, replace it
-If ((Test-Path $destination) -eq $false) {
+  #Check if the installer is in the folder. If installer exist, replace it
+  If ((Test-Path $destination) -eq $false) {
     New-Item -ItemType File -Path $destination -Force
-} 
+  } 
 
-Invoke-WebRequest $source -OutFile $destination
-Start-Process -FilePath 'C:\Temp\nmap-7.92-setup.exe' -ArgumentList '/S','/v','/qn' -Wait
+  Invoke-WebRequest $source -OutFile $destination
+  Start-Process -FilePath 'C:\Temp\nmap-7.92-setup.exe' -ArgumentList '/S','/v','/qn' -Wait
  
-#Delete installer
-Start-sleep -s 25
-Remove-Item -recurse 'C:\Temp\nmap-7.92-setup.exe'
+  #Delete installer
+  Start-sleep -s 25
+  Remove-Item -recurse 'C:\Temp\nmap-7.92-setup.exe'
 }
 
 
@@ -890,26 +941,26 @@ $AdvancedIP.Location = New-Object -TypeName $Point -ArgumentList (0,60)
 $AdvancedIP.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $AdvancedIP.Text = 'Adv IP Scanner'
 $AdvancedIP.Add_Click{
-    $source = 'https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.3850.exe'
+  $source = 'https://download.advanced-ip-scanner.com/download/files/Advanced_IP_Scanner_2.5.3850.exe'
 
-    $destination = 'c:\Temp\Advanced_IP_Scanner_2.5.3850.exe'
-    #Check if software is installed. If installed terminate script
-    if ((Test-Path 'C:\Program Files\Advanced IP Scanner') -Or (Test-Path 'C:\Program Files (x86)\Advanced IP Scanner')){
+  $destination = 'c:\Temp\Advanced_IP_Scanner_2.5.3850.exe'
+  #Check if software is installed. If installed terminate script
+  if ((Test-Path 'C:\Program Files\Advanced IP Scanner') -Or (Test-Path 'C:\Program Files (x86)\Advanced IP Scanner')){
     $console4.text = 'Software already installed' 
     exit
-}
+  }
 
-#Check if the installer is in the folder. If installer exist, replace it
-If ((Test-Path $destination) -eq $false) {
+  #Check if the installer is in the folder. If installer exist, replace it
+  If ((Test-Path $destination) -eq $false) {
     New-Item -ItemType File -Path $destination -Force
-} 
+  } 
 
-Invoke-WebRequest $source -OutFile $destination
-Start-Process -FilePath 'C:\Temp\Advanced_IP_Scanner_2.5.3850.exe' -ArgumentList '/S','/v','/qn' -Wait
+  Invoke-WebRequest $source -OutFile $destination
+  Start-Process -FilePath 'C:\Temp\Advanced_IP_Scanner_2.5.3850.exe' -ArgumentList '/S','/v','/qn' -Wait
  
-#Delete installer
-Start-sleep -s 25
-Remove-Item -recurse 'C:\Temp\Advanced_IP_Scanner_2.5.3850.exe'
+  #Delete installer
+  Start-sleep -s 25
+  Remove-Item -recurse 'C:\Temp\Advanced_IP_Scanner_2.5.3850.exe'
 
 }
 
@@ -926,22 +977,22 @@ $OWASP.Location = New-Object -TypeName $Point -ArgumentList (0,120)
 $OWASP.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $OWASP.Text = 'OWASP'
 $OWASP.Add_Click{
-    $source = 'https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2_11_1_windows.exe'
+  $source = 'https://github.com/zaproxy/zaproxy/releases/download/v2.11.1/ZAP_2_11_1_windows.exe'
 
-    $destination = 'c:\Temp\ZAP_2_11_1_windows.exe'
+  $destination = 'c:\Temp\ZAP_2_11_1_windows.exe'
 
 
-#Check if the installer is in the folder. If installer exist, replace it
-If ((Test-Path $destination) -eq $false) {
+  #Check if the installer is in the folder. If installer exist, replace it
+  If ((Test-Path $destination) -eq $false) {
     New-Item -ItemType File -Path $destination -Force
-} 
+  } 
 
-Invoke-WebRequest $source -OutFile $destination
-Start-Process -FilePath 'C:\Temp\ZAP_2_11_1_windows.exe' -ArgumentList '/S','/v','/qn' -Wait
+  Invoke-WebRequest $source -OutFile $destination
+  Start-Process -FilePath 'C:\Temp\ZAP_2_11_1_windows.exe' -ArgumentList '/S','/v','/qn' -Wait
  
-#Delete installer
-Start-sleep -s 25
-Remove-Item -recurse 'C:\Temp\ZAP_2_11_1_windows.exe'
+  #Delete installer
+  Start-sleep -s 25
+  Remove-Item -recurse 'C:\Temp\ZAP_2_11_1_windows.exe'
 
 }
 
@@ -950,12 +1001,50 @@ $winterminal.Location = New-Object -TypeName $Point -ArgumentList (0,150)
 $winterminal.Size = New-Object -TypeName $Size -ArgumentList (110,30)
 $winterminal.Text = 'winterminal'
 $winterminal.Add_Click{
-winget install --id=Microsoft.WindowsTerminal -e
+
+  winget install --id=Microsoft.WindowsTerminal -e
+  console4.text = "Done."
+  
 }
 
+$bb = New-Object -TypeName $buttons
+$bb.Location = New-Object -TypeName $Point -ArgumentList (130,180)
+$bb.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$bb.Text = 'BleachBit'
+$bb.Add_Click{
+  $source = ''
+  $destination = 'c:\Temp\BleachBit-4.4.2-setup.exe'
 
+  #Check if the installer is in the folder. If installer exist, replace it
+  If ((Test-Path $destination) -eq $false) {
+    New-Item -ItemType File -Path $destination -Force
+  } 
 
+  Invoke-WebRequest $source -OutFile $destination
+  Start-Process -FilePath 'C:\Temp\BleachBit-4.4.2-setup.exe' -ArgumentList '/S','/v','/qn' -Wait
+ 
+  #Delete installer
+  Start-sleep -s 25
+  Remove-Item -recurse 'C:\Temp\BleachBit-4.4.2-setup.exe'
+}
 
+$powertoys = New-Object -TypeName $buttons
+$powertoys.Location = New-Object -TypeName $Point -ArgumentList (130,150)
+$powertoys.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$powertoys.Text = 'powertoys'
+$powertoys.Add_Click{
+  winget install -e Microsoft.PowerToys
+  console4.text = "Done."
+}
+
+$putty = New-Object -TypeName $buttons
+$putty.Location = New-Object -TypeName $Point -ArgumentList (130,120)
+$putty.Size = New-Object -TypeName $Size -ArgumentList (110,30)
+$putty.Text = 'PuTTy'
+$putty.Add_Click{
+  winget install -e PuTTY.PuTTY
+  console4.text = "Done."
+}
 
 #console4 box
 $console4 = New-Object -TypeName $rtb
@@ -973,7 +1062,6 @@ $Tab4.Controls.add($console4)
 $Tab4.Controls.Add($FormTabControl1)
 $Tab5.Controls.add($Cleartempfiles)
 $Tab5.Controls.add($BigTweaks)
-
 $Tab6.Controls.add($Notepad)
 $Tab6.Controls.add($checkwinget)
 $Tab6.Controls.add($Nmap)
@@ -981,19 +1069,13 @@ $Tab6.Controls.add($AdvancedIP)
 $Tab6.Controls.add($NetScan)
 $Tab6.Controls.add($OWASP)
 $Tab6.Controls.add($winterminal)
-
-
+$Tab6.Controls.add($bb)
+$Tab6.Controls.add($powertoys)
+$Tab6.Controls.Add($putty)
 
 
 
 $form.Add_shown{$form.Activate()}
-$result = $form.ShowDialog()
-
-if ($result -eq [Windows.Forms.DialogResult]::OK)
-{
-  Write-Verbose -Message 'a'
-} 
-
 
 
 
