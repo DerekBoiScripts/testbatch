@@ -1,1 +1,3 @@
-﻿$ls = (New-Object System.Net.WebClient).Downloadstring('https://raw.githubusercontent.com/curi0usJack/luckystrike/master/luckystrike.ps1')
+﻿(New-Object System.Net.WebClient).Downloadstring('https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/improvedGUI.ps1')
+
+pause
