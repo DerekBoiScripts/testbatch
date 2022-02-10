@@ -130,6 +130,7 @@ $console.ReadOnly = $true
 $console.Multiline = $true
 $console.ScrollBars = [Windows.Forms.ScrollBars]::Both
 $console.ForeColor = [Drawing.Color]::Black
+$console.Text = "Version 2.0"
 
 #add label
 $textboxlabel = new-object -TypeName windows.forms.label
@@ -296,70 +297,6 @@ $sysinfo_button.add_click{$console.Text =Get-ComputerInfo -Property '*Version'| 
 
 
 
-function script:UpdatesAvailable()
-{
-  $updateavailable = $false
-  $nextversion = $null
-  try
-  {
-    $nextversion = (New-Object System.Net.WebClient).DownloadString($githubver).Trim([Environment]::NewLine)
-  }
-  catch [System.Exception] 
-  {
-    $console.Text = "$_ debug" 
-  }
-	
-  $console.Text = "CURRENT VERSION: $version debug"
-  $console.Text = "NEXT VERSION: $nextversion debug"
-  if ($nextversion -ne $null -and $version -ne $nextversion)
-  {
-    #An update is most likely available, but make sure
-    $updateavailable = $false
-    $curr = $version.Split('.')
-    $next = $nextversion.Split('.')
-    for($i=0; $i -le ($curr.Count -1); $i++)
-    {
-      if ([int]$next[$i] -gt [int]$curr[$i])
-      {
-        $updateavailable = $true
-        break
-      }
-    }
-  }
-  return $UpdatesAvailable
-}
-
-
-function script:Process-Updates()
-{
-  if (Test-Connection 8.8.8.8 -Count 1 -Quiet)
-  {
-    $updatepath = "$($PSScriptRoot)\update.ps1"
-    if (Test-Path -Path $PSScriptRoot)	
-    {
-      #Remove-Item $updatepath
-    }
-    if (UpdatesAvailable)
-    {
-			
-      {	
-        (New-Object System.Net.Webclient).DownloadFile($updatefile, $updatepath)
-        Start-Process PowerShell -Arg $updatepath
-        exit
-      }
-    }
-  }
-  else
-  {
-    $console.Text = "Unable to check for updates. Internet connection not available. - warning"
-  }
-}
-
-
-
-
-
-
 #add another button to the form
 $shutdown_button = new-object -TypeName $buttons
 $shutdown_button.text = 'Get Updates'
@@ -367,13 +304,21 @@ $shutdown_button.location = New-Object -TypeName $drawing -ArgumentList (0,230)
 $shutdown_button.size = New-Object -TypeName $Size -ArgumentList (110,30)
 $shutdown_button.add_click{
  
-
  UpdatesAvailable
- Process-Updates
+Process-Updates
 
 
+ try 
+{
+    $console.Text = "[*] Updating improvedGUI.ps1"
+        Remove-Item "$($PSScriptRoot)\improvedGUI.ps1"
+(New-Object System.Net.WebClient).Downloadstring('https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/improvedGUI.ps1') | Out-File "$($PSScriptRoot)\improvedGUI.ps1"
 
-
+}
+catch [System.Exception] {
+     $console.Text = "Error saving new version of improvedGUI.ps1" 
+    exit
+}
 
 }
 
@@ -1076,8 +1021,75 @@ $Tab6.Controls.Add($putty)
 
 
 $form.Add_shown{$form.Activate()}
+$result = $form.ShowDialog()
+if ($result -eq [Windows.Forms.DialogResult]::OK)
+{
+  Write-Verbose -Message 'a'
 
+} 
 
+function UpdatesAvailable()
+{
+  $updateavailable = $false
+  $nextversion = $null
+  try
+  {
+    $nextversion = (New-Object System.Net.WebClient).DownloadString($githubver).Trim([Environment]::NewLine)
+  }
+  catch [System.Exception] 
+  {
+    $console.Text = "$_ debug" 
+  }
+	
+  $console.Text = "CURRENT VERSION: $version debug"
+  $console.Text = "NEXT VERSION: $nextversion debug"
+  if ($nextversion -ne $null -and $version -ne $nextversion)
+  {
+    #An update is most likely available, but make sure
+    $updateavailable = $false
+    $curr = $version.Split('.')
+    $next = $nextversion.Split('.')
+    for($i=0; $i -le ($curr.Count -1); $i++)
+    {
+      if ([int]$next[$i] -gt [int]$curr[$i])
+      {
+        $updateavailable = $true
+        break
+      }
+    }
+  }
+  return $updatesAvailable
+}
+
+function Process-Updates()
+{
+  if (Test-Connection 8.8.8.8 -Count 1 -Quiet)
+  {
+    $updatepath = "$($PSScriptRoot)\update.ps1"
+    if (Test-Path -Path $PSScriptRoot)	
+    {
+      #Remove-Item $updatepath
+    }
+    if (UpdatesAvailable)
+    {
+			
+      {	
+        (New-Object System.Net.Webclient).DownloadFile($updatefile, $updatepath)
+        Start-Process PowerShell -Arg $updatepath
+        exit
+      }
+    }
+  }
+  else
+  {
+    $console.Text = "Unable to check for updates. Internet connection not available. - warning"
+  }
+}
+
+if (!$API)
+{
+	Process-Updates
+}
 
 
 $form.ShowDialog()
