@@ -140,7 +140,7 @@ $console.ReadOnly = $true
 $console.Multiline = $true
 $console.ScrollBars = [Windows.Forms.ScrollBars]::Both
 $console.ForeColor = [Drawing.Color]::Black
-$console.Text = "Version 2.0"
+$console.Text = "Version 3.0"
 
 #add label
 $textboxlabel = new-object -TypeName windows.forms.label
