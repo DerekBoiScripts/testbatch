@@ -5,8 +5,6 @@ $version="3.0"
 $githubver = "https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/v.txt"
 $updatefile = "https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/update.ps1"
 
-[Windows.Forms.Application]::EnableVisualStyles()
-[System.Windows.Forms.Application]::EnableVisualStyles()
 
 
 
@@ -29,6 +27,8 @@ $consolePtr = [Console.Window]::GetConsoleWindow()
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName PresentationCore,PresentationFramework
+[Windows.Forms.Application]::EnableVisualStyles()
+
 
 
 
