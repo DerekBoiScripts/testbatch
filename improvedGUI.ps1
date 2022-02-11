@@ -1,10 +1,12 @@
 ﻿#!/usr/bin/env powershell
 # Hide PowerShell Console
 
-$version="2.0"
+$version="3.0"
 $githubver = "https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/v.txt"
 $updatefile = "https://raw.githubusercontent.com/DerekBoiScripts/testbatch/main/update.ps1"
 
+[Windows.Forms.Application]::EnableVisualStyles()
+[System.Windows.Forms.Application]::EnableVisualStyles()
 
 
 
@@ -27,8 +29,6 @@ $consolePtr = [Console.Window]::GetConsoleWindow()
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName PresentationCore,PresentationFramework
-
-[Windows.Forms.Application]::EnableVisualStyles()
 
 
 
@@ -102,12 +102,22 @@ $msgBody = 'Running with Full Privileges, and Unrestricted Policy'
 
 
 $form = new-object -TypeName Windows.forms.form
-$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::Fixed3D
-$form.text = 'selection'
+$form.FormBorderStyle = [Windows.Forms.FormBorderStyle]::FixedDialog
+$form.text = 'Selection'
 $form.Topmost = $true
 $form.minimumSize = New-Object -TypeName $Size -ArgumentList (600,350)
 $form.maximumSize = New-Object -TypeName $Size -ArgumentList (600,350)
 $form.StartPosition = 'CenterScreen'
+$Form.ShowInTaskbar = $Formalse
+$Form.MaximizeBox = $Formalse
+$Form.MinimizeBox = $Formalse
+$Form.MinimizeBox = $Formalse
+$Image = [system.drawing.image]::FromFile("$PSScriptRoot\cat.jpeg") 
+$Form.BackgroundImage = $Image
+$Form.BackgroundImageLayout = 'Stretch'
+
+$Icon = [system.drawing.icon]::ExtractAssociatedIcon("c:\Windows\System32\UserAccountControlSettings.exe")
+$Form.Icon = $Icon
 
 
 $FormTabControl = New-object -TypeName System.Windows.Forms.TabControl 
